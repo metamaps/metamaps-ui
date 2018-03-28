@@ -56,30 +56,32 @@ Checklist
 - [x] list metacode_sets
 - [x] new metacode set
 - [x] edit metacode set
+- [x] Switch Metacodes lightbox / component
+- [x] Load the metacode sets
 
-- [ ] fix other places where metacode sets are used
-- [ ] page titles
-- [ ] mobile titles
-- [ ] open graph meta tags
 - [ ] make newtopic form load metacodes from users selected ones
-- [ ] create synapse form
-- [ ] replace old loader with react loader
-- [ ] ensure exports of maps work
-- [ ] Notifications: make sure notifications either look nice, or redirect
-- [ ] Notifications: pagination
-- [ ] Notifications: CSS fixes related to 'controller-x' in body classes
-- [ ] Make sure loading state for explore maps pages work
-- [ ] Get actioncable working
-- [ ] Switch Metacodes lightbox / component
-- [ ] break up index.html into parts
+- [ ] Fork Map turn to React
+- [ ] Synapse Card turn to React
+- [ ] MapInfoBox turn to React
+- [ ] fix other places where metacode sets are used
 - [ ] Handle CSS metacode colors
-- [ ] Fix Request An Invite page
 - [ ] Make 'new map' action work
 - [ ] Modify the remaining rails templates into JSX templates
   - [ ] user passwords
-- [ ] Modify the RubyOnRails app to only serve JSON responses, no HTML pages anymore
-- [ ] Modify the frontend to request that data from the API which is necessary at first to load the page
-  - [x] Load the metacode sets
+- [ ] Notifications: make sure notifications either look nice, or redirect
+- [ ] Notifications: pagination
+- [ ] Notifications: CSS fixes related to 'controller-x' in body classes
+- [ ] create synapse form
+
+- [ ] replace old loader with react loader
+- [ ] Make sure loading state for explore maps pages work
+- [ ] replace old loader with react loader
+- [ ] page titles
+- [ ] mobile titles
+- [ ] open graph meta tags
+- [ ] ensure exports of maps work
+- [ ] Get actioncable working
+- [ ] break up index.html into parts
 
 To run the server as a daemon that will be re-run if it crashes, you can
 use the forever node package.
