@@ -1,5 +1,6 @@
 /* global $, Hogan, Bloodhound */
 
+import DataFetcher from './DataFetcher'
 import DataModel from './DataModel'
 import Map from './Map'
 import Mouse from './Mouse'
@@ -11,110 +12,49 @@ import GlobalUI from './GlobalUI'
 
 const Create = {
   isSwitchingSet: false, // indicates whether the metacode set switch lightbox is open
-  selectedMetacodeSet: null,
   selectedMetacodeSetIndex: null,
-  selectedMetacodeNames: [],
-  newSelectedMetacodeNames: [],
-  selectedMetacodes: [],
-  newSelectedMetacodes: [],
-  init: function() {
+  customMetacodes: [],
+  init: function(serverData) {
     var self = Create
-
+    const mapper = serverData.ActiveMapper
+    const metacodeSets = serverData.metacodeSets
+    const selectedSet = mapper
+      && mapper.metacodes[0].includes("metacodeset")
+      ? mapper.metacodes[0].replace("metacodeset-","")
+      : "custom"
+    if (selectedSet === "custom") {
+      // "all" is not a metacode set we can pick from, so subtract it
+      self.selectedMetacodeSetIndex = metacodeSets.length - 1
+    } else {
+      let setIndex
+      metacodeSets.forEach((set, index) => {
+        if (set.id === selectedSet || set.id === parseInt(selectedSet, 10)) {
+          setIndex = index
+        }
+      })
+      self.selectedMetacodeSetIndex = setIndex
+    }
+  },
+  setupMetacodeSetTabs: function() {
     // // SWITCHING METACODE SETS
-
     $('#metacodeSwitchTabs').tabs({
-      active: self.selectedMetacodeSetIndex
+      active: Create.selectedMetacodeSetIndex
     }).addClass('ui-tabs-vertical ui-helper-clearfix')
     $('#metacodeSwitchTabs .ui-tabs-nav li').removeClass('ui-corner-top').addClass('ui-corner-left')
-    $('.customMetacodeList li').click(self.toggleMetacodeSelected) // within the custom metacode set tab
-    $('.selectAll').click(self.metacodeSelectorSelectAll)
-    $('.selectNone').click(self.metacodeSelectorSelectNone)
   },
-  toggleMetacodeSelected: function() {
-    var self = Create
-
-    if ($(this).attr('class') !== 'toggledOff') {
-      $(this).addClass('toggledOff')
-      var valueToRemove = $(this).attr('id')
-      var nameToRemove = $(this).attr('data-name')
-      self.newSelectedMetacodes.splice(self.newSelectedMetacodes.indexOf(valueToRemove), 1)
-      self.newSelectedMetacodeNames.splice(self.newSelectedMetacodeNames.indexOf(nameToRemove), 1)
-    } else if ($(this).attr('class') === 'toggledOff') {
-      $(this).removeClass('toggledOff')
-      self.newSelectedMetacodes.push($(this).attr('id'))
-      self.newSelectedMetacodeNames.push($(this).attr('data-name'))
-    }
-    self.updateSelectAllColors()
-  },
-  updateSelectAllColors: function() {
-    $('.selectAll, .selectNone').removeClass('selected')
-    if (Create.metacodeSelectorAreAllSelected()) {
-      $('.selectAll').addClass('selected')
-    } else if (Create.metacodeSelectorAreNoneSelected()) {
-      $('.selectNone').addClass('selected')
-    }
-  },
-  metacodeSelectorSelectAll: function() {
-    $('.customMetacodeList li.toggledOff').each(Create.toggleMetacodeSelected)
-    Create.updateSelectAllColors()
-  },
-  metacodeSelectorSelectNone: function() {
-    $('.customMetacodeList li').not('.toggledOff').each(Create.toggleMetacodeSelected)
-    Create.updateSelectAllColors()
-  },
-  metacodeSelectorAreAllSelected: function() {
-    return $('.customMetacodeList li').toArray()
-             .map(li => !$(li).is('.toggledOff')) // note the ! on this line
-             .reduce((curr, prev) => curr && prev)
-  },
-  metacodeSelectorAreNoneSelected: function() {
-    return $('.customMetacodeList li').toArray()
-             .map(li => $(li).is('.toggledOff'))
-             .reduce((curr, prev) => curr && prev)
-  },
-  metacodeSelectorToggleSelectAll: function() {
-    // should be called when Create.isSwitchingSet is true and .customMetacodeList is visible
-    if (!Create.isSwitchingSet) return
-    if (!$('.customMetacodeList').is(':visible')) return
-
-    // If all are selected, then select none. Otherwise, select all.
-    if (Create.metacodeSelectorAreAllSelected()) {
-      Create.metacodeSelectorSelectNone()
-    } else {
-      // if some, but not all, are selected, it still runs this function
-      Create.metacodeSelectorSelectAll()
-    }
-  },
-  updateMetacodeSet: function(set, index, custom) {
-    if (custom && Create.newSelectedMetacodes.length === 0) {
-      window.alert('Please select at least one metacode to use!')
-      return false
-    }
-
-    var codesToSwitchToIds
-    var metacodeModels = new DataModel.MetacodeCollection()
+  updateMetacodeSet: function(set, index, custom, ids) {
     Create.selectedMetacodeSetIndex = index
-    Create.selectedMetacodeSet = 'metacodeset-' + set
-
-    if (!custom) {
-      codesToSwitchToIds = $('#metacodeSwitchTabs' + set).attr('data-metacodes').split(',')
-      $('.customMetacodeList li').addClass('toggledOff')
-      Create.selectedMetacodes = []
-      Create.selectedMetacodeNames = []
-      Create.newSelectedMetacodes = []
-      Create.newSelectedMetacodeNames = []
-    } else if (custom) {
-      // uses .slice to avoid setting the two arrays to the same actual array
-      Create.selectedMetacodes = Create.newSelectedMetacodes.slice(0)
-      Create.selectedMetacodeNames = Create.newSelectedMetacodeNames.slice(0)
-      codesToSwitchToIds = Create.selectedMetacodes.slice(0)
-    }
-
+    const metacodeModels = new DataModel.MetacodeCollection()
+    ids.forEach(id => {
+      metacodeModels.add(DataModel.Metacodes.get(id))
+    })
     // sort by name
-    for (var i = 0; i < codesToSwitchToIds.length; i++) {
-      metacodeModels.add(DataModel.Metacodes.get(codesToSwitchToIds[i]))
-    }
     metacodeModels.sort()
+
+    // send list of 'custom' ids or the name of the set
+    const value = custom ? ids.toString() : `metacodeset-${set}`
+    DataFetcher.changeMetacodeSet(value)
+      .catch(() => GlobalUI.notifyUser('There was an error saving your metacodes'))
 
     $('#metacodeImg, #metacodeImgTitle').empty()
     $('#metacodeImg').removeData('cloudcarousel')
@@ -136,46 +76,15 @@ const Create = {
 
     GlobalUI.closeLightbox()
     $('#topic_name').focus()
-
-    var mdata = {
-      'metacodes': {
-        'value': custom ? Create.selectedMetacodes.toString() : Create.selectedMetacodeSet
-      }
-    }
-    $.ajax({
-      type: 'POST',
-      dataType: 'json',
-      url: '/user/updatemetacodes',
-      data: mdata,
-      success: function(data) {
-        console.log('selected metacodes saved')
-      },
-      error: function() {
-        console.log('failed to save selected metacodes')
-      }
-    })
   },
   cancelMetacodeSetSwitch: function() {
     var self = Create
     self.isSwitchingSet = false
-
-    if (self.selectedMetacodeSet !== 'metacodeset-custom') {
-      $('.customMetacodeList li').addClass('toggledOff')
-      self.selectedMetacodes = []
-      self.selectedMetacodeNames = []
-      self.newSelectedMetacodes = []
-      self.newSelectedMetacodeNames = []
-    } else { // custom set is selected
-      // reset it to the current actual selection
-      $('.customMetacodeList li').addClass('toggledOff')
-      for (var i = 0; i < self.selectedMetacodes.length; i++) {
-        $('#' + self.selectedMetacodes[i]).removeClass('toggledOff')
-      }
-      // uses .slice to avoid setting the two arrays to the same actual array
-      self.newSelectedMetacodeNames = self.selectedMetacodeNames.slice(0)
-      self.newSelectedMetacodes = self.selectedMetacodes.slice(0)
-    }
-    $('#metacodeSwitchTabs').tabs('option', 'active', self.selectedMetacodeSetIndex)
+    $('#metacodeSwitchTabs').tabs(
+      'option',
+      'active',
+      self.selectedMetacodeSetIndex
+    )
     $('#topic_name').focus()
   },
   newTopic: {

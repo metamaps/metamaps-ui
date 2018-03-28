@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
+import MetacodeSetSelectorItem from '../../components/MetacodeSetSelectorItem'
 
 class MetacodeSetEditor extends Component {
   constructor(props) {
@@ -90,22 +91,22 @@ class MetacodeSetEditor extends Component {
         <div className="editMetacodes">
           <ul id="filters-one">
             {metacodes.filter((m, i) => i < length/4).map((m, i) => {
-              return <MetacodeListItem selected={selectMetacodes.indexOf(m.id) > -1} metacode={m} key={i} onClick={() => this.liClickHandler(m.id)} />
+              return <MetacodeSetSelectorItem selected={selectMetacodes.indexOf(m.id) > -1} metacode={m} key={i} onClick={() => this.liClickHandler(m.id)} />
             })}
           </ul>
           <ul id="filters-two">
             {metacodes.filter((m, i) => i >= length/4 && i < length/4*2).map((m, i) => {
-              return <MetacodeListItem selected={selectMetacodes.indexOf(m.id) > -1} metacode={m} key={i} onClick={() => this.liClickHandler(m.id)} />
+              return <MetacodeSetSelectorItem selected={selectMetacodes.indexOf(m.id) > -1} metacode={m} key={i} onClick={() => this.liClickHandler(m.id)} />
             })}
           </ul>
           <ul id="filters-three">
             {metacodes.filter((m, i) => i >= length/4*2 && i < length/4*3).map((m, i) => {
-              return <MetacodeListItem selected={selectMetacodes.indexOf(m.id) > -1} metacode={m} key={i} onClick={() => this.liClickHandler(m.id)} />
+              return <MetacodeSetSelectorItem selected={selectMetacodes.indexOf(m.id) > -1} metacode={m} key={i} onClick={() => this.liClickHandler(m.id)} />
             })}
           </ul>
           <ul id="filters-four">
             {metacodes.filter((m, i) => i >= length/4*3 && i < length).map((m, i) => {
-              return <MetacodeListItem selected={selectMetacodes.indexOf(m.id) > -1} metacode={m} key={i} onClick={() => this.liClickHandler(m.id)} />
+              return <MetacodeSetSelectorItem selected={selectMetacodes.indexOf(m.id) > -1} metacode={m} key={i} onClick={() => this.liClickHandler(m.id)} />
             })}
           </ul>
         </div>
@@ -115,19 +116,6 @@ class MetacodeSetEditor extends Component {
           <input onClick={this.validate} type="submit" name="commit" value={forNew ? "Create Metacode Set" : "Update Metacode Set"} className="add" />
         </div>
       </form>
-    )
-  }
-}
-
-class MetacodeListItem extends Component {
-  render = () => {
-    const { selected, onClick, metacode } = this.props
-    return (
-      <li id={metacode.id} className={selected ? "" : "toggledOff"} onClick={onClick}>
-        <img src={metacode.icon} alt={metacode.name} />
-        <p>{metacode.name.toLowerCase()}</p>
-        <div className="clearfloat"></div>
-      </li>
     )
   }
 }

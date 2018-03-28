@@ -154,6 +154,14 @@ async function updateUser(id, opts) {
   return res
 }
 
+function changeMetacodeSet(set) {
+  return post('/user/updatemetacodes', {
+    'metacodes': {
+      'value': set
+    }
+  }).then(res => res.ok)
+}
+
 async function approveAccessRequest(mapId, requestId) {
   const res = await post(`/maps/${mapId}/approve_access/${requestId}`)
   return res.ok
@@ -179,6 +187,7 @@ module.exports = {
   updateMetacode,
   getCurrentUser,
   updateUser,
+  changeMetacodeSet,
   approveAccessRequest,
   denyAccessRequest,
   requestAccess

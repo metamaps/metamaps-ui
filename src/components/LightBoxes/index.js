@@ -11,10 +11,29 @@ import Tutorial from './Tutorial'
 
 class LightBoxes extends Component {
   render = () => {
+    const { 
+      metacodeSets,
+      selectedMetacodes,
+      metacodes,
+      onSetSelect,
+      importHandleFile,
+      downloadScreenshot,
+      onExport,
+      inviteCode,
+      currentUser,
+      onMetacodeSetSelectMount
+    } = this.props
     const importProps = {
-      onFileAdded: this.props.importHandleFile,
-      downloadScreenshot: this.props.downloadScreenshot,
-      onExport: this.props.onExport
+      onFileAdded: importHandleFile,
+      downloadScreenshot,
+      onExport
+    }
+    const switchMetacodesProps = {
+      metacodeSets,
+      selectedMetacodes,
+      metacodes,
+      onSetSelect,
+      onMetacodeSetSelectMount
     }
     return (
       <div id="lightbox_overlay">
@@ -23,12 +42,12 @@ class LightBoxes extends Component {
           <div id="lightbox_content">
             <About />
             <CheatSheet />
-            <ForkMap />
-            <ImportDialogBox {...importProps} />
-            <Invite inviteCode={this.props.inviteCode} />
             <NoIE />
-            <SwitchMetacodes />
             <Tutorial />
+            {currentUser && <ForkMap />}
+            {currentUser && <ImportDialogBox {...importProps} />}
+            {currentUser && <Invite inviteCode={inviteCode} />}
+            {currentUser && <SwitchMetacodes {...switchMetacodesProps} />}
           </div>
         </div>
         <div id="lightbox_screen" style={{height: '100%'}}></div>

@@ -45,8 +45,10 @@ class App extends Component {
             map, userRequested, requestAnswered, requestApproved, serverData,
             onRequestAccess, notifications, fetchNotifications,
             markAsRead, markAsUnread, notificationsLoading,
-            importHandleFile, downloadScreenshot, onExport } = this.props
+            importHandleFile, downloadScreenshot, onExport, metacodes,
+            onSetSelect, selectedMetacodes, onMetacodeSetSelectMount } = this.props
     const { pathname } = location || {}
+    const metacodeSetsForSelector = this.props.metacodeSets.filter(set => set.name !== "All")
     // this fixes a bug that happens otherwise when you logout
     const currentUser = this.props.currentUser && this.props.currentUser.id ? this.props.currentUser : null
     const unauthedHome = pathname === '/' && !currentUser
@@ -77,7 +79,13 @@ class App extends Component {
       <LightBoxes inviteCode={currentUser && currentUser.get('invite_code')}
                   importHandleFile={importHandleFile}
                   downloadScreenshot={downloadScreenshot}
-                  onExport={onExport} />
+                  onExport={onExport}
+                  currentUser={currentUser}
+                  metacodeSets={metacodeSetsForSelector}
+                  metacodes={metacodes}
+                  onSetSelect={onSetSelect}
+                  selectedMetacodes={selectedMetacodes}
+                  onMetacodeSetSelectMount={onMetacodeSetSelectMount} />
     </div>
   }
 }

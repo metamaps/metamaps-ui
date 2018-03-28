@@ -95,7 +95,6 @@ const GlobalUI = {
     })
 
     if (self.lightbox === 'forkmap') GlobalUI.CreateMap.reset('fork_map')
-    if (self.lightbox === 'newmap') GlobalUI.CreateMap.reset('new_map')
     if (Create && Create.isSwitchingSet) {
       Create.cancelMetacodeSetSwitch()
     }

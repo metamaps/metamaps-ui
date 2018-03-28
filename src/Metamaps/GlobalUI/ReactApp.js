@@ -114,7 +114,10 @@ const ReactApp = {
       markAsUnread: apply(Notifications.markAsUnread, ReactApp.render),
       denyAccessRequest: DataFetcher.denyAccessRequest,
       approveAccessRequest: DataFetcher.approveAccessRequest,
-      metacodes: DataModel.Metacodes.toJSON()
+      metacodes: DataModel.Metacodes.toJSON(),
+      onSetSelect: Create.updateMetacodeSet,
+      onMetacodeSetSelectMount: Create.setupMetacodeSetTabs,
+      selectedMetacodes: Active.Mapper.get("metacodes")
     },
     self.getMapProps(),
     self.getTopicProps(),
@@ -141,7 +144,7 @@ const ReactApp = {
       launchNewMap: Map.launch,
       toggleMapInfoBox: InfoBox.toggleBox,
       openImportLightbox: () => ImportDialog.show(),
-      openMetacodeSwitcher: () => self.openLightbox('metacodeSwitcher'),
+      openMetacodeSwitcher: () => self.openLightbox('switchMetacodes'),
       forkMap: Map.fork,
       onMapStar: Map.star,
       onMapUnstar: Map.unstar,

@@ -76,9 +76,6 @@ Checklist
 - [ ] Fix Request An Invite page
 - [ ] Make 'new map' action work
 - [ ] Modify the remaining rails templates into JSX templates
-  - [ ] authorized apps
-  - [ ] registered apps
-  - [ ] authorize
   - [ ] user passwords
 - [ ] Modify the RubyOnRails app to only serve JSON responses, no HTML pages anymore
 - [ ] Modify the frontend to request that data from the API which is necessary at first to load the page
@@ -93,3 +90,7 @@ $ forever start server.js
 
 To build the javascript file
 `$ npm run build`
+
+  - [ ] authorized apps
+  - [ ] registered apps
+  - [ ] authorize
