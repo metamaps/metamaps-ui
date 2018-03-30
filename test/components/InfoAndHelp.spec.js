@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 import sinon from 'sinon'
 
 import InfoAndHelp from '../../src/components/InfoAndHelp.js'
-import MapInfoBox from '../../src/routes/MapView/MapInfoBox.js'
+import MapInfoBox from '../../src/components/InfoBox'
 
 function assertTooltip({ wrapper, description, cssClass, tooltipText, callback }) {
   it(description, function() {
@@ -17,12 +17,12 @@ function assertTooltip({ wrapper, description, cssClass, tooltipText, callback }
 }
 
 function assertContent({ currentUser, map }) {
-  const onInfoClick = sinon.spy()
+  const toggleInfoBox = sinon.spy()
   const onHelpClick = sinon.spy()
   const onStarClick = sinon.spy()
   const wrapper = shallow(
     <InfoAndHelp map={map} currentUser={currentUser}
-      onInfoClick={onInfoClick}
+      toggleInfoBox={toggleInfoBox}
       onHelpClick={onHelpClick}
       onMapStar={onStarClick}
       mapIsStarred={false}
@@ -35,7 +35,7 @@ function assertContent({ currentUser, map }) {
       description: 'renders Map Info icon',
       cssClass: '.mapInfoIcon',
       tooltipText: 'Map Info',
-      callback: onInfoClick
+      callback: toggleInfoBox
     })
   } else {
     it('does not render MapInfoBox', () => expect(wrapper.find(MapInfoBox).length).to.equal(0))
