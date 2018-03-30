@@ -31,7 +31,7 @@ export default class MapView extends Component {
     filterAllMetacodes: PropTypes.func,
     filterAllMappers: PropTypes.func,
     filterAllSynapses: PropTypes.func,
-    toggleMapInfoBox: PropTypes.func,
+    toggleInfoBox: PropTypes.func,
     currentUser: PropTypes.object,
     endActiveMap: PropTypes.func,
     launchNewMap: PropTypes.func,
@@ -41,7 +41,11 @@ export default class MapView extends Component {
     onZoomExtents: PropTypes.func,
     onZoomIn: PropTypes.func,
     onZoomOut: PropTypes.func,
-    hasLearnedTopicCreation: PropTypes.bool
+    hasLearnedTopicCreation: PropTypes.bool,
+    isNewMap: PropTypes.bool,
+    selectMapPermission: PropTypes.func,
+    deleteActiveMap: PropTypes.func,
+    updateThumbnail: PropTypes.func
   }
 
   constructor(props) {
@@ -77,13 +81,14 @@ export default class MapView extends Component {
 
   render = () => {
     const { mobile, map, currentUser, onOpen, onClose,
-            toggleMapInfoBox, allForFiltering, visibleForFiltering,
+            toggleInfoBox, allForFiltering, visibleForFiltering,
             toggleMetacode, toggleMapper, toggleSynapse, filterAllMetacodes,
             filterAllMappers, filterAllSynapses, filterData,
             openImportLightbox, forkMap, openHelpLightbox,
             mapIsStarred, onMapStar, onMapUnstar, openTopic,
             onZoomExtents, onZoomIn, onZoomOut, hasLearnedTopicCreation,
-            contextMenu, initNewTopic, initNewSynapse, openMetacodeSwitcher } = this.props
+            contextMenu, initNewTopic, initNewSynapse, openMetacodeSwitcher,
+            isNewMap, selectMapPermission, deleteActiveMap, updateThumbnail } = this.props
     const { chatOpen } = this.state
     const onChatOpen = () => {
       this.setState({chatOpen: true})
@@ -125,7 +130,11 @@ export default class MapView extends Component {
       <InfoAndHelp mapIsStarred={mapIsStarred}
                    currentUser={currentUser}
                    map={map}
-                   onInfoClick={toggleMapInfoBox}
+                   isNewMap={isNewMap}
+                   selectMapPermission={selectMapPermission}
+                   deleteActiveMap={deleteActiveMap}
+                   updateThumbnail={updateThumbnail}
+                   toggleInfoBox={toggleInfoBox}
                    onMapStar={onMapStar}
                    onMapUnstar={onMapUnstar}
                    onHelpClick={openHelpLightbox} />

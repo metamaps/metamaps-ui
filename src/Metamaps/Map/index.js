@@ -41,9 +41,7 @@ const Map = {
       if (e.button === 1) return false
     })
     GlobalUI.CreateMap.emptyForkMapForm = $('#fork_map').html()
-    InfoBox.init(serverData, function updateThumbnail() {
-      self.uploadMapScreenshot()
-    })
+    InfoBox.init(serverData)
     $(document).on(Map.events.editedByActiveMapper, self.editedByActiveMapper)
   },
   setHasLearnedTopicCreation: function(value) {
@@ -103,7 +101,7 @@ const Map = {
       document.title = Active.Map.get('name') + ' | Metamaps'
       ReactApp.mobileTitle = Active.Map.get('name')
       ReactApp.render()
-      InfoBox.load()
+      InfoBox.load(Active.Map, Active.Mapper)
     }
     if (Active.Map && Active.Map.id === id) {
       dataIsReadySetupMap()
@@ -255,9 +253,9 @@ const Map = {
       </a>`
     GlobalUI.notifyUser(downloadMessage)
   },
-  uploadMapScreenshot: () => {
+  uploadMapScreenshot: (map) => {
     const canvas = Map.getMapCanvasForScreenshots()
-    const filename = Map.getMapScreenshotFilename(Active.Map)
+    const filename = Map.getMapScreenshotFilename(map)
 
     canvas.canvas.toBlob(imageBlob => {
       const formData = new window.FormData()
@@ -265,7 +263,7 @@ const Map = {
       $.ajax({
         type: 'PATCH',
         dataType: 'json',
-        url: `/maps/${Active.Map.id}`,
+        url: `/maps/${map.id}`,
         data: formData,
         processData: false,
         contentType: false,

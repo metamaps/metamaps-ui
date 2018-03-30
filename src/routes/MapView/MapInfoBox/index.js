@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import onClickOutsideAddon from 'react-onclickoutside'
+
 import MapName from './MapName'
 import MapInfo from './MapInfo'
 import MapDesc from './MapDesc'
@@ -9,11 +11,19 @@ import MapMeta from './MapMeta'
 class MapInfoBox extends Component {
   static propTypes = {
     currentUser: PropTypes.object,
-    map: PropTypes.object
+    map: PropTypes.object,
+    isNewMap: PropTypes.bool,
+    toggleInfoBox: PropTypes.func,
+    selectMapPermission: PropTypes.func,
+    deleteActiveMap: PropTypes.func
+  }
+
+  handleClickOutside = () => {
+    this.props.toggleInfoBox("close")
   }
 
   render = () => {
-    const { currentUser, map } = this.props
+    const { currentUser, map, isNewMap, selectMapPermission, deleteActiveMap, updateThumbnail } = this.props
     if (!map) return null
     const id = map.id
     const relevantPeople = [] // TODO: permission === 'commons' ? DataModel.Mappers : DataModel.Collaborators
@@ -33,14 +43,15 @@ class MapInfoBox extends Component {
     let classes = 'mapInfoBox mapElement mapElementHidden permission '
     classes += isCreator ? 'yourMap' : ''
     classes += canEdit ? ' canEdit' : ''
+    classes += isNewMap ? ' mapRequestTitle' : ''
 
     return <div className={classes}>
       <MapName canEdit={canEdit} id={map.id} name={map.get('name')} />
-      <MapInfo {...{isCreator, permission, topicCount, synapseCount, relevantPeople, userId}} />
+      <MapInfo {...{isCreator, permission, topicCount, synapseCount, relevantPeople, userId, selectMapPermission}} />
       <MapDesc {...{canEdit, id, desc}} />
-      <MapMeta {...{userName, createdAt, updatedAt}} />
+      <MapMeta {...{userName, createdAt, updatedAt, deleteActiveMap, updateThumbnail}} />
     </div>
   }
 }
 
-export default MapInfoBox
+export default onClickOutsideAddon(MapInfoBox)

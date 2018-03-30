@@ -10,57 +10,35 @@ import Util from '../Util'
 
 const InfoBox = {
   isOpen: false,
-  selectingPermission: false,
-  init: function(serverData, updateThumbnail) {
-    var self = InfoBox
-
-    self.updateThumbnail = updateThumbnail
-
-    $('body').click(self.close)
-
-    var querystring = window.location.search.replace(/^\?/, '')
+  isNewMap: false,
+  init: function(serverData) {
+    const querystring = window.location.search.replace(/^\?/, '')
     if (querystring === 'new') {
-      self.open()
-      $('.mapInfoBox').addClass('mapRequestTitle')
-      $('#mapInfoName').trigger('click')
-      $('#mapInfoName textarea').focus()
-      $('#mapInfoName textarea').select()
+      InfoBox.isNewMap = true
+      InfoBox.open()
     }
   },
-  toggleBox: function(event) {
-    var self = InfoBox
-
-    if (self.isOpen) self.close()
-    else self.open()
-
-    event.stopPropagation()
+  toggleBox: function(which) {
+    if (InfoBox.isOpen || which === "close") InfoBox.close()
+    else if (!InfoBox.isOpen || which === "open") InfoBox.open()
   },
   open: function() {
-    var self = InfoBox
     $('.mapInfoIcon div').addClass('hide')
     $('.mapInfoBox').fadeIn(200, function() {
-      self.isOpen = true
+      InfoBox.isOpen = true
     })
   },
   close: function() {
-    var self = InfoBox
     $('.mapInfoIcon div').removeClass('hide')
     $('.mapInfoBox').fadeOut(200, function() {
-      self.isOpen = false
-      self.hidePermissionSelect()
-      $('.mapContributors .tip').hide()
+      InfoBox.isOpen = false
     })
   },
-  load: function() {
-    InfoBox.attachEventListeners()
+  load: function(map, mapper) {
+    InfoBox.attachEventListeners(map, mapper)
   },
-  attachEventListeners: function() {
-    var self = InfoBox
-    $('.mapInfoBox').click(function(event) {
-      event.stopPropagation()
-    })
+  attachEventListeners: function(map, mapper) {
     $('.mapInfoBox.canEdit .best_in_place').best_in_place()
-
     // because anyone who can edit the map can change the map title
     var bipName = $('.mapInfoBox .best_in_place_name')
     bipName.unbind('best_in_place:activate').bind('best_in_place:activate', function() {
@@ -79,57 +57,32 @@ const InfoBox = {
     bipName.unbind('best_in_place:deactivate').bind('best_in_place:deactivate', function() {
       $('.nameCounter.forMap').remove()
     })
-
     $('.mapInfoName .best_in_place_name').unbind('ajax:success').bind('ajax:success', function() {
-      var name = $(this).html()
-      Active.Map.set('name', name)
-      Active.Map.trigger('saved')
+      const name = $(this).html()
       // mobile menu
-      $('#header_content').html(name)
-      $('.mapInfoBox').removeClass('mapRequestTitle')
+      // update mobile menu?
+      InfoBox.isNewMap = false
       document.title = `${name} | Metamaps`
       window.history.replaceState('', `${name} | Metamaps`, window.location.pathname)
+      map.set('name', name)
+      map.trigger('saved')
     })
-
     $('.mapInfoDesc .best_in_place_desc').unbind('ajax:success').bind('ajax:success', function() {
       var desc = $(this).html()
-      Active.Map.set('desc', desc)
-      Active.Map.trigger('saved')
+      map.set('desc', desc)
+      map.trigger('saved')
     })
-
     $('.mapInfoDesc .best_in_place_desc, .mapInfoName .best_in_place_name').unbind('keypress').keypress(function(e) {
       const ENTER = 13
       if (e.which === ENTER) {
         $(this).data('bestInPlaceEditor').update()
       }
     })
-
-    $('.yourMap .mapPermission').unbind().click(self.onPermissionClick)
-    // .yourMap in the unbind/bind is just a namespace for the events
-    // not a reference to the class .yourMap on the .mapInfoBox
-    $('.mapInfoBox.yourMap').unbind('.yourMap').bind('click.yourMap', self.hidePermissionSelect)
-
-    $('.yourMap .mapInfoDelete').unbind().click(self.deleteActiveMap)
-    $('.mapInfoThumbnail').unbind().click(self.updateThumbnail)
-
-    $('.mapContributors span, #mapContribs').unbind().click(function(event) {
-      $('.mapContributors .tip').toggle()
-      event.stopPropagation()
-    })
-    $('.mapContributors .tip').unbind().click(function(event) {
-      event.stopPropagation()
-    })
-
-    $('.mapInfoBox').unbind('.hideTip').bind('click.hideTip', function() {
-      $('.mapContributors .tip').hide()
-    })
-
-    self.addTypeahead()
+    InfoBox.addTypeahead(map, mapper)
   },
-  addTypeahead: function() {
-    var self = InfoBox
+  addTypeahead: function(map, mapper) {
 
-    if (!Active.Map) return
+    if (!map) return
 
     // for autocomplete
     var collaborators = {
@@ -142,7 +95,7 @@ const InfoBox = {
             value: 'No results',
             label: 'No results',
             rtype: 'noresult',
-            profile: self.userImageUrl
+            profile: '/images/user.png'
           })
         },
         suggestion: function(s) {
@@ -160,102 +113,51 @@ const InfoBox = {
     }
 
     // for adding map collaborators, who will have edit rights
-    if (Active.Mapper && Active.Mapper.id === Active.Map.get('user_id')) {
+    if (mapper && mapper.id === map.get('user_id')) {
       $('.collaboratorSearchField').typeahead(
         {
           highlight: false
         },
         [collaborators]
       )
-      $('.collaboratorSearchField').bind('typeahead:select', self.handleResultClick)
-      $('.mapContributors .removeCollaborator').click(function() {
-        self.removeCollaborator(parseInt($(this).data('id')))
+      $('.collaboratorSearchField').bind('typeahead:select', function(event, item) {
+        InfoBox.addCollaborator(map, item.id)
+        $('.collaboratorSearchField').typeahead('val', '')
       })
     }
   },
-  removeCollaborator: function(collaboratorId) {
-    var self = InfoBox
+  removeCollaborator: function(map, collaboratorId) {
     DataModel.Collaborators.remove(DataModel.Collaborators.get(collaboratorId))
     var mapperIds = DataModel.Collaborators.models.map(function(mapper) { return mapper.id })
-    $.post('/maps/' + Active.Map.id + '/access', { access: mapperIds })
+    $.post('/maps/' + map.id + '/access', { access: mapperIds })
   },
-  addCollaborator: function(newCollaboratorId) {
-    var self = InfoBox
-
+  addCollaborator: function(map, newCollaboratorId) {
     if (DataModel.Collaborators.get(newCollaboratorId)) {
       GlobalUI.notifyUser('That user already has access')
       return
     }
-
     function callback(mapper) {
       DataModel.Collaborators.add(mapper)
-      var mapperIds = DataModel.Collaborators.models.map(function(mapper) { return mapper.id })
-      $.post('/maps/' + Active.Map.id + '/access', { access: mapperIds })
-      var name = DataModel.Collaborators.get(newCollaboratorId).get('name')
+      const mapperIds = DataModel.Collaborators.models.map(function(mapper) { return mapper.id })
+      $.post('/maps/' + map.id + '/access', { access: mapperIds })
+      const name = DataModel.Collaborators.get(newCollaboratorId).get('name')
       GlobalUI.notifyUser(name + ' will be notified')
     }
-
     $.getJSON('/users/' + newCollaboratorId + '.json', callback)
   },
-  handleResultClick: function(event, item) {
-    var self = InfoBox
-
-    self.addCollaborator(item.id)
-    $('.collaboratorSearchField').typeahead('val', '')
-  },
-  updateNameDescPerm: function(name, desc, perm) {
-    $('.mapInfoBox').removeClass('mapRequestTitle')
-    $('.mapInfoName .best_in_place_name').html(name)
-    $('.mapInfoDesc .best_in_place_desc').html(desc)
-    $('.mapInfoBox .mapPermission').removeClass('commons public private').addClass(perm)
-  },
-  onPermissionClick: function(event) {
-    var self = InfoBox
-
-    if (!self.selectingPermission) {
-      self.selectingPermission = true
-      $(this).addClass('minimize') // this line flips the drop down arrow to a pull up arrow
-      if ($(this).hasClass('commons')) {
-        $(this).append('<ul class="permissionSelect"><li class="public"></li><li class="private"></li></ul>')
-      } else if ($(this).hasClass('public')) {
-        $(this).append('<ul class="permissionSelect"><li class="commons"></li><li class="private"></li></ul>')
-      } else if ($(this).hasClass('private')) {
-        $(this).append('<ul class="permissionSelect"><li class="commons"></li><li class="public"></li></ul>')
-      }
-      $('.mapPermission .permissionSelect li').click(self.selectPermission)
-      event.stopPropagation()
-    }
-  },
-  hidePermissionSelect: function() {
-    var self = InfoBox
-
-    self.selectingPermission = false
-    $('.mapPermission').removeClass('minimize') // this line flips the pull up arrow to a drop down arrow
-    $('.mapPermission .permissionSelect').remove()
-  },
-  selectPermission: function(event) {
-    var self = InfoBox
-
-    self.selectingPermission = false
-    var permission = $(this).attr('class')
-    Active.Map.save({
+  selectPermission: function(render, map, permission) {
+    map.save({
       permission: permission
     })
-    Active.Map.updateMapWrapper()
-    const shareable = permission === 'private' ? '' : 'shareable'
-    $('.mapPermission').removeClass('commons public private minimize').addClass(permission)
-    $('.mapPermission .permissionSelect').remove()
-    $('.mapInfoBox').removeClass('shareable').addClass(shareable)
-    event.stopPropagation()
+    render()
+    // map.updateMapWrapper()
   },
-  deleteActiveMap: function() {
-    var confirmString = 'Are you sure you want to delete this map? '
+  deleteActiveMap: function(map, mapper) {
+    let confirmString = 'Are you sure you want to delete this map? '
     confirmString += 'This action is irreversible. It will not delete the topics and synapses on the map.'
 
-    var doIt = window.confirm(confirmString)
-    var map = Active.Map
-    var mapper = Active.Mapper
-    var authorized = map.authorizePermissionChange(mapper)
+    const doIt = window.confirm(confirmString)
+    const authorized = map.authorizePermissionChange(mapper)
 
     if (doIt && authorized) {
       InfoBox.close()
