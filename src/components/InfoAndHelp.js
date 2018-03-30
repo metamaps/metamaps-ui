@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import MapInfoBox from '../routes/MapView/MapInfoBox'
+import InfoBox from './InfoBox'
 
 class InfoAndHelp extends Component {
   static propTypes = {
@@ -14,18 +14,33 @@ class InfoAndHelp extends Component {
     toggleInfoBox: PropTypes.func,
     selectMapPermission: PropTypes.func,
     deleteActiveMap: PropTypes.func,
-    updateThumbnail: PropTypes.func
+    updateThumbnail: PropTypes.func,
+    onInfoBoxMount: PropTypes.func,
+    removeCollaborator: PropTypes.func
   }
 
   render () {
     const { mapIsStarred, map, currentUser,
             toggleInfoBox, onMapStar, onMapUnstar, onHelpClick,
-            isNewMap, selectMapPermission, deleteActiveMap, updateThumbnail } = this.props
+            isNewMap, selectMapPermission, deleteActiveMap, updateThumbnail,
+            relevantPeopleForMap, onInfoBoxMount, removeCollaborator } = this.props
     const starclassName = mapIsStarred ? 'starred' : ''
     const tooltip = mapIsStarred ? 'Unstar' : 'Star'
     const onStarClick = mapIsStarred ? onMapUnstar : onMapStar
+    const propsForInfoBox = {
+      toggleInfoBox,
+      currentUser,
+      map,
+      isNewMap,
+      selectMapPermission,
+      deleteActiveMap,
+      updateThumbnail,
+      onInfoBoxMount,
+      removeCollaborator,
+      relevantPeople: relevantPeopleForMap
+    }
     return <div className="infoAndHelp">
-      {map && <MapInfoBox {...{toggleInfoBox, currentUser, map, isNewMap, selectMapPermission, deleteActiveMap, updateThumbnail}} />}
+      {map && <InfoBox {...propsForInfoBox} />}
       {map && currentUser && <div className={`starMap infoElement mapElement ${starclassName}`} onClick={onStarClick}>
         <div className="tooltipsAbove">{tooltip}</div>
       </div>}

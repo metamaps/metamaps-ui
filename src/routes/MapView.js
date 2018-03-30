@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import ContextMenu from '../../components/ContextMenu'
-import DataVis from '../../components/DataVis'
-import UpperOptions from '../../components/UpperOptions'
-import InfoAndHelp from '../../components/InfoAndHelp'
-import Instructions from './Instructions'
-import VisualizationControls from '../../components/VisualizationControls'
-import MapChat from './MapChat'
-import TopicCard from '../../components/TopicCard'
-import NewTopic from '../../components/NewTopic'
-import NewSynapse from '../../components/NewSynapse'
+import ContextMenu from '../components/ContextMenu'
+import DataVis from '../components/DataVis'
+import UpperOptions from '../components/UpperOptions'
+import InfoAndHelp from '../components/InfoAndHelp'
+import Instructions from '../components/Instructions'
+import VisualizationControls from '../components/VisualizationControls'
+import MapChat from '../components/MapChat'
+import TopicCard from '../components/TopicCard'
+import NewTopic from '../components/NewTopic'
+import NewSynapse from '../components/NewSynapse'
 
 export default class MapView extends Component {
 
@@ -45,7 +45,9 @@ export default class MapView extends Component {
     isNewMap: PropTypes.bool,
     selectMapPermission: PropTypes.func,
     deleteActiveMap: PropTypes.func,
-    updateThumbnail: PropTypes.func
+    updateThumbnail: PropTypes.func,
+    onInfoBoxMount: PropTypes.func,
+    removeCollaborator: PropTypes.func
   }
 
   constructor(props) {
@@ -88,7 +90,8 @@ export default class MapView extends Component {
             mapIsStarred, onMapStar, onMapUnstar, openTopic,
             onZoomExtents, onZoomIn, onZoomOut, hasLearnedTopicCreation,
             contextMenu, initNewTopic, initNewSynapse, openMetacodeSwitcher,
-            isNewMap, selectMapPermission, deleteActiveMap, updateThumbnail } = this.props
+            isNewMap, selectMapPermission, deleteActiveMap, updateThumbnail,
+            relevantPeopleForMap, onInfoBoxMount, removeCollaborator } = this.props
     const { chatOpen } = this.state
     const onChatOpen = () => {
       this.setState({chatOpen: true})
@@ -135,6 +138,9 @@ export default class MapView extends Component {
                    deleteActiveMap={deleteActiveMap}
                    updateThumbnail={updateThumbnail}
                    toggleInfoBox={toggleInfoBox}
+                   onInfoBoxMount={onInfoBoxMount}
+                   relevantPeopleForMap={relevantPeopleForMap}
+                   removeCollaborator={removeCollaborator}
                    onMapStar={onMapStar}
                    onMapUnstar={onMapUnstar}
                    onHelpClick={openHelpLightbox} />

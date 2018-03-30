@@ -101,7 +101,6 @@ const Map = {
       document.title = Active.Map.get('name') + ' | Metamaps'
       ReactApp.mobileTitle = Active.Map.get('name')
       ReactApp.render()
-      InfoBox.load(Active.Map, Active.Mapper)
     }
     if (Active.Map && Active.Map.id === id) {
       dataIsReadySetupMap()

@@ -8,14 +8,21 @@ import MapInfo from './MapInfo'
 import MapDesc from './MapDesc'
 import MapMeta from './MapMeta'
 
-class MapInfoBox extends Component {
+class InfoBox extends Component {
   static propTypes = {
     currentUser: PropTypes.object,
     map: PropTypes.object,
     isNewMap: PropTypes.bool,
     toggleInfoBox: PropTypes.func,
     selectMapPermission: PropTypes.func,
-    deleteActiveMap: PropTypes.func
+    deleteActiveMap: PropTypes.func,
+    relevantPeople: PropTypes.object,
+    onInfoBoxMount: PropTypes.func,
+    removeCollaborator: PropTypes.func
+  }
+
+  componentDidMount = () => {
+    this.props.onInfoBoxMount()
   }
 
   handleClickOutside = () => {
@@ -23,10 +30,17 @@ class MapInfoBox extends Component {
   }
 
   render = () => {
-    const { currentUser, map, isNewMap, selectMapPermission, deleteActiveMap, updateThumbnail } = this.props
-    if (!map) return null
+    const {
+      relevantPeople,
+      currentUser,
+      map,
+      isNewMap,
+      selectMapPermission,
+      deleteActiveMap,
+      updateThumbnail,
+      removeCollaborator
+    } = this.props
     const id = map.id
-    const relevantPeople = [] // TODO: permission === 'commons' ? DataModel.Mappers : DataModel.Collaborators
     const userId = currentUser && currentUser.id
     const userName = isCreator ? 'You' : map.get('user_name')
     const name = map.get('name')
@@ -36,7 +50,6 @@ class MapInfoBox extends Component {
     const synapseCount = map.get('synapse_count')
     const isCreator = map.authorizePermissionChange(currentUser)
     const canEdit = map.authorizeToEdit(currentUser)
-    const shareable = permission !== 'private'
     const createdAt = map.get('created_at_clean')
     const updatedAt = map.get('updated_at_clean')
 
@@ -47,11 +60,11 @@ class MapInfoBox extends Component {
 
     return <div className={classes}>
       <MapName canEdit={canEdit} id={map.id} name={map.get('name')} />
-      <MapInfo {...{isCreator, permission, topicCount, synapseCount, relevantPeople, userId, selectMapPermission}} />
+      <MapInfo {...{isCreator, permission, topicCount, synapseCount, relevantPeople, userId, selectMapPermission, removeCollaborator}} />
       <MapDesc {...{canEdit, id, desc}} />
       <MapMeta {...{userName, createdAt, updatedAt, deleteActiveMap, updateThumbnail}} />
     </div>
   }
 }
 
-export default onClickOutsideAddon(MapInfoBox)
+export default onClickOutsideAddon(InfoBox)

@@ -26,9 +26,9 @@ class PermissionSelect extends Component {
     const { isCreator, permission, selectMapPermission } = this.props
     const classes = `infoStatIcon mapPermission hoverForTip ${permission} ${this.state.open ? 'minimize' : ''}`
 
-    const toCommons = <li className="commons" onClick={() => selectMapPermission("commons")}></li>
-    const toPublic = <li className="public" onClick={() => selectMapPermission("public")}></li>
-    const toPrivate = <li className="private" onClick={() => selectMapPermission("private")}></li>
+    const toCommons = <li key="1" className="commons" onClick={() => selectMapPermission("commons")}></li>
+    const toPublic = <li key="2" className="public" onClick={() => selectMapPermission("public")}></li>
+    const toPrivate = <li key="3" className="private" onClick={() => selectMapPermission("private")}></li>
     let permissionSelect
     if (permission === "commons") {
       permissionSelect = <ul className="permissionSelect">

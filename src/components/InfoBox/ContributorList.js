@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router'
 
 import onClickOutsideAddon from 'react-onclickoutside'
 
@@ -31,21 +32,21 @@ class ContributorList extends Component {
     const contributorImage = relevantPeople.length > 0 ? relevantPeople.models[0].get('image') : '/images/user.png'
 
     return (
-      <div className="infoStatIcon mapContributors hoverForTip" onClick={this.toggleContributorList}>
-        <img id="mapContribs" className={contributorsClass}
+      <div className="infoStatIcon mapContributors hoverForTip">
+        <img id="mapContribs" className={contributorsClass} onClick={this.toggleContributorList}
           width="25" height="25" src={contributorImage} />
-        <span className="count">{contributorCount}</span>
-        {this.state.open && <div className="tip">
+        <span className="count" onClick={this.toggleContributorList}>{contributorCount}</span>
+        <div className="tip" style={{ display: this.state.open ? 'block' : 'none' }}>
           <ul>
-            {relevantPeople.map((m) => {
+            {relevantPeople.map((m, index) => {
               const personIsCreator = userId === m.get('id')
               return (
-                <li>
-                  <a href={`/explore/mapper/${m.get('id')}`}>
+                <li key={index}>
+                  <Link to={`/explore/mapper/${m.get('id')}`}>
                     <img className="rtUserImage" width="25" height="25" src={m.get('image')} />
                     {m.get('name')}
-                    {isCreator && ' (creator)'}
-                  </a>
+                    {personIsCreator && ' (creator)'}
+                  </Link>
                   {isCreator && !personIsCreator && <span className="removeCollaborator" onClick={() => removeCollaborator(m.id)}></span>}
                 </li>
               )
@@ -55,7 +56,7 @@ class ContributorList extends Component {
             <span className="addCollab"></span>
             <input className="collaboratorSearchField" placeholder="Add a collaborator" />
           </div>}
-        </div>}
+        </div>
       </div>
     )
   }

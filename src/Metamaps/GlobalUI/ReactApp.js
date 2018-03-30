@@ -131,6 +131,7 @@ const ReactApp = {
   },
   getMapProps: function() {
     const self = ReactApp
+    const { render } = ReactApp
     return {
       mapId: self.mapId,
       map: Active.Map,
@@ -144,9 +145,12 @@ const ReactApp = {
       launchNewMap: Map.launch,
       toggleInfoBox: InfoBox.toggleBox,
       isNewMap: InfoBox.isNewMap,
-      selectMapPermission: apply(InfoBox.selectPermission, ReactApp.render, Active.Map),
+      relevantPeopleForMap: Active.Map ? (Active.Map.get('permission') === 'commons' ? DataModel.Mappers : DataModel.Collaborators) : [],
+      selectMapPermission: apply(InfoBox.selectPermission, render, Active.Map),
       deleteActiveMap: apply(InfoBox.deleteActiveMap, Active.Map, Active.Mapper),
       updateThumbnail: apply(Map.uploadMapScreenshot, Active.Map),
+      onInfoBoxMount: apply(InfoBox.attachEventListeners, render, Active.Map, Active.Mapper),
+      removeCollaborator: apply(InfoBox.removeCollaborator, render, Active.Map),
       openImportLightbox: () => ImportDialog.show(),
       openMetacodeSwitcher: () => self.openLightbox('switchMetacodes'),
       forkMap: Map.fork,

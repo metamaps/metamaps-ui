@@ -34,10 +34,7 @@ const InfoBox = {
       InfoBox.isOpen = false
     })
   },
-  load: function(map, mapper) {
-    InfoBox.attachEventListeners(map, mapper)
-  },
-  attachEventListeners: function(map, mapper) {
+  attachEventListeners: function(render, map, mapper) {
     $('.mapInfoBox.canEdit .best_in_place').best_in_place()
     // because anyone who can edit the map can change the map title
     var bipName = $('.mapInfoBox .best_in_place_name')
@@ -66,11 +63,13 @@ const InfoBox = {
       window.history.replaceState('', `${name} | Metamaps`, window.location.pathname)
       map.set('name', name)
       map.trigger('saved')
+      render()
     })
     $('.mapInfoDesc .best_in_place_desc').unbind('ajax:success').bind('ajax:success', function() {
       var desc = $(this).html()
       map.set('desc', desc)
       map.trigger('saved')
+      render()
     })
     $('.mapInfoDesc .best_in_place_desc, .mapInfoName .best_in_place_name').unbind('keypress').keypress(function(e) {
       const ENTER = 13
@@ -78,12 +77,9 @@ const InfoBox = {
         $(this).data('bestInPlaceEditor').update()
       }
     })
-    InfoBox.addTypeahead(map, mapper)
+    InfoBox.addTypeahead(render, map, mapper)
   },
-  addTypeahead: function(map, mapper) {
-
-    if (!map) return
-
+  addTypeahead: function(render, map, mapper) {
     // for autocomplete
     var collaborators = {
       name: 'collaborators',
@@ -121,17 +117,18 @@ const InfoBox = {
         [collaborators]
       )
       $('.collaboratorSearchField').bind('typeahead:select', function(event, item) {
-        InfoBox.addCollaborator(map, item.id)
+        InfoBox.addCollaborator(render, map, item.id)
         $('.collaboratorSearchField').typeahead('val', '')
       })
     }
   },
-  removeCollaborator: function(map, collaboratorId) {
+  removeCollaborator: function(render, map, collaboratorId) {
     DataModel.Collaborators.remove(DataModel.Collaborators.get(collaboratorId))
     var mapperIds = DataModel.Collaborators.models.map(function(mapper) { return mapper.id })
     $.post('/maps/' + map.id + '/access', { access: mapperIds })
+    render()
   },
-  addCollaborator: function(map, newCollaboratorId) {
+  addCollaborator: function(render, map, newCollaboratorId) {
     if (DataModel.Collaborators.get(newCollaboratorId)) {
       GlobalUI.notifyUser('That user already has access')
       return
@@ -142,6 +139,7 @@ const InfoBox = {
       $.post('/maps/' + map.id + '/access', { access: mapperIds })
       const name = DataModel.Collaborators.get(newCollaboratorId).get('name')
       GlobalUI.notifyUser(name + ' will be notified')
+      render()
     }
     $.getJSON('/users/' + newCollaboratorId + '.json', callback)
   },
