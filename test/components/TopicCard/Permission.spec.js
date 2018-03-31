@@ -59,9 +59,9 @@ describe('TopicCard/Permission', function() {
   })
 
   describe('authorizedToEdit', function() {
-    const updateTopic = sinon.spy()
+    const permissionSelected = sinon.spy()
     const wrapper = render({
-      permission: 'commons', authorizedToEdit: true, updateTopic
+      permission: 'commons', authorizedToEdit: true, permissionSelected
     })
 
     it('opens the permissionSelect div', function() {
@@ -80,9 +80,7 @@ describe('TopicCard/Permission', function() {
       })
 
       expect(wrapper.state().selectingPermission).to.equal(false)
-      expect(updateTopic.calledWith({
-        permission: 'public', defer_to_map_id: null
-      })).to.equal(true)
+      expect(permissionSelected.calledWith('public')).to.equal(true)
     })
   })
 })

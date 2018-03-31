@@ -47,12 +47,6 @@ function assertCssClassPresent({ mockTopicParam, mockTopicValue, cssClass }) {
 }
 
 describe('TopicCard', function() {
-  describe('topic is null', function() {
-    const wrapper = render({ openTopic: null })
-    it('returns null', function() {
-      expect(wrapper.type()).to.be.null
-    })
-  })
 
   describe('has attachment', function() {
     assertCssClassPresent({ mockTopicParam: 'hasAttachment', mockTopicValue: true, cssClass: 'hasAttachment' })
