@@ -58,11 +58,11 @@ Checklist
 - [x] edit metacode set
 - [x] Switch Metacodes lightbox / component
 - [x] Load the metacode sets
+- [x] Synapse Card turn to React
+- [x] MapInfoBox turn to React
 
 - [ ] make newtopic form load metacodes from users selected ones
 - [ ] Fork Map turn to React
-- [ ] Synapse Card turn to React
-- [ ] MapInfoBox turn to React
 - [ ] fix other places where metacode sets are used
 - [ ] Handle CSS metacode colors
 - [ ] Make 'new map' action work
