@@ -4,8 +4,10 @@ import ContextMenu from './ContextMenu'
 import ExploreMaps from './ExploreMaps'
 import ChatView from './ChatView'
 import VideoView from './VideoView'
+import InfoBox from './InfoBox'
 import Room from './Room'
 import TopicCard from './TopicCard'
+import SynapseCard from './SynapseCard'
 import { JUNTO_UPDATED } from '../Realtime/events'
 
 const Views = {
@@ -16,10 +18,12 @@ const Views = {
   ContextMenu,
   ExploreMaps,
   ChatView,
+  InfoBox,
   VideoView,
   Room,
-  TopicCard
+  TopicCard,
+  SynapseCard
 }
 
-export { ContextMenu, ExploreMaps, ChatView, VideoView, Room, TopicCard }
+export { ContextMenu, ExploreMaps, InfoBox, ChatView, VideoView, Room, TopicCard, SynapseCard }
 export default Views

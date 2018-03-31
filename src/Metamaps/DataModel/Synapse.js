@@ -5,8 +5,9 @@ try { Backbone.$ = window.$ } catch (err) {}
 
 import Active from '../Active'
 import Filter from '../Filter'
-import SynapseCard from '../SynapseCard'
+import SynapseCard from '../Views/SynapseCard'
 import Visualize from '../Visualize'
+import ReactApp from '../GlobalUI/ReactApp'
 
 import DataModel from './index'
 
@@ -113,8 +114,8 @@ const Synapse = Backbone.Model.extend({
     var edge = this.get('edge')
 
     // update synapse card, if this synapse is the one open there
-    if (onPageWithSynapseCard && edge === SynapseCard.openSynapseCard) {
-      SynapseCard.showCard(edge)
+    if (onPageWithSynapseCard && this === SynapseCard.openSynapse) {
+      SynapseCard.showCard(ReactApp.render, edge)
     }
   },
   updateEdgeView: function() {

@@ -25,10 +25,7 @@ class Permission extends Component {
 
   liClick = value => event => {
     this.closePermissionSelect()
-    this.props.updateTopic({
-      permission: value,
-      defer_to_map_id: null
-    })
+    this.props.permissionSelected(value)
     // prevents it from also firing the event listener on the parent
     event.preventDefault()
   }

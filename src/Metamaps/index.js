@@ -14,7 +14,7 @@ import Import from './Import'
 import JIT from './JIT'
 import Listeners from './Listeners'
 import Loading from './Loading'
-import Map, { InfoBox } from './Map'
+import Map from './Map'
 import Mapper from './Mapper'
 import Mouse from './Mouse'
 import Organize from './Organize'
@@ -23,7 +23,6 @@ import Realtime from './Realtime'
 import Selected from './Selected'
 import Settings from './Settings'
 import Synapse from './Synapse'
-import SynapseCard from './SynapseCard'
 import Topic from './Topic'
 import Util from './Util'
 import Views from './Views'
@@ -50,7 +49,6 @@ Metamaps.JIT = JIT
 Metamaps.Listeners = Listeners
 Metamaps.Loading = Loading
 Metamaps.Map = Map
-Metamaps.Map.InfoBox = InfoBox
 Metamaps.Maps = {}
 Metamaps.Mapper = Mapper
 Metamaps.Mouse = Mouse
@@ -60,7 +58,6 @@ Metamaps.Realtime = Realtime
 Metamaps.Selected = Selected
 Metamaps.Settings = Settings
 Metamaps.Synapse = Synapse
-Metamaps.SynapseCard = SynapseCard
 Metamaps.Topic = Topic
 Metamaps.Util = Util
 Metamaps.Views = Views

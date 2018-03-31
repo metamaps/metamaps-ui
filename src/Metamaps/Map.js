@@ -4,23 +4,22 @@ import outdent from 'outdent'
 import { find as _find } from 'lodash'
 import { browserHistory } from 'react-router'
 
-import Active from '../Active'
-import AutoLayout from '../AutoLayout'
-import Create from '../Create'
-import DataModel from '../DataModel'
-import DataModelMap from '../DataModel/Map'
-import Filter from '../Filter'
-import GlobalUI, { ReactApp } from '../GlobalUI'
-import JIT from '../JIT'
-import Loading from '../Loading'
-import Realtime from '../Realtime'
-import Selected from '../Selected'
-import SynapseCard from '../SynapseCard'
-import ContextMenu from '../Views/ContextMenu'
-import TopicCard from '../Views/TopicCard'
-import Visualize from '../Visualize'
-
-import InfoBox from './InfoBox'
+import Active from './Active'
+import AutoLayout from './AutoLayout'
+import Create from './Create'
+import DataModel from './DataModel'
+import DataModelMap from './DataModel/Map'
+import Filter from './Filter'
+import GlobalUI, { ReactApp } from './GlobalUI'
+import JIT from './JIT'
+import Loading from './Loading'
+import Realtime from './Realtime'
+import Selected from './Selected'
+import SynapseCard from './Views/SynapseCard'
+import ContextMenu from './Views/ContextMenu'
+import TopicCard from './Views/TopicCard'
+import InfoBox from './Views/InfoBox'
+import Visualize from './Visualize'
 
 const Map = {
   events: {
@@ -138,8 +137,8 @@ const Map = {
       $('.main').removeClass('compressed')
       AutoLayout.resetSpiral()
       ContextMenu.reset(ReactApp.render)
-      TopicCard.hideCard()
-      SynapseCard.hideCard()
+      TopicCard.hideCard(ReactApp.render)
+      SynapseCard.hideCard(ReactApp.render)
       Create.newTopic.hide(true) // true means force (and override pinned)
       Create.newSynapse.hide()
       InfoBox.close()

@@ -13,7 +13,7 @@ import Active from '../Active'
 import Create from '../Create'
 import DataModel from '../DataModel'
 import DataFetcher from '../DataFetcher'
-import { ExploreMaps, ChatView, TopicCard, ContextMenu } from '../Views'
+import { ExploreMaps, ChatView, TopicCard, SynapseCard, ContextMenu } from '../Views'
 import Filter from '../Filter'
 import JIT from '../JIT'
 import PasteInput from '../PasteInput'
@@ -126,6 +126,7 @@ const ReactApp = {
     self.getMapsProps(),
     self.getContextMenuProps(),
     self.getTopicCardProps(),
+    self.getSynapseCardProps(),
     self.getChatProps(),
     self.getAdminProps())
   },
@@ -182,6 +183,19 @@ const ReactApp = {
       metacodeSets: self.metacodeSets,
       updateTopic: (topic, obj) => topic.save(obj),
       onTopicFollow: Topic.onTopicFollow
+    }
+  },
+  getSynapseCardProps: function() {
+    const self = ReactApp
+    const plot = Visualize.mGraph ? Visualize.mGraph.plot.bind(Visualize.mGraph) : () => {}
+    return {
+      openSynapse: SynapseCard.openSynapse,
+      synapseCardPosition: SynapseCard.mouse,
+      synapseCardSynapses: SynapseCard.synapseCardSynapses,
+      onSynapseCardMount: apply(SynapseCard.onSynapseCardMount, self.render, plot, SynapseCard.openSynapse),
+      onSynapseDirectionChange: apply(SynapseCard.onDirectionChange, self.render, plot, SynapseCard.openSynapse),
+      onSynapsePermissionSelect: apply(SynapseCard.onPermissionSelect, self.render, SynapseCard.openSynapse),
+      onSynapseSelect: apply(SynapseCard.onSynapseSelect, self.render, plot, SynapseCard.openSynapse)
     }
   },
   getContextMenuProps: function() {

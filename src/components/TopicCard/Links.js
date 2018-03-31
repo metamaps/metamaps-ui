@@ -30,13 +30,19 @@ class Links extends Component {
   }
 
   render = () => {
-    const { topic, onTopicFollow, ActiveMapper } = this.props
+    const { topic, onTopicFollow, ActiveMapper, updateTopic } = this.props
     const authorizedToEdit = topic.authorizeToEdit(ActiveMapper)
     const authorizedPermissionChange = topic.authorizePermissionChange(ActiveMapper)
     const metacode = topic.getMetacode()
     const wrappedTopicFollow = () => onTopicFollow(topic)
     const isFollowing = topic.isFollowedBy(ActiveMapper)
 
+    const permissionSelected = (permission) => {
+      updateTopic({
+        permission,
+        defer_to_map_id: null
+      })
+    }
     return (
       <div className="links">
         <div className="linkItem icon metacodeItem">
@@ -60,7 +66,7 @@ class Links extends Component {
         <Permission
           permission={topic.get('permission')}
           authorizedToEdit={authorizedPermissionChange}
-          updateTopic={this.props.updateTopic}
+          permissionSelected={permissionSelected}
         />
         <div className="clearfloat"></div>
       </div>

@@ -13,7 +13,7 @@ import Loading from './Loading'
 import Map from './Map'
 import Selected from './Selected'
 import Settings from './Settings'
-import SynapseCard from './SynapseCard'
+import SynapseCard from './Views/SynapseCard'
 import TopicCard from './Views/TopicCard'
 import ContextMenu from './Views/ContextMenu'
 import Util from './Util'
@@ -70,8 +70,8 @@ const Topic = {
   end: function() {
     if (Active.Topic) {
       ContextMenu.reset(ReactApp.render)
-      TopicCard.hideCard()
-      SynapseCard.hideCard()
+      TopicCard.hideCard(ReactApp.render)
+      SynapseCard.hideCard(ReactApp.render)
     }
   },
   centerOn: function(nodeid, callback) {

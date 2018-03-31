@@ -9,6 +9,7 @@ import Instructions from '../components/Instructions'
 import VisualizationControls from '../components/VisualizationControls'
 import MapChat from '../components/MapChat'
 import TopicCard from '../components/TopicCard'
+import SynapseCard from '../components/SynapseCard'
 import NewTopic from '../components/NewTopic'
 import NewSynapse from '../components/NewSynapse'
 
@@ -47,7 +48,17 @@ export default class MapView extends Component {
     deleteActiveMap: PropTypes.func,
     updateThumbnail: PropTypes.func,
     onInfoBoxMount: PropTypes.func,
-    removeCollaborator: PropTypes.func
+    removeCollaborator: PropTypes.func,
+    openSynapse: PropTypes.object,
+    synapseCardPosition: PropTypes.shape({
+      x: PropTypes.number,
+      y: PropTypes.number
+    }),
+    synapseCardSynapses: PropTypes.array,
+    onSynapseCardMount: PropTypes.func,
+    onSynapseDirectionChange: PropTypes.func,
+    onSynapsePermissionSelect: PropTypes.func,
+    onSynapseSelect: PropTypes.func
   }
 
   constructor(props) {
@@ -91,7 +102,10 @@ export default class MapView extends Component {
             onZoomExtents, onZoomIn, onZoomOut, hasLearnedTopicCreation,
             contextMenu, initNewTopic, initNewSynapse, openMetacodeSwitcher,
             isNewMap, selectMapPermission, deleteActiveMap, updateThumbnail,
-            relevantPeopleForMap, onInfoBoxMount, removeCollaborator } = this.props
+            relevantPeopleForMap, onInfoBoxMount, removeCollaborator,
+            openSynapse, synapseCardPosition, synapseCardSynapses, onSynapseCardMount,
+            onSynapseDirectionChange, onSynapsePermissionSelect,
+            onSynapseSelect } = this.props
     const { chatOpen } = this.state
     const onChatOpen = () => {
       this.setState({chatOpen: true})
@@ -123,6 +137,14 @@ export default class MapView extends Component {
       <NewTopic initNewTopic={initNewTopic} openMetacodeSwitcher={openMetacodeSwitcher} />
       <NewSynapse initNewSynapse={initNewSynapse} />
       {openTopic && <TopicCard {...this.props} />}
+      {openSynapse && <SynapseCard synapse={openSynapse}
+                                   currentUser={currentUser}
+                                   position={synapseCardPosition}
+                                   synapses={synapseCardSynapses} 
+                                   onCardMount={onSynapseCardMount} 
+                                   onDirectionChange={onSynapseDirectionChange} 
+                                   onPermissionSelect={onSynapsePermissionSelect} 
+                                   onSynapseSelect={onSynapseSelect} />}
       {contextMenu && <ContextMenu {...this.props} />}
       {currentUser && <Instructions mobile={mobile} hasLearnedTopicCreation={hasLearnedTopicCreation} />}
       {currentUser && <MapChat {...this.props} onOpen={onChatOpen} onClose={onChatClose} chatOpen={chatOpen} ref={x => this.mapChat = x} />}

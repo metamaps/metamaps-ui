@@ -1,14 +1,12 @@
-import { ReactApp } from '../GlobalUI'
-
 const TopicCard = {
   openTopic: null,
-  showCard: function(node) {
+  showCard: function(render, node) {
     TopicCard.openTopic = node.getData('topic')
-    ReactApp.render()
+    render()
   },
-  hideCard: function() {
+  hideCard: function(render) {
     TopicCard.openTopic = null
-    ReactApp.render()
+    render()
   }
 }
 

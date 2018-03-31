@@ -6,6 +6,7 @@ import Active from '../Active'
 import Filter from '../Filter'
 import TopicCard from '../Views/TopicCard'
 import Visualize from '../Visualize'
+import ReactApp from '../GlobalUI/ReactApp'
 
 import DataModel from './index'
 
@@ -98,7 +99,7 @@ const Topic = Backbone.Model.extend({
     var node = this.get('node')
     // update topic card, if this topic is the one open there
     if (onPageWithTopicCard && this === TopicCard.openTopic) {
-      TopicCard.showCard(node)
+      TopicCard.showCard(ReactApp.render, node)
     }
   },
   updateNodeView: function() {

@@ -13,8 +13,6 @@ class ReactTopicCard extends Component {
     const { currentUser, onTopicFollow, updateTopic } = this.props
     const topic = this.props.openTopic
 
-    if (!topic) return null
-
     const wrappedUpdateTopic = obj => updateTopic(topic, obj)
 
     const authorizedToEdit = topic.authorizeToEdit(currentUser)
