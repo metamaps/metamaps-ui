@@ -181,7 +181,10 @@ const ReactApp = {
     return {
       openTopic: TopicCard.openTopic,
       metacodeSets: self.metacodeSets,
-      updateTopic: (topic, obj) => topic.save(obj),
+      updateTopic: (topic, obj) => {
+        topic.save(obj)
+        self.render()
+      },
       onTopicFollow: Topic.onTopicFollow
     }
   },
