@@ -54,14 +54,14 @@ export default class TopicView extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const oldTopicId = prevProps.topicId
+    /*const oldTopicId = prevProps.topicId
     const { topicId, launchNewTopic } = this.props
     if (!oldTopicId && topicId) launchNewTopic(topicId)
     else if (oldTopicId && topicId && oldTopicId !== topicId) {
       this.endTopic()
       launchNewTopic(topicId)
     }
-    else if (oldTopicId && !topicId) this.endTopic()
+    else if (oldTopicId && !topicId) this.endTopic()*/
   }
 
   render = () => {

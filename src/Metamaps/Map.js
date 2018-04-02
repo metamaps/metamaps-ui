@@ -4,6 +4,8 @@ import outdent from 'outdent'
 import { find as _find } from 'lodash'
 import { browserHistory } from 'react-router'
 
+import { setHasLearnedTopicCreation } from '../actions'
+
 import Active from './Active'
 import AutoLayout from './AutoLayout'
 import Create from './Create'
@@ -25,28 +27,19 @@ const Map = {
   events: {
     editedByActiveMapper: 'Metamaps:Map:events:editedByActiveMapper'
   },
-  mapIsStarred: false,
-  requests: [],
-  userRequested: false,
-  requestAnswered: false,
-  requestApproved: false,
-  hasLearnedTopicCreation: true,
-  init: function(serverData) {
+  init: function(serverData, store) {
     var self = Map
-    self.mapIsStarred = serverData.mapIsStarred
-    self.requests = serverData.requests
-    self.setAccessRequest()
+    //self.mapIsStarred = serverData.mapIsStarred
+    //self.requests = serverData.requests
+    //self.setAccessRequest()
+    self.store = store
     $('#wrapper').mousedown(function(e) {
       if (e.button === 1) return false
     })
-    GlobalUI.CreateMap.emptyForkMapForm = $('#fork_map').html()
-    InfoBox.init(serverData)
     $(document).on(Map.events.editedByActiveMapper, self.editedByActiveMapper)
   },
   setHasLearnedTopicCreation: function(value) {
-    const self = Map
-    self.hasLearnedTopicCreation = value
-    ReactApp.render()
+    Map.store.dispatch(setHasLearnedTopicCreation(value))
   },
   requestAccess: function() {
     const self = Map
@@ -86,6 +79,7 @@ const Map = {
   },
   launch: function(id) {
     const self = Map
+    // set this to false now
     var dataIsReadySetupMap = function() {
       Map.setAccessRequest()
       Visualize.type = 'ForceDirected'

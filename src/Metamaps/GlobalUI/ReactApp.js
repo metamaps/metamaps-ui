@@ -2,18 +2,23 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router, browserHistory } from 'react-router'
-import { merge } from 'lodash'
 import apply from 'async/apply'
+//import { UPDATE } from '../../actions'
 
 import { notifyUser } from './index.js'
-import ImportDialog from './ImportDialog'
-import Notifications from './Notifications'
 import Active from '../Active'
 import Create from '../Create'
 import DataModel from '../DataModel'
 import DataFetcher from '../DataFetcher'
-import { ExploreMaps, ChatView, TopicCard, SynapseCard, ContextMenu } from '../Views'
+import {
+  ImportDialog,
+  Notifications,
+  ExploreMaps,
+  ChatView,
+  TopicCard,
+  SynapseCard,
+  ContextMenu
+} from '../Views'
 import Filter from '../Filter'
 import JIT from '../JIT'
 import PasteInput from '../PasteInput'
@@ -21,8 +26,7 @@ import Realtime from '../Realtime'
 import Map, { InfoBox } from '../Map'
 import Topic from '../Topic'
 import Visualize from '../Visualize'
-import makeRoutes from '../../routes/makeRoutes'
-let routes
+import makeApp from '../../makeApp'
 
 // 220 wide + 16 padding on both sides
 const MAP_WIDTH = 252
@@ -31,26 +35,14 @@ const MOBILE_VIEW_PADDING = 40
 const MAX_COLUMNS = 4
 
 const ReactApp = {
-  serverData: {},
-  mapId: null,
-  topicId: null,
-  mapsWidth: 0,
-  toast: '',
-  mobile: false,
-  mobileTitle: '',
-  mobileTitleWidth: 0,
-  metacodeSets: [],
-  init: function(serverData, openLightbox) {
-    const self = ReactApp
-    self.serverData = serverData
-    self.mobileTitle = serverData.mobileTitle
-    self.openLightbox = openLightbox
-    self.metacodeSets = serverData.metacodeSets
-    routes = makeRoutes(serverData.ActiveMapper)
-    self.resize()
-    window && window.addEventListener('resize', self.resize)
+  init: function(serverData, store, openLightbox) {
+    ReactApp.openLightbox = openLightbox
+    const app = makeApp(serverData.ActiveMapper, store)
+    ReactDOM.render(app, document.getElementById('app'))
+    ReactApp.resize()
+    window && window.addEventListener('resize', ReactApp.resize)
   },
-  handleUpdate: function(location) {
+  handleUpdate: function() {
     const self = ReactApp
     const pathname = this.state.location.pathname
     switch (pathname.split('/')[1]) {
@@ -88,65 +80,34 @@ const ReactApp = {
     window.ga && window.ga('send', 'pageview', pathname)
   },
   render: function() {
-    const self = ReactApp
-    const createElement = (Component, props) => <Component {...props} {...self.getProps()}/>
-    const app = <Router createElement={createElement} routes={routes} history={browserHistory} onUpdate={self.handleUpdate} />
-    ReactDOM.render(app, document.getElementById('app'))
+    //ReactApp.store.dispatch({type: UPDATE, payload: ReactApp.getDataProps()})
   },
-  getProps: function() {
-    const self = ReactApp
-    return merge({
-      unreadNotificationsCount: Notifications.unreadNotificationsCount,
+  getDataProps: function() {
+    return {
+      // backbone models and collections
       currentUser: Active.Mapper,
+      map: Active.Map,
+      maps: ExploreMaps.collection,
+      openSynapse: SynapseCard.openSynapse,
+      openTopic: TopicCard.openTopic,
+      topic: Active.Topic
+    }
+  },
+  getCallbackProps: function() {
+    const { render } = ReactApp
+    const plot = Visualize.mGraph ? Visualize.mGraph.plot.bind(Visualize.mGraph) : () => {}
+    return {
       updateUser: DataFetcher.updateUser,
-      toast: self.toast,
-      mobile: self.mobile,
-      mobileTitle: self.mobileTitle,
-      mobileTitleWidth: self.mobileTitleWidth,
       mobileTitleClick: (e) => Active.Map && InfoBox.toggleBox(e),
-      openInviteLightbox: () => self.openLightbox('invite'),
-      serverData: self.serverData,
-      notifications: Notifications.notifications,
-      notificationsLoading: Notifications.notificationsLoading,
-      fetchNotifications: apply(Notifications.fetchNotifications, ReactApp.render),
-      fetchNotification: apply(Notifications.fetchNotification, ReactApp.render),
-      markAsRead: apply(Notifications.markAsRead, ReactApp.render),
-      markAsUnread: apply(Notifications.markAsUnread, ReactApp.render),
+      openInviteLightbox: () => ReactApp.openLightbox('invite'),
+      fetchNotifications: apply(Notifications.fetchNotifications, render),
+      fetchNotification: apply(Notifications.fetchNotification, render),
+      markAsRead: apply(Notifications.markAsRead, render),
+      markAsUnread: apply(Notifications.markAsUnread, render),
       denyAccessRequest: DataFetcher.denyAccessRequest,
       approveAccessRequest: DataFetcher.approveAccessRequest,
-      metacodes: DataModel.Metacodes.toJSON(),
       onSetSelect: Create.updateMetacodeSet,
       onMetacodeSetSelectMount: Create.setupMetacodeSetTabs,
-      selectedMetacodes: Active.Mapper.get("metacodes")
-    },
-    self.getMapProps(),
-    self.getTopicProps(),
-    self.getFilterProps(),
-    self.getCommonProps(),
-    self.getMapsProps(),
-    self.getContextMenuProps(),
-    self.getTopicCardProps(),
-    self.getSynapseCardProps(),
-    self.getChatProps(),
-    self.getAdminProps())
-  },
-  getMapProps: function() {
-    const self = ReactApp
-    const { render } = ReactApp
-    return {
-      mapId: self.mapId,
-      map: Active.Map,
-      hasLearnedTopicCreation: Map.hasLearnedTopicCreation,
-      userRequested: Map.userRequested,
-      requestAnswered: Map.requestAnswered,
-      requestApproved: Map.requestApproved,
-      onRequestAccess: Map.requestAccess,
-      mapIsStarred: Map.mapIsStarred,
-      endActiveMap: Map.end,
-      launchNewMap: Map.launch,
-      toggleInfoBox: InfoBox.toggleBox,
-      isNewMap: InfoBox.isNewMap,
-      relevantPeopleForMap: Active.Map ? (Active.Map.get('permission') === 'commons' ? DataModel.Mappers : DataModel.Collaborators) : [],
       selectMapPermission: apply(InfoBox.selectPermission, render, Active.Map),
       deleteActiveMap: apply(InfoBox.deleteActiveMap, Active.Map, Active.Mapper),
       updateThumbnail: apply(Map.uploadMapScreenshot, Active.Map),
@@ -164,54 +125,24 @@ const ReactApp = {
       onExport: format => () => {
         window.open(`${window.location.pathname}/export.${format}`, '_blank')
       },
-      requestAccess: DataFetcher.requestAccess
-    }
-  },
-  getCommonProps: function() {
-    const self = ReactApp
-    return {
+      requestAccess: DataFetcher.requestAccess,
+      endActiveMap: Map.end,
+      launchNewMap: Map.launch,
+      toggleInfoBox: InfoBox.toggleBox,
+      onRequestAccess: Map.requestAccess,
       openHelpLightbox: () => self.openLightbox('cheatsheet'),
-      onZoomExtents: event => JIT.zoomExtents(event, Visualize.mGraph.canvas),
+      onZoomExtents: (event) => JIT.zoomExtents(event, Visualize.mGraph.canvas),
       onZoomIn: JIT.zoomIn,
-      onZoomOut: JIT.zoomOut
-    }
-  },
-  getTopicCardProps: function() {
-    const self = ReactApp
-    return {
-      openTopic: TopicCard.openTopic,
-      metacodeSets: self.metacodeSets,
+      onZoomOut: JIT.zoomOut,
       updateTopic: (topic, obj) => {
         topic.save(obj)
-        self.render()
+        render()
       },
-      onTopicFollow: Topic.onTopicFollow
-    }
-  },
-  getSynapseCardProps: function() {
-    const self = ReactApp
-    const plot = Visualize.mGraph ? Visualize.mGraph.plot.bind(Visualize.mGraph) : () => {}
-    return {
-      openSynapse: SynapseCard.openSynapse,
-      synapseCardPosition: SynapseCard.mouse,
-      synapseCardSynapses: SynapseCard.synapseCardSynapses,
-      onSynapseCardMount: apply(SynapseCard.onSynapseCardMount, self.render, plot, SynapseCard.openSynapse),
-      onSynapseDirectionChange: apply(SynapseCard.onDirectionChange, self.render, plot, SynapseCard.openSynapse),
-      onSynapsePermissionSelect: apply(SynapseCard.onPermissionSelect, self.render, SynapseCard.openSynapse),
-      onSynapseSelect: apply(SynapseCard.onSynapseSelect, self.render, plot, SynapseCard.openSynapse)
-    }
-  },
-  getContextMenuProps: function() {
-    const { render } = ReactApp
-    return {
-      // values
-      contextMenu: !!(ContextMenu.clickedNode || ContextMenu.clickedEdge),
-      contextNode: ContextMenu.clickedNode,
-      contextEdge: ContextMenu.clickedEdge,
-      contextPos: ContextMenu.pos,
-      contextFetchingSiblingsData: ContextMenu.fetchingSiblingsData,
-      contextSiblingsData: ContextMenu.siblingsData,
-      // functions
+      onTopicFollow: Topic.onTopicFollow,
+      onSynapseCardMount: apply(SynapseCard.onSynapseCardMount, render, plot, SynapseCard.openSynapse),
+      onSynapseDirectionChange: apply(SynapseCard.onDirectionChange, render, plot, SynapseCard.openSynapse),
+      onSynapsePermissionSelect: apply(SynapseCard.onPermissionSelect, render, SynapseCard.openSynapse),
+      onSynapseSelect: apply(SynapseCard.onSynapseSelect, render, plot, SynapseCard.openSynapse),
       contextDelete: apply(ContextMenu.delete, render),
       contextRemove: apply(ContextMenu.remove, render),
       contextHide: apply(ContextMenu.hide, render),
@@ -220,73 +151,31 @@ const ReactApp = {
       contextUpdatePermissions: apply(ContextMenu.updatePermissions, render),
       contextOnMetacodeSelect: apply(ContextMenu.onMetacodeSelect, render),
       contextFetchSiblings: apply(ContextMenu.fetchSiblings, render),
-      contextPopulateSiblings: apply(ContextMenu.populateSiblings, render)
-    }
-  },
-  getTopicProps: function() {
-    const self = ReactApp
-    return {
-      topicId: self.topicId,
-      topic: Active.Topic,
+      contextPopulateSiblings: apply(ContextMenu.populateSiblings, render),
       endActiveTopic: Topic.end,
-      launchNewTopic: Topic.launch
-    }
-  },
-  getMapsProps: function() {
-    const self = ReactApp
-    return {
-      section: ExploreMaps.collection && ExploreMaps.collection.id,
-      maps: ExploreMaps.collection,
-      juntoState: Realtime.juntoState,
-      moreToLoad: ExploreMaps.collection && ExploreMaps.collection.page !== 'loadedAll',
-      user: ExploreMaps.collection && ExploreMaps.collection.id === 'mapper' ? ExploreMaps.mapper : null,
+      launchNewTopic: Topic.launch,
       loadMore: ExploreMaps.loadMore,
-      pending: ExploreMaps.pending,
       onStar: ExploreMaps.onStar,
       onRequest: ExploreMaps.onRequest,
       onMapFollow: ExploreMaps.onMapFollow,
-      mapsWidth: ReactApp.mapsWidth
-    }
-  },
-  getChatProps: function() {
-    const self = ReactApp
-    return {
-      unreadMessages: ChatView.unreadMessages,
-      conversationLive: ChatView.conversationLive,
-      isParticipating: ChatView.isParticipating,
       onOpen: ChatView.onOpen,
       onClose: ChatView.onClose,
       leaveCall: Realtime.leaveCall,
       joinCall: Realtime.joinCall,
       inviteACall: Realtime.inviteACall,
       inviteToJoin: Realtime.inviteToJoin,
-      participants: ChatView.participants ? ChatView.participants.models.map(p => p.attributes) : [],
-      messages: ChatView.messages ? ChatView.messages.models.map(m => m.attributes) : [],
       videoToggleClick: ChatView.videoToggleClick,
       cursorToggleClick: ChatView.cursorToggleClick,
       soundToggleClick: ChatView.soundToggleClick,
       inputBlur: ChatView.inputBlur,
       inputFocus: ChatView.inputFocus,
-      handleInputMessage: ChatView.handleInputMessage
-    }
-  },
-  getFilterProps: function() {
-    const self = ReactApp
-    return {
-      filterData: Filter.dataForPresentation,
-      allForFiltering: Filter.filters,
-      visibleForFiltering: Filter.visible,
+      handleInputMessage: ChatView.handleInputMessage,
       toggleMetacode: Filter.toggleMetacode,
       toggleMapper: Filter.toggleMapper,
       toggleSynapse: Filter.toggleSynapse,
       filterAllMetacodes: Filter.filterAllMetacodes,
       filterAllMappers: Filter.filterAllMappers,
-      filterAllSynapses: Filter.filterAllSynapses
-    }
-  },
-  getAdminProps: function() {
-    const self = ReactApp
-    return {
+      filterAllSynapses: Filter.filterAllSynapses,
       createMetacodeSet: DataFetcher.createMetacodeSet,
       updateMetacodeSet: DataFetcher.updateMetacodeSet,
       deleteMetacodeSet: DataFetcher.deleteMetacodeSet,

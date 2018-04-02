@@ -1,26 +1,18 @@
 /* global $ */
 
 import Create from '../Create'
-
-import Notifications from './Notifications'
+import CreateMap from '../Views/CreateMap'
 import ReactApp from './ReactApp'
-import Search from './Search'
-import CreateMap from './CreateMap'
-import ImportDialog from './ImportDialog'
 
 const GlobalUI = {
   notifyTimeout: null,
   notifyQueue: [],
   notifying: false,
   lightbox: null,
-  init: function(serverData) {
+  init: function(serverData, store) {
     const self = GlobalUI
-
-    self.Notifications.init(serverData)
-    self.ReactApp.init(serverData, self.openLightbox)
-    self.CreateMap.init(serverData)
-    self.ImportDialog.init(serverData, self.openLightbox, self.closeLightbox)
-    self.Search.init(serverData)
+    
+    ReactApp.init(serverData, store, self.openLightbox)
 
     if (serverData.toast) self.notifyUser(serverData.toast)
 
@@ -94,7 +86,7 @@ const GlobalUI = {
       $('#lightbox_overlay').hide()
     })
 
-    if (self.lightbox === 'forkmap') GlobalUI.CreateMap.reset('fork_map')
+    if (self.lightbox === 'forkmap') CreateMap.reset('fork_map')
     if (Create && Create.isSwitchingSet) {
       Create.cancelMetacodeSetSwitch()
     }
@@ -142,5 +134,5 @@ const GlobalUI = {
   }
 }
 
-export { Notifications, ReactApp, Search, CreateMap, ImportDialog }
+export { ReactApp }
 export default GlobalUI

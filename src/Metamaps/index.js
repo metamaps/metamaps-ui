@@ -1,3 +1,7 @@
+import { createStore } from 'redux'
+
+import metamapsReducer from '../reducers'
+
 import Active from './Active'
 import AutoLayout from './AutoLayout'
 import Cable from './Cable'
@@ -7,9 +11,8 @@ import DataFetcher from './DataFetcher'
 import DataModel from './DataModel'
 import Debug from './Debug'
 import Filter from './Filter'
-import GlobalUI, {
-  Notifications, ReactApp, Search, CreateMap, ImportDialog
-} from './GlobalUI'
+import GlobalUI from './GlobalUI'
+import ReactApp from './GlobalUI/ReactApp'
 import Import from './Import'
 import JIT from './JIT'
 import Listeners from './Listeners'
@@ -39,11 +42,7 @@ Metamaps.DataModel = DataModel
 Metamaps.Debug = Debug
 Metamaps.Filter = Filter
 Metamaps.GlobalUI = GlobalUI
-Metamaps.GlobalUI.Notifications = Notifications
 Metamaps.GlobalUI.ReactApp = ReactApp
-Metamaps.GlobalUI.Search = Search
-Metamaps.GlobalUI.CreateMap = CreateMap
-Metamaps.GlobalUI.ImportDialog = ImportDialog
 Metamaps.Import = Import
 Metamaps.JIT = JIT
 Metamaps.Listeners = Listeners
@@ -63,7 +62,7 @@ Metamaps.Util = Util
 Metamaps.Views = Views
 Metamaps.Visualize = Visualize
 
-function runInitFunctions(serverData) {
+function runInitFunctions(serverData, store) {
   // initialize all the modules
   for (const prop in Metamaps) {
     // this runs the init function within each sub-object on the Metamaps one
@@ -72,7 +71,7 @@ function runInitFunctions(serverData) {
       Metamaps[prop].hasOwnProperty('init') &&
       typeof (Metamaps[prop].init) === 'function'
     ) {
-      Metamaps[prop].init(serverData)
+      Metamaps[prop].init(serverData, store)
     }
   }
 }
@@ -80,7 +79,7 @@ function runInitFunctions(serverData) {
 // fetch data from API then pass into init functions
 document.addEventListener('DOMContentLoaded', async function() {
   Metamaps.ServerData = Metamaps.ServerData || {}
-  try {
+  // try {
     // TODO: do these in parallel (Promise.all)
     const metacodes = await DataFetcher.getMetacodes()
     Metamaps.ServerData.Metacodes = metacodes
@@ -93,10 +92,20 @@ document.addEventListener('DOMContentLoaded', async function() {
       Metamaps.ServerData.ActiveMapper = activeMapper
       $('body').removeClass('unauthenticated').addClass('authenticated')
     }
-    runInitFunctions(Metamaps.ServerData)
+    const store = createStore(
+      metamapsReducer,
+      {
+        serverData: Metamaps.ServerData,
+        metacodeSets,
+        mobileTitle: Metamaps.ServerData.mobileTitle
+      },
+      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
+    runInitFunctions(Metamaps.ServerData, store)
+  /*  
   } catch (e) {
     console.log(e)
-  }
+  }*/
 })
 
 export default Metamaps

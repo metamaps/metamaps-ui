@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import SynapseDesc from './SynapseDesc'
 import SynapseDirection from './SynapseDirection'
 import SynapseSelect from './SynapseSelect'
@@ -13,7 +13,7 @@ class SynapseCard extends Component {
     }
   }
   componentDidMount= () => {
-    this.props.onCardMount()
+    //this.props.onCardMount()
   }
 
   toggleSelect = () => {

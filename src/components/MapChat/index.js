@@ -37,7 +37,7 @@ class MapChat extends Component {
   componentDidUpdate(prevProps) {
     const { messages } = this.props
     const prevMessages = prevProps.messages
-    if (messages.length !== prevMessages.length) setTimeout(() => this.scroll(), 50)
+    //if (!prevMessages || messages.length !== prevMessages.length) setTimeout(() => this.scroll(), 50)
   }
 
   reset = () => {
@@ -60,7 +60,7 @@ class MapChat extends Component {
 
   scroll = () => {
     // hack: figure out how to do this right
-    this.messagesDiv.scrollTop = this.messagesDiv.scrollHeight + 100
+    if (this.messagesDiv) this.messagesDiv.scrollTop = this.messagesDiv.scrollHeight + 100
   }
 
   toggleDrawer = () => {
@@ -163,15 +163,6 @@ MapChat.propTypes = {
   chatOpen: PropTypes.bool,
   conversationLive: PropTypes.bool,
   isParticipating: PropTypes.bool,
-  onOpen: PropTypes.func,
-  onClose: PropTypes.func,
-  leaveCall: PropTypes.func,
-  joinCall: PropTypes.func,
-  inviteACall: PropTypes.func,
-  inviteToJoin: PropTypes.func,
-  videoToggleClick: PropTypes.func,
-  cursorToggleClick: PropTypes.func,
-  soundToggleClick: PropTypes.func,
   participants: PropTypes.arrayOf(PropTypes.shape({
     color: PropTypes.string, // css color
     id: PropTypes.number,
@@ -180,7 +171,16 @@ MapChat.propTypes = {
     username: PropTypes.string,
     isParticipating: PropTypes.bool,
     isPending: PropTypes.bool
-  }))
+  })),
+  onOpen: PropTypes.func,
+  onClose: PropTypes.func,
+  leaveCall: PropTypes.func,
+  joinCall: PropTypes.func,
+  inviteACall: PropTypes.func,
+  inviteToJoin: PropTypes.func,
+  videoToggleClick: PropTypes.func,
+  cursorToggleClick: PropTypes.func,
+  soundToggleClick: PropTypes.func
 }
 
 export default MapChat

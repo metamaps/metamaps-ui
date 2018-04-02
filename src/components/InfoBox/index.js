@@ -22,7 +22,7 @@ class InfoBox extends Component {
   }
 
   componentDidMount = () => {
-    this.props.onInfoBoxMount()
+    //this.props.onInfoBoxMount()
   }
 
   handleClickOutside = () => {

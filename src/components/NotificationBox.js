@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 
 import onClickOutsideAddon from 'react-onclickoutside'
 import Notification from './Notification'
@@ -17,7 +17,7 @@ class NotificationBox extends Component {
   }
 
   componentDidMount = () => {
-    this.props.fetchNotifications()
+    //this.props.fetchNotifications()
   }
 
   handleClickOutside = () => {

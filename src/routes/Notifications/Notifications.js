@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 
 import LoadingPage from '../helpers/LoadingPage'
 import Notification from '../../components/Notification'
@@ -21,7 +21,7 @@ const BLACKLIST = [MAP_ACCESS_REQUEST, MAP_ACCESS_APPROVED, MAP_INVITE_TO_EDIT]
 
 class Notifications extends Component {
   componentDidMount = () => {
-    this.props.fetchNotifications()
+    //this.props.fetchNotifications()
   }
 
   render = () => {

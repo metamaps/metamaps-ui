@@ -10,8 +10,14 @@ import Info from './Info'
 
 class ReactTopicCard extends Component {
   render = () => {
-    const { currentUser, onTopicFollow, updateTopic } = this.props
-    const topic = this.props.openTopic
+    const {
+      currentUser,
+      onTopicFollow,
+      updateTopic,
+      metacodeSets,
+      redrawCanvas,
+      topic
+    } = this.props
 
     const wrappedUpdateTopic = obj => updateTopic(topic, obj)
 
@@ -33,10 +39,10 @@ class ReactTopicCard extends Component {
             <div className={`CardOnGraph ${hasAttachment ? 'hasAttachment' : ''}`} id={`topic_${topic.id}`}>
               <Links topic={topic}
                 onTopicFollow={onTopicFollow}
-                ActiveMapper={this.props.currentUser}
+                ActiveMapper={currentUser}
                 updateTopic={wrappedUpdateTopic}
-                metacodeSets={this.props.metacodeSets}
-                redrawCanvas={this.props.redrawCanvas}
+                metacodeSets={metacodeSets}
+                redrawCanvas={redrawCanvas}
               />
               <Title name={topic.get('name')}
                 authorizedToEdit={authorizedToEdit}
@@ -61,7 +67,7 @@ class ReactTopicCard extends Component {
 }
 
 ReactTopicCard.propTypes = {
-  openTopic: PropTypes.object,
+  topic: PropTypes.object,
   currentUser: PropTypes.object,
   updateTopic: PropTypes.func,
   onTopicFollow: PropTypes.func,

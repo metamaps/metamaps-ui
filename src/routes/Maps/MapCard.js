@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { find, values } from 'lodash'
 
 const IN_CONVERSATION = 1 // shared with /realtime/reducer.js

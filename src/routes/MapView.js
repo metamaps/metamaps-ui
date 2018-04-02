@@ -20,6 +20,7 @@ export default class MapView extends Component {
     mobile: PropTypes.bool,
     mapId: PropTypes.string,
     map: PropTypes.object,
+    fetchingMap: PropTypes.bool,
     mapIsStarred: PropTypes.bool,
     onMapStar: PropTypes.func,
     onMapUnstar: PropTypes.func,
@@ -58,7 +59,20 @@ export default class MapView extends Component {
     onSynapseCardMount: PropTypes.func,
     onSynapseDirectionChange: PropTypes.func,
     onSynapsePermissionSelect: PropTypes.func,
-    onSynapseSelect: PropTypes.func
+    onSynapseSelect: PropTypes.func,
+    unreadMessages: PropTypes.number,
+    conversationLive: PropTypes.bool,
+    isParticipating: PropTypes.bool,
+    participants: PropTypes.array,
+    onOpen: PropTypes.func,
+    onClose: PropTypes.func,
+    leaveCall: PropTypes.func,
+    joinCall: PropTypes.func,
+    inviteACall: PropTypes.func,
+    inviteToJoin: PropTypes.func,
+    videoToggleClick: PropTypes.func,
+    cursorToggleClick: PropTypes.func,
+    soundToggleClick: PropTypes.func
   }
 
   constructor(props) {
@@ -68,8 +82,14 @@ export default class MapView extends Component {
     }
   }
 
+  componentDidMount() {
+    const { match:{params:{ id }}, launchNewMap, fetchMap } = this.props
+    //debugger
+    //if (fetchMap) launchNewMap(parseInt(id, 10))
+  }
+
   componentWillUnmount() {
-    this.endMap()
+    //this.endMap()
   }
 
   endMap() {
@@ -81,16 +101,16 @@ export default class MapView extends Component {
     this.props.endActiveMap()
   }
 
-  componentDidUpdate(prevProps) {
-    const oldMapId = prevProps.mapId
-    const { mapId, launchNewMap } = this.props
-    if (!oldMapId && mapId) launchNewMap(mapId)
-    else if (oldMapId && mapId && oldMapId !== mapId) {
+  /*componentDidUpdate(prevProps) {
+    const oldMapId = prevProps.match.params.id
+    const { match:{params:{ id }}, launchNewMap } = this.props
+    console.log(oldMapId, id)
+    console.log(oldMapId !== id)
+    if (oldMapId !== id) {
       this.endMap()
-      launchNewMap(mapId)
+      launchNewMap(id)
     }
-    else if (oldMapId && !mapId) this.endMap()
-  }
+  }*/
 
   render = () => {
     const { mobile, map, currentUser, onOpen, onClose,
@@ -105,7 +125,12 @@ export default class MapView extends Component {
             relevantPeopleForMap, onInfoBoxMount, removeCollaborator,
             openSynapse, synapseCardPosition, synapseCardSynapses, onSynapseCardMount,
             onSynapseDirectionChange, onSynapsePermissionSelect,
-            onSynapseSelect } = this.props
+            onSynapseSelect, onTopicFollow, updateTopic,
+            metacodeSets, redrawCanvas, participants,
+            isParticipating, conversationLive,
+            unreadMessages, leaveCall, joinCall,
+            inviteACall, inviteToJoin, videoToggleClick,
+            cursorToggleClick, soundToggleClick } = this.props
     const { chatOpen } = this.state
     const onChatOpen = () => {
       this.setState({chatOpen: true})
@@ -116,7 +141,6 @@ export default class MapView extends Component {
       onClose()
     }
     const canEditMap = map && map.authorizeToEdit(currentUser)
-    // TODO: stop using {...this.props} and make explicit
     return <div className="mapWrapper">
       <UpperOptions ref={x => this.upperOptions = x}
                     map={map}
@@ -136,7 +160,12 @@ export default class MapView extends Component {
       <DataVis />
       <NewTopic initNewTopic={initNewTopic} openMetacodeSwitcher={openMetacodeSwitcher} />
       <NewSynapse initNewSynapse={initNewSynapse} />
-      {openTopic && <TopicCard {...this.props} />}
+      {openTopic && <TopicCard currentUser={currentUser}
+                               onTopicFollow={onTopicFollow}
+                               updateTopic={updateTopic}
+                               metacodeSets={metacodeSets}
+                               redrawCanvas={redrawCanvas}
+                               topic={openTopic} />}
       {openSynapse && <SynapseCard synapse={openSynapse}
                                    currentUser={currentUser}
                                    position={synapseCardPosition}
@@ -147,7 +176,21 @@ export default class MapView extends Component {
                                    onSynapseSelect={onSynapseSelect} />}
       {contextMenu && <ContextMenu {...this.props} />}
       {currentUser && <Instructions mobile={mobile} hasLearnedTopicCreation={hasLearnedTopicCreation} />}
-      {currentUser && <MapChat {...this.props} onOpen={onChatOpen} onClose={onChatClose} chatOpen={chatOpen} ref={x => this.mapChat = x} />}
+      {currentUser && <MapChat onOpen={onChatOpen}
+                               onClose={onChatClose}
+                               leaveCall={leaveCall}
+                               joinCall={joinCall}
+                               inviteACall={inviteACall}
+                               inviteToJoin={inviteToJoin}
+                               videoToggleClick={videoToggleClick}
+                               cursorToggleClick={cursorToggleClick}
+                               soundToggleClick={soundToggleClick}
+                               unreadMessages={unreadMessages}
+                               chatOpen={chatOpen}
+                               conversationLive={conversationLive}
+                               isParticipating={isParticipating}
+                               participants={participants}
+                               ref={x => this.mapChat = x} />}
       <VisualizationControls map={map}
                              onClickZoomExtents={onZoomExtents}
                              onClickZoomIn={onZoomIn}

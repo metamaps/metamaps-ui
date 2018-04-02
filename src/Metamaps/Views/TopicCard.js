@@ -1,6 +1,7 @@
 const TopicCard = {
   openTopic: null,
   showCard: function(render, node) {
+    debugger
     TopicCard.openTopic = node.getData('topic')
     render()
   },

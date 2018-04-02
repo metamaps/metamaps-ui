@@ -10,6 +10,7 @@ import ReactApp from '../GlobalUI/ReactApp'
 const ChatView = {
   isOpen: false,
   unreadMessages: 0,
+  participants: new Backbone.Collection(),
   messages: new Backbone.Collection(),
   conversationLive: false,
   isParticipating: false,

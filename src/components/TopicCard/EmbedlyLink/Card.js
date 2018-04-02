@@ -14,8 +14,8 @@ class EmbedlyCard extends Component {
   }
 
   componentDidMount = () => {
-    embedly('on', 'card.rendered', this.embedlyCardRendered)
-    if (this.props.link) this.loadLink()
+    //embedly('on', 'card.rendered', this.embedlyCardRendered)
+    //if (this.props.link) this.loadLink()
   }
 
   componentWillUnmount = () => {
@@ -24,7 +24,7 @@ class EmbedlyCard extends Component {
 
   componentDidUpdate = () => {
     const { embedlyLinkStarted } = this.state
-    !embedlyLinkStarted && this.props.link && this.loadLink()
+    //!embedlyLinkStarted && this.props.link && this.loadLink()
   }
 
   embedlyCardRendered = (iframe, test) => {

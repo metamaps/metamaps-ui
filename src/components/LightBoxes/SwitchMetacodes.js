@@ -13,7 +13,7 @@ import MetacodeSetDisplay from '../MetacodeSetDisplay'
 
 class SwitchMetacodes extends Component {
   componentDidMount = () => {
-    this.props.onMetacodeSetSelectMount()
+    //this.props.onMetacodeSetSelectMount()
   }
   render = () => {
     const {

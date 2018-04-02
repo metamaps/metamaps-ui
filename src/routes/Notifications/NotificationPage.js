@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 
 import { MAP_ACCESS_REQUEST } from '../../constants'
 import NotificationsHeader from './NotificationsHeader'
@@ -21,10 +21,10 @@ class NotificationPage extends Component {
 
   componentDidMount() {
     // the notification id
-    const id  = parseInt(this.props.params.id, 10)
+    /*const id  = parseInt(this.props.params.id, 10)
     if (!this.props.notifications.find(n => n.id === id)) {
       this.props.fetchNotification(id)
-    }
+    }*/
   }
 
   deny = async () => {

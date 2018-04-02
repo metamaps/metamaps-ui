@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import AdminHeader from './AdminHeader'
 
 class Metacodes extends Component {

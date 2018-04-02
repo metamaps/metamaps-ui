@@ -75,7 +75,6 @@ const ExploreMaps = {
   },
   render: function() {
     ReactApp.resize()
-    ReactApp.render()
     Loading.hide()
   },
   loadMore: function() {

@@ -1,5 +1,9 @@
 /* global $ */
 
+import Notifications from './Notifications'
+import Search from './Search'
+import CreateMap from './CreateMap'
+import ImportDialog from './ImportDialog'
 import ContextMenu from './ContextMenu'
 import ExploreMaps from './ExploreMaps'
 import ChatView from './ChatView'
@@ -11,9 +15,14 @@ import SynapseCard from './SynapseCard'
 import { JUNTO_UPDATED } from '../Realtime/events'
 
 const Views = {
-  init: (serverData) => {
+  init: (serverData, store) => {
     $(document).on(JUNTO_UPDATED, () => ExploreMaps.render())
     ChatView.init([serverData['sounds/MM_sounds.mp3'], serverData['sounds/MM_sounds.ogg']])
+    InfoBox.init(serverData)
+    Notifications.init(serverData)
+    CreateMap.init(serverData)
+    ImportDialog.init(serverData, self.openLightbox, self.closeLightbox)
+    Search.init(serverData)
   },
   ContextMenu,
   ExploreMaps,
@@ -22,8 +31,25 @@ const Views = {
   VideoView,
   Room,
   TopicCard,
-  SynapseCard
+  SynapseCard,
+  Notifications,
+  Search,
+  CreateMap,
+  ImportDialog
 }
 
-export { ContextMenu, ExploreMaps, InfoBox, ChatView, VideoView, Room, TopicCard, SynapseCard }
+export {
+  ContextMenu,
+  ExploreMaps,
+  InfoBox,
+  ChatView,
+  VideoView,
+  Room,
+  TopicCard,
+  SynapseCard,
+  Notifications,
+  Search,
+  CreateMap,
+  ImportDialog
+}
 export default Views

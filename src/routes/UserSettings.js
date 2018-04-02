@@ -44,7 +44,7 @@ class UserSettings extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.imagePreviewFile && !prevState.imagePreviewFile) {
-      this.updatePreview()
+      //this.updatePreview()
     }
   }
 
