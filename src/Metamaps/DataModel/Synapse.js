@@ -114,9 +114,10 @@ const Synapse = Backbone.Model.extend({
     var edge = this.get('edge')
 
     // update synapse card, if this synapse is the one open there
-    if (onPageWithSynapseCard && this === SynapseCard.openSynapse) {
-      SynapseCard.showCard(ReactApp.render, edge)
-    }
+    // TODO: figure out how to check equality
+    /*if (onPageWithSynapseCard && this === SynapseCard.openSynapse) {
+      SynapseCard.showCard(edge)
+    }*/
   },
   updateEdgeView: function() {
     var onPageWithSynapseCard = Active.Map || Active.Topic

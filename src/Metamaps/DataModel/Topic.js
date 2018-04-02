@@ -98,9 +98,10 @@ const Topic = Backbone.Model.extend({
     var onPageWithTopicCard = Active.Map || Active.Topic
     var node = this.get('node')
     // update topic card, if this topic is the one open there
-    if (onPageWithTopicCard && this === TopicCard.openTopic) {
-      TopicCard.showCard(ReactApp.render, node)
-    }
+    // todo: figure out how to check if this one is open
+    /*if (onPageWithTopicCard && this === TopicCard.openTopic) {
+      TopicCard.showCard(node)
+    }*/
   },
   updateNodeView: function() {
     var onPageWithTopicCard = Active.Map || Active.Topic

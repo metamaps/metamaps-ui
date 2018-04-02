@@ -3,7 +3,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import apply from 'async/apply'
-//import { UPDATE } from '../../actions'
+import createHistory from "history/createBrowserHistory"
 
 import { notifyUser } from './index.js'
 import Active from '../Active'
@@ -27,6 +27,13 @@ import Map, { InfoBox } from '../Map'
 import Topic from '../Topic'
 import Visualize from '../Visualize'
 import makeApp from '../../makeApp'
+import { 
+  updateMap,
+  updateMapsWidth,
+  updateMobile,
+  updateMobileTitleWidth,
+  updateTopic
+} from '../../actions'
 
 // 220 wide + 16 padding on both sides
 const MAP_WIDTH = 252
@@ -36,62 +43,43 @@ const MAX_COLUMNS = 4
 
 const ReactApp = {
   init: function(serverData, store, openLightbox) {
+    ReactApp.store = store
     ReactApp.openLightbox = openLightbox
-    const app = makeApp(serverData.ActiveMapper, store)
+    ReactApp.history = createHistory()
+    ReactApp.history.listen(ReactApp.handleUpdate)
+    const app = makeApp(serverData.ActiveMapper, ReactApp.history, store)
     ReactDOM.render(app, document.getElementById('app'))
     ReactApp.resize()
     window && window.addEventListener('resize', ReactApp.resize)
   },
-  handleUpdate: function() {
-    const self = ReactApp
-    const pathname = this.state.location.pathname
+  handleUpdate: function(location, action) {
+    const pathname = location.pathname
     switch (pathname.split('/')[1]) {
       case '':
         if (Active.Mapper && Active.Mapper.id) {
           ExploreMaps.updateFromPath(pathname)
-          self.mapId = null
-          Active.Map = null
-          Active.Topic = null
+          ReactApp.store.dispatch(updateMap(null))
+          ReactApp.store.dispatch(updateTopic(null))
         }
         break
       case 'explore':
         ExploreMaps.updateFromPath(pathname)
-        self.mapId = null
-        self.topicId = null
-        Active.Map = null
-        Active.Topic = null
+        ReactApp.store.dispatch(updateMap(null))
+        ReactApp.store.dispatch(updateTopic(null))
         break
       case 'topics':
-        Active.Map = null
-        self.mapId = null
-        self.topicId = pathname.split('/')[2]
+        ReactApp.store.dispatch(updateMap(null))
         break
       case 'maps':
-        if (!pathname.includes('request_access')) {
-          Active.Topic = null
-          self.topicId = null
-          self.mapId = pathname.split('/')[2]
-        }
+        ReactApp.store.dispatch(updateTopic(null))
         break
       default:
         break
     }
-    self.render()
     window.ga && window.ga('send', 'pageview', pathname)
   },
   render: function() {
     //ReactApp.store.dispatch({type: UPDATE, payload: ReactApp.getDataProps()})
-  },
-  getDataProps: function() {
-    return {
-      // backbone models and collections
-      currentUser: Active.Mapper,
-      map: Active.Map,
-      maps: ExploreMaps.collection,
-      openSynapse: SynapseCard.openSynapse,
-      openTopic: TopicCard.openTopic,
-      topic: Active.Topic
-    }
   },
   getCallbackProps: function() {
     const { render } = ReactApp
@@ -139,10 +127,10 @@ const ReactApp = {
         render()
       },
       onTopicFollow: Topic.onTopicFollow,
-      onSynapseCardMount: apply(SynapseCard.onSynapseCardMount, render, plot, SynapseCard.openSynapse),
-      onSynapseDirectionChange: apply(SynapseCard.onDirectionChange, render, plot, SynapseCard.openSynapse),
-      onSynapsePermissionSelect: apply(SynapseCard.onPermissionSelect, render, SynapseCard.openSynapse),
-      onSynapseSelect: apply(SynapseCard.onSynapseSelect, render, plot, SynapseCard.openSynapse),
+      onSynapseCardMount: apply(SynapseCard.onSynapseCardMount, plot, SynapseCard.openSynapse),
+      onSynapseDirectionChange: apply(SynapseCard.onDirectionChange, plot, SynapseCard.openSynapse),
+      onSynapsePermissionSelect: apply(SynapseCard.onPermissionSelect, SynapseCard.openSynapse),
+      onSynapseSelect: apply(SynapseCard.onSynapseSelect, plot, SynapseCard.openSynapse),
       contextDelete: apply(ContextMenu.delete, render),
       contextRemove: apply(ContextMenu.remove, render),
       contextHide: apply(ContextMenu.hide, render),
@@ -194,10 +182,11 @@ const ReactApp = {
                         ? document.body.clientWidth - MOBILE_VIEW_PADDING
                         : Math.min(MAX_COLUMNS, Math.min(numCards, mapSpaces)) * MAP_WIDTH
 
-    self.mapsWidth = mapsWidth
-    self.mobileTitleWidth = document ? document.body.clientWidth - 70 : 0
-    self.mobile = document && document.body.clientWidth <= MOBILE_VIEW_BREAKPOINT
-    self.render()
+    const mobileTitleWidth = document ? document.body.clientWidth - 70 : 0
+    const mobile = document && document.body.clientWidth <= MOBILE_VIEW_BREAKPOINT
+    ReactApp.store.dispatch(updateMobileTitleWidth(mobileTitleWidth))
+    ReactApp.store.dispatch(updateMapsWidth(mapsWidth))
+    ReactApp.store.dispatch(updateMobile(mobile))
   }
 }
 

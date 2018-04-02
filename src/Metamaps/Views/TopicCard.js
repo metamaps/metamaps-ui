@@ -1,13 +1,16 @@
+import {
+  updateOpenTopic
+} from '../../actions'
+
 const TopicCard = {
-  openTopic: null,
-  showCard: function(render, node) {
-    debugger
-    TopicCard.openTopic = node.getData('topic')
-    render()
+  init: function(serverData, store) {
+    TopicCard.store = store
   },
-  hideCard: function(render) {
-    TopicCard.openTopic = null
-    render()
+  showCard: function(node) {
+    TopicCard.store.dispatch(updateOpenTopic(node.getData('topic')))
+  },
+  hideCard: function() {
+    TopicCard.store.dispatch(updateOpenTopic(null))
   }
 }
 

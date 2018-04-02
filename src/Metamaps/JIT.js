@@ -999,10 +999,10 @@ const JIT = {
       Create.newTopic.open()
     } else if (!Mouse.didPan) {
       // SINGLE CLICK, no pan
-      TopicCard.hideCard(ReactApp.render)
-      SynapseCard.hideCard(ReactApp.render)
+      TopicCard.hideCard()
+      SynapseCard.hideCard()
       Create.newTopic.hide()
-      ContextMenu.reset(ReactApp.render)
+      ContextMenu.reset()
       // reset the draw synapse positions to false
       Mouse.synapseStartCoordinates = []
       Mouse.synapseEndCoordinates = null
@@ -1062,10 +1062,10 @@ const JIT = {
   },
 
   nodeDoubleClickHandler: function(node, e) {
-    TopicCard.showCard(ReactApp.render, node)
+    TopicCard.showCard(node)
   }, // nodeDoubleClickHandler
   edgeDoubleClickHandler: function(adj, e) {
-    SynapseCard.showCard(ReactApp.render, adj, e.clientX, e.clientY)
+    SynapseCard.showCard(adj, e.clientX, e.clientY)
   }, // nodeDoubleClickHandler
   nodeWasDoubleClicked: function() {
     // grab the timestamp of the click

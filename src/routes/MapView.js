@@ -83,13 +83,12 @@ export default class MapView extends Component {
   }
 
   componentDidMount() {
-    const { match:{params:{ id }}, launchNewMap, fetchMap } = this.props
-    //debugger
-    //if (fetchMap) launchNewMap(parseInt(id, 10))
+    const { match:{params:{ id }}, launchNewMap } = this.props
+    launchNewMap(parseInt(id, 10))
   }
 
   componentWillUnmount() {
-    //this.endMap()
+    this.endMap()
   }
 
   endMap() {
@@ -101,16 +100,14 @@ export default class MapView extends Component {
     this.props.endActiveMap()
   }
 
-  /*componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     const oldMapId = prevProps.match.params.id
     const { match:{params:{ id }}, launchNewMap } = this.props
-    console.log(oldMapId, id)
-    console.log(oldMapId !== id)
     if (oldMapId !== id) {
       this.endMap()
-      launchNewMap(id)
+      launchNewMap(parseInt(id, 10))
     }
-  }*/
+  }
 
   render = () => {
     const { mobile, map, currentUser, onOpen, onClose,

@@ -1,31 +1,31 @@
 /* global $ */
+import {
+  updateOpenSynapse,
+  updateSynapseCardSynapses,
+  updateSynapseCardPosition
+} from '../../actions'
 import Control from '../Control'
 
 const SynapseCard = {
-  openSynapse: null,
-  synapseCardSynapses: [],
-  mouse: {
-    x: 0,
-    y: 0
+  init: function(serverData, store) {
+    SynapseCard.store = store
   },
-  showCard: function(render, edge, x, y) {
+  showCard: function(edge, x, y) {
     // so label is missing while editing
     Control.deselectEdge(edge)
     const index = edge.getData('displayIndex') ? edge.getData('displayIndex') : 0
     const synapse = edge.getData('synapses')[index]
-    SynapseCard.openSynapse = synapse
-    SynapseCard.synapseCardSynapses = edge.getData('synapses')
+    SynapseCard.store.dispatch(updateOpenSynapse(synapse))
+    SynapseCard.store.dispatch(updateSynapseCardSynapses(edge.getData('synapses')))
     if (x && y) {
-      SynapseCard.mouse = { x, y }
+      SynapseCard.store.dispatch(updateSynapseCardPosition({ x, y }))
     }
-    render()
   },
-  hideCard: function(render) {
-    SynapseCard.openSynapse = null
-    SynapseCard.synapseCardSynapses = []
-    render()
+  hideCard: function() {
+    SynapseCard.store.dispatch(updateOpenSynapse(null))
+    SynapseCard.store.dispatch(updateSynapseCardSynapses([]))
   },
-  onSynapseCardMount: function(render, plot, synapse) {
+  onSynapseCardMount: function(plot, synapse) {
     $('#edit_synapse.permission.canEdit .best_in_place').best_in_place()
     $('#edit_synapse_desc').keypress(function(e) {
       const ENTER = 13
@@ -43,30 +43,28 @@ const SynapseCard = {
       synapse.trigger('saved')
       Control.selectEdge(synapse.get('edge'))
       plot() // the datavis
-      render() // the react ui
     })
   },
-  onDirectionChange: function(render, plot, synapse, category, direction) {
+  onDirectionChange: function(plot, synapse, category, direction) {
     synapse.save({
       category: category,
       topic1_id: direction[0],
       topic2_id: direction[1]
     })
     plot()
-    render()
   },
-  onPermissionSelect: function(render, synapse, permission) {
+  onPermissionSelect: function(synapse, permission) {
     synapse.save({
       permission: permission,
       defer_to_map_id: null
     })
     render()
   },
-  onSynapseSelect: function(render, plot, synapse, index) {
+  onSynapseSelect: function(plot, synapse, index) {
     const edge = synapse.get('edge')
     edge.setData('displayIndex', index)
     plot()
-    SynapseCard.showCard(render, edge)
+    SynapseCard.showCard(edge)
   }
 }
 

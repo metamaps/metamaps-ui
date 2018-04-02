@@ -8,6 +8,9 @@ import Loading from '../Loading'
 const ExploreMaps = {
   pending: false,
   mapper: null,
+  init: function(serverData, store) {
+    ExploreMaps.store = store
+  },
   updateFromPath: function(path) {
     const self = ExploreMaps
     const [_unused, generalSection, specificSection, id] = path.split('/')

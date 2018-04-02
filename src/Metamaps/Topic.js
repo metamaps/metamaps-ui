@@ -69,9 +69,9 @@ const Topic = {
   },
   end: function() {
     if (Active.Topic) {
-      ContextMenu.reset(ReactApp.render)
-      TopicCard.hideCard(ReactApp.render)
-      SynapseCard.hideCard(ReactApp.render)
+      ContextMenu.reset()
+      TopicCard.hideCard()
+      SynapseCard.hideCard()
     }
   },
   centerOn: function(nodeid, callback) {

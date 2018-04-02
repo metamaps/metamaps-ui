@@ -97,6 +97,7 @@ document.addEventListener('DOMContentLoaded', async function() {
       {
         serverData: Metamaps.ServerData,
         metacodeSets,
+        metacodes,
         mobileTitle: Metamaps.ServerData.mobileTitle
       },
       window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()

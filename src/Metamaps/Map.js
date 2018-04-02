@@ -4,7 +4,13 @@ import outdent from 'outdent'
 import { find as _find } from 'lodash'
 import { browserHistory } from 'react-router'
 
-import { setHasLearnedTopicCreation } from '../actions'
+import {
+  updateHasLearnedTopicCreation,
+  updateMap,
+  updateMobileTitle,
+  updateRequests,
+  updateTopic
+} from '../actions'
 
 import Active from './Active'
 import AutoLayout from './AutoLayout'
@@ -28,18 +34,17 @@ const Map = {
     editedByActiveMapper: 'Metamaps:Map:events:editedByActiveMapper'
   },
   init: function(serverData, store) {
-    var self = Map
     //self.mapIsStarred = serverData.mapIsStarred
     //self.requests = serverData.requests
     //self.setAccessRequest()
-    self.store = store
+    Map.store = store
     $('#wrapper').mousedown(function(e) {
       if (e.button === 1) return false
     })
-    $(document).on(Map.events.editedByActiveMapper, self.editedByActiveMapper)
+    $(document).on(Map.events.editedByActiveMapper, Map.editedByActiveMapper)
   },
   setHasLearnedTopicCreation: function(value) {
-    Map.store.dispatch(setHasLearnedTopicCreation(value))
+    Map.store.dispatch(updateHasLearnedTopicCreation(value))
   },
   requestAccess: function() {
     const self = Map
@@ -49,14 +54,15 @@ const Map = {
       approved: false
     })
     self.setAccessRequest()
-    const mapId = Active.Map.id
     $.post({
-      url: `/maps/${mapId}/access_request`
+      url: `/maps/${Active.Map.id}/access_request`
     })
     GlobalUI.notifyUser('Map creator will be notified of your request')
   },
   setAccessRequest: function() {
     const self = Map
+    // TODO: do this in reducer
+    return
     if (Active.Mapper) {
       const request = _find(self.requests, r => r.user_id === Active.Mapper.id)
       if (!request) {
@@ -75,7 +81,7 @@ const Map = {
         self.requestApproved = false
       }
     }
-    ReactApp.render()
+    //ReactApp.render()
   },
   launch: function(id) {
     const self = Map
@@ -92,8 +98,8 @@ const Map = {
       Realtime.startActiveMap()
       Loading.hide()
       document.title = Active.Map.get('name') + ' | Metamaps'
-      ReactApp.mobileTitle = Active.Map.get('name')
-      ReactApp.render()
+      Map.store.dispatch(updateMobileTitle(Active.Map.get('name')))
+      //ReactApp.render()
     }
     if (Active.Map && Active.Map.id === id) {
       dataIsReadySetupMap()
@@ -103,7 +109,7 @@ const Map = {
       $.ajax({
         url: '/maps/' + id + '/contains.json',
         success: function(data) {
-          Active.Map = new DataModelMap(data.map)
+          Map.store.dispatch(updateMap(new DataModelMap(data.map)))
           DataModel.Mappers = new DataModel.MapperCollection(data.mappers)
           DataModel.Collaborators = new DataModel.MapperCollection(data.collaborators)
           DataModel.Topics = new DataModel.TopicCollection(data.topics)
@@ -112,7 +118,7 @@ const Map = {
           DataModel.Messages = data.messages
           DataModel.Stars = data.stars
           DataModel.attachCollectionEvents()
-          self.requests = data.requests
+          Map.store.dispatch(updateRequests(data.requests))
           dataIsReadySetupMap()
         },
         error: function(res) {
@@ -130,15 +136,15 @@ const Map = {
     if (Active.Map) {
       $('.main').removeClass('compressed')
       AutoLayout.resetSpiral()
-      ContextMenu.reset(ReactApp.render)
-      TopicCard.hideCard(ReactApp.render)
-      SynapseCard.hideCard(ReactApp.render)
+      ContextMenu.reset()
+      TopicCard.hideCard()
+      SynapseCard.hideCard()
       Create.newTopic.hide(true) // true means force (and override pinned)
       Create.newSynapse.hide()
       InfoBox.close()
       Realtime.endActiveMap()
-      self.requests = []
-      self.hasLearnedTopicCreation = true
+      Map.store.dispatch(updateRequests([]))
+      Map.store.dispatch(updateHasLearnedTopicCreation(true))
     }
   },
   star: function() {

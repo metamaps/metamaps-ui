@@ -17,6 +17,9 @@ import { JUNTO_UPDATED } from '../Realtime/events'
 const Views = {
   init: (serverData, store) => {
     $(document).on(JUNTO_UPDATED, () => ExploreMaps.render())
+
+    ExploreMaps.init(serverData, store)
+
     ChatView.init([serverData['sounds/MM_sounds.mp3'], serverData['sounds/MM_sounds.ogg']])
     InfoBox.init(serverData)
     Notifications.init(serverData)
