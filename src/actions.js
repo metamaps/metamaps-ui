@@ -36,8 +36,6 @@ export const UPDATE_OPEN_TOPIC = 'UPDATE_OPEN_TOPIC'
 export const UPDATE_PARTICIPANTS = 'UPDATE_PARTICIPANTS'
 export const UPDATE_PENDING = 'UPDATE_PENDING'
 export const UPDATE_RELEVANT_PEOPLE_FOR_MAP = 'UPDATE_RELEVANT_PEOPLE_FOR_MAP'
-export const UPDATE_REQUEST_ANSWERED = 'UPDATE_REQUEST_ANSWERED'
-export const UPDATE_REQUEST_APPROVED = 'UPDATE_REQUEST_APPROVED'
 export const UPDATE_REQUESTS = 'UPDATE_REQUESTS'
 export const UPDATE_SECTION = 'UPDATE_SECTION'
 export const UPDATE_SELECTED_METACODES = 'UPDATE_SELECTED_METACODES'
@@ -49,7 +47,6 @@ export const UPDATE_TOPIC = 'UPDATE_TOPIC'
 export const UPDATE_UNREAD_MESSAGES = 'UPDATE_UNREAD_MESSAGES'
 export const UPDATE_UNREAD_NOTIFICATION_COUNT = 'UPDATE_UNREAD_NOTIFICATION_COUNT'
 export const UPDATE_USER = 'UPDATE_USER'
-export const UPDATE_USER_REQUESTED = 'UPDATE_USER_REQUESTED'
 export const UPDATE_VISIBLE_FOR_FILTERING = 'UPDATE_VISIBLE_FOR_FILTERING'
 
 export function decrementUnreadNotificationCount() {
@@ -307,20 +304,6 @@ export function updateRelevantPeopleForMap(value) {
   }
 }
 
-export function updateRequestAnswered(value) {
-  return {
-    type: UPDATE_REQUEST_ANSWERED,
-    payload: value
-  }
-}
-
-export function updateRequestApproved(value) {
-  return {
-    type: UPDATE_REQUEST_APPROVED,
-    payload: value
-  }
-}
-
 export function updateRequests(value) {
   return {
     type: UPDATE_REQUESTS,
@@ -397,13 +380,6 @@ export function updateUnreadNotificationCount(value) {
 export function updateUser(value) {
   return {
     type: UPDATE_USER,
-    payload: value
-  }
-}
-
-export function updateUserRequested(value) {
-  return {
-    type: UPDATE_USER_REQUESTED,
     payload: value
   }
 }

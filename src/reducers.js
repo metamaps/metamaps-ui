@@ -579,8 +579,6 @@ export default combineReducers({
   participants,
   pending,
   relevantPeopleForMap,
-  requestAnswered,
-  requestApproved,
   section,
   selectedMetacodes,
   serverData,
@@ -591,6 +589,5 @@ export default combineReducers({
   unreadMessages,
   unreadNotificationCount,
   user,
-  userRequested,
   visibleForFiltering
 })

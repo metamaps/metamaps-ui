@@ -107,8 +107,6 @@ const ExploreMaps = {
     Loading.hide()
   },
   fetchUser: function() {
-    var self = ExploreMaps
-
     const state = ExploreMaps.store.getState()
     const mapper = state.user
     const collection = state.maps

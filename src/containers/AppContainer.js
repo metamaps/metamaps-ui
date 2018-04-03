@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { find as _find } from 'lodash'
 
 import ReactApp from '../Metamaps/GlobalUI/ReactApp'
 import App from '../routes/App'
@@ -12,9 +13,7 @@ function mapStateToProps(state) {
     mobileTitle,
     mobileTitleWidth,
     map,
-    userRequested,
-    requestAnswered,
-    requestApproved,
+    requests,
     serverData,
     notifications,
     notificationsLoading,
@@ -22,6 +21,11 @@ function mapStateToProps(state) {
     selectedMetacodes,
     metacodeSets
   } = state
+
+  const request = currentUser && _find(requests, r => r.user_id === currentUser.id)
+  const userRequested = !!request
+  const requestAnswered = request && request.answered
+  const requestApproved = request && request.approved
 
   return {
     currentUser,
@@ -34,6 +38,7 @@ function mapStateToProps(state) {
     userRequested,
     requestAnswered,
     requestApproved,
+    requests,
     serverData,
     notifications,
     notificationsLoading,

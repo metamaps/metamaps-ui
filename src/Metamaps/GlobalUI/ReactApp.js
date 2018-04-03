@@ -17,17 +17,18 @@ import {
   ChatView,
   TopicCard,
   SynapseCard,
-  ContextMenu
+  ContextMenu,
+  InfoBox
 } from '../Views'
 import Filter from '../Filter'
 import JIT from '../JIT'
 import PasteInput from '../PasteInput'
 import Realtime from '../Realtime'
-import Map, { InfoBox } from '../Map'
+import Map from '../Map'
 import Topic from '../Topic'
 import Visualize from '../Visualize'
 import makeApp from '../../makeApp'
-import { 
+import {
   updateMap,
   updateMapsWidth,
   updateMobile,
@@ -52,7 +53,7 @@ const ReactApp = {
     ReactApp.resize()
     window && window.addEventListener('resize', ReactApp.resize)
   },
-  handleUpdate: function(location, action) {
+  handleUpdate: function(location) {
     const pathname = location.pathname
     switch (pathname.split('/')[1]) {
       case '':
@@ -168,10 +169,7 @@ const ReactApp = {
     }
   },
   resize: function() {
-    const self = ReactApp
-    const maps = ExploreMaps.collection
-    const currentUser = Active.Mapper
-    const user = maps && maps.id === 'mapper' ? ExploreMaps.mapper : null
+    const { maps, user, currentUser } = ReactApp.store.getState()
     const numCards = (maps ? maps.length : 0) + (user || currentUser ? 1 : 0)
     const mapSpaces = Math.floor(document.body.clientWidth / MAP_WIDTH)
     const mapsWidth = document.body.clientWidth <= MOBILE_VIEW_BREAKPOINT

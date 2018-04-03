@@ -7,9 +7,9 @@ import { browserHistory } from 'react-router'
 import {
   updateHasLearnedTopicCreation,
   updateMap,
+  updateMapIsStarred,
   updateMobileTitle,
-  updateRequests,
-  updateTopic
+  updateRequests
 } from '../actions'
 
 import Active from './Active'
@@ -23,6 +23,7 @@ import JIT from './JIT'
 import Loading from './Loading'
 import Realtime from './Realtime'
 import Selected from './Selected'
+import CreateMap from './Views/CreateMap'
 import SynapseCard from './Views/SynapseCard'
 import ContextMenu from './Views/ContextMenu'
 import TopicCard from './Views/TopicCard'
@@ -34,9 +35,6 @@ const Map = {
     editedByActiveMapper: 'Metamaps:Map:events:editedByActiveMapper'
   },
   init: function(serverData, store) {
-    //self.mapIsStarred = serverData.mapIsStarred
-    //self.requests = serverData.requests
-    //self.setAccessRequest()
     Map.store = store
     $('#wrapper').mousedown(function(e) {
       if (e.button === 1) return false
@@ -47,45 +45,18 @@ const Map = {
     Map.store.dispatch(updateHasLearnedTopicCreation(value))
   },
   requestAccess: function() {
-    const self = Map
-    self.requests.push({
+    const requests = Array.from(Map.store.getState().requests).concat([{
       user_id: Active.Mapper.id,
       answered: false,
       approved: false
-    })
-    self.setAccessRequest()
+    }])
+    Map.store.dispatch(updateRequests(requests))
     $.post({
       url: `/maps/${Active.Map.id}/access_request`
     })
     GlobalUI.notifyUser('Map creator will be notified of your request')
   },
-  setAccessRequest: function() {
-    const self = Map
-    // TODO: do this in reducer
-    return
-    if (Active.Mapper) {
-      const request = _find(self.requests, r => r.user_id === Active.Mapper.id)
-      if (!request) {
-        self.userRequested = false
-        self.requestAnswered = false
-        self.requestApproved = false
-      }
-      else if (request && !request.answered) {
-        self.userRequested = true
-        self.requestAnswered = false
-        self.requestApproved = false
-      }
-      else if (request && request.answered && !request.approved) {
-        self.userRequested = true
-        self.requestAnswered = true
-        self.requestApproved = false
-      }
-    }
-    //ReactApp.render()
-  },
   launch: function(id) {
-    const self = Map
-    // set this to false now
     var dataIsReadySetupMap = function() {
       Map.setAccessRequest()
       Visualize.type = 'ForceDirected'
@@ -99,7 +70,6 @@ const Map = {
       Loading.hide()
       document.title = Active.Map.get('name') + ' | Metamaps'
       Map.store.dispatch(updateMobileTitle(Active.Map.get('name')))
-      //ReactApp.render()
     }
     if (Active.Map && Active.Map.id === id) {
       dataIsReadySetupMap()
@@ -148,25 +118,19 @@ const Map = {
     }
   },
   star: function() {
-    var self = Map
-
     if (!Active.Map) return
     $.post('/maps/' + Active.Map.id + '/star')
     DataModel.Stars.push({ user_id: Active.Mapper.id, map_id: Active.Map.id })
     DataModel.Maps.Starred.add(Active.Map)
     GlobalUI.notifyUser('Map is now starred')
-    self.mapIsStarred = true
-    ReactApp.render()
+    Map.store.dispatch(updateMapIsStarred(true))
   },
   unstar: function() {
-    var self = Map
-
     if (!Active.Map) return
     $.post('/maps/' + Active.Map.id + '/unstar')
     DataModel.Stars = DataModel.Stars.filter(function(s) { return s.user_id !== Active.Mapper.id })
     DataModel.Maps.Starred.remove(Active.Map)
-    self.mapIsStarred = false
-    ReactApp.render()
+    Map.store.dispatch(updateMapIsStarred(false))
   },
   fork: function() {
     GlobalUI.openLightbox('forkmap')
@@ -209,8 +173,8 @@ const Map = {
     synapsesData = synapsesArray.join()
     nodesData = nodesData.slice(0, -1)
 
-    GlobalUI.CreateMap.topicsToMap = nodesData
-    GlobalUI.CreateMap.synapsesToMap = synapsesData
+    CreateMap.topicsToMap = nodesData
+    CreateMap.synapsesToMap = synapsesData
   },
   leavePrivateMap: function() {
     var map = Active.Map
@@ -381,5 +345,4 @@ const Map = {
   }
 }
 
-export { InfoBox }
 export default Map
