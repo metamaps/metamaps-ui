@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 class NewTopic extends Component {
   componentDidMount() {
-    //this.props.initNewTopic()
+    this.props.initNewTopic()
   }
 
   render = () => {

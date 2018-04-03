@@ -14,8 +14,8 @@ class EmbedlyCard extends Component {
   }
 
   componentDidMount = () => {
-    //embedly('on', 'card.rendered', this.embedlyCardRendered)
-    //if (this.props.link) this.loadLink()
+    embedly('on', 'card.rendered', this.embedlyCardRendered)
+    if (this.props.link) this.loadLink()
   }
 
   componentWillUnmount = () => {

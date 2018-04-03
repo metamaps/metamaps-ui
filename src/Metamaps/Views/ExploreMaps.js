@@ -76,8 +76,8 @@ const ExploreMaps = {
     const old = ExploreMaps.store.getState().maps
     if (old) {
       //old.off('add', self.render)
-      old.off('successOnFetch', ExploreMaps.handleSuccess)
-      old.off('errorOnFetch', ExploreMaps.handleError)
+      //old.off('successOnFetch', ExploreMaps.handleSuccess)
+      //old.off('errorOnFetch', ExploreMaps.handleError)
     }
     ExploreMaps.store.dispatch(updateMaps(collection))
     ExploreMaps.store.dispatch(updateSection(collection.id))
@@ -95,7 +95,9 @@ const ExploreMaps = {
   },
   handleSuccess: function() {
     const collection = ExploreMaps.store.getState().maps
+    ReactApp.resize()
     ExploreMaps.store.dispatch(updatePending(false))
+    Loading.hide()
     if (collection && collection.id === 'mapper') {
       self.fetchUser()
     }

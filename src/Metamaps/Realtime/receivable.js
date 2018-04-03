@@ -13,9 +13,13 @@ import GlobalUI from '../GlobalUI'
 import Util from '../Util'
 import Visualize from '../Visualize'
 
+import {
+  updateInConversation,
+  updateJuntoState
+} from '../../actions'
+
 export const juntoUpdated = self => state => {
-  self.juntoState = state
-  $(document).trigger(JUNTO_UPDATED)
+  self.store.dispatch(updateJuntoState(state))
 }
 
 /* All the following events are received through the nodejs realtime server
@@ -41,6 +45,7 @@ export const peerCoordsUpdated = self => data => {
 }
 
 export const lostMapper = self => data => {
+  const { inConversation } = self.store.getState()
   // data.userid
   // data.username
   delete self.mappersOnMap[data.userid]
@@ -51,8 +56,8 @@ export const lostMapper = self => data => {
 
   GlobalUI.notifyUser(data.username + ' just left the map')
 
-  if ((self.inConversation && self.countOthersInConversation() === 0) ||
-    (!self.inConversation && self.countOthersInConversation() === 1)) {
+  if ((inConversation && self.countOthersInConversation() === 0) ||
+    (!inConversation && self.countOthersInConversation() === 1)) {
     self.callEnded()
   }
 }
@@ -169,8 +174,9 @@ export const invitedToJoin = self => inviter => {
 
 export const mapperJoinedCall = self => id => {
   var mapper = self.mappersOnMap[id]
+  const { inConversation } = self.store.getState()
   if (mapper) {
-    if (self.inConversation) {
+    if (inConversation) {
       var username = mapper.name
       var notifyText = username + ' joined the call'
       GlobalUI.notifyUser(notifyText)
@@ -182,16 +188,17 @@ export const mapperJoinedCall = self => id => {
 
 export const mapperLeftCall = self => id => {
   var mapper = self.mappersOnMap[id]
+  const { inConversation } = self.store.getState()
   if (mapper) {
-    if (self.inConversation) {
+    if (inConversation) {
       var username = mapper.name
       var notifyText = username + ' left the call'
       GlobalUI.notifyUser(notifyText)
     }
     mapper.inConversation = false
     ChatView.mapperLeftCall(id)
-    if ((self.inConversation && self.countOthersInConversation() === 0) ||
-      (!self.inConversation && self.countOthersInConversation() === 1)) {
+    if ((inConversation && self.countOthersInConversation() === 0) ||
+      (!inConversation && self.countOthersInConversation() === 1)) {
       self.callEnded()
     }
   }
@@ -208,7 +215,8 @@ export const callInProgress = self => () => {
 }
 
 export const callStarted = self => () => {
-  if (self.inConversation) return
+  const { inConversation } = self.store.getState()
+  if (inConversation) return
   var notifyText = "There's a conversation starting, want to join?"
   notifyText += ' <button type="button" class="toast-button button">Yes</button>'
   notifyText += ' <button type="button" class="toast-button button btn-no">No</button>'

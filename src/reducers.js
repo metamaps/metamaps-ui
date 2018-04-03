@@ -198,7 +198,10 @@ function isParticipating(state = false, action) {
   }
 }
 
-function juntoState(state = {}, action) {
+function juntoState(state = { 
+  connectedPeople: {},
+  liveMaps: {}
+}, action) {
   const { type, payload } = action
   switch (type) {
     case (UPDATE_JUNTO_STATE):

@@ -21,7 +21,7 @@ const BLACKLIST = [MAP_ACCESS_REQUEST, MAP_ACCESS_APPROVED, MAP_INVITE_TO_EDIT]
 
 class Notifications extends Component {
   componentDidMount = () => {
-    //this.props.fetchNotifications()
+    this.props.fetchNotifications()
   }
 
   render = () => {

@@ -2,18 +2,10 @@ import React, { Component } from 'react'
 import MetacodeSetSelectorItem from '../MetacodeSetSelectorItem'
 import CustomMetacodeSetSelector from '../CustomMetacodeSetSelector'
 import MetacodeSetDisplay from '../MetacodeSetDisplay'
-/*
-
-<script>
-  Metamaps.Create.selectedMetacodeSet = "metacodeset-{ selectedSet }"
-  Metamaps.Create.selectedMetacodeSetIndex = { index }
-</script>
-
-*/
 
 class SwitchMetacodes extends Component {
   componentDidMount = () => {
-    //this.props.onMetacodeSetSelectMount()
+    this.props.onMetacodeSetSelectMount()
   }
   render = () => {
     const {

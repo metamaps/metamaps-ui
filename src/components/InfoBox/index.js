@@ -22,6 +22,7 @@ class InfoBox extends Component {
   }
 
   componentDidMount = () => {
+    // TODO
     //this.props.onInfoBoxMount()
   }
 

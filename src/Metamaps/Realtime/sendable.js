@@ -5,6 +5,10 @@ import { ChatView } from '../Views'
 import GlobalUI from '../GlobalUI'
 
 import {
+  updateInConversation
+} from '../../actions'
+
+import {
   JOIN_MAP,
   LEAVE_MAP,
   CHECK_FOR_CALL,
@@ -40,12 +44,13 @@ export const checkForCall = self => () => {
 
 export const sendMapperInfo = self => userid => {
   // send this new mapper back your details, and the awareness that you've loaded the map
+  const { inConversation } = self.store.getState()
   var update = {
     userToNotify: userid,
     username: Active.Mapper.get('name'),
     avatar: Active.Mapper.get('image'),
     userid: Active.Mapper.id,
-    userinconversation: self.inConversation,
+    userinconversation: inConversation,
     mapid: Active.Map.id
   }
   self.socket.emit(SEND_MAPPER_INFO, update)
@@ -65,7 +70,7 @@ export const joinCall = self => () => {
     self.room.join()
     ChatView.conversationInProgress(true)
   })
-  self.inConversation = true
+  self.store.dispatch(updateInConversation(true))
   self.socket.emit(JOIN_CALL, {
     mapid: Active.Map.id,
     id: Active.Mapper.id
@@ -80,11 +85,10 @@ export const leaveCall = self => () => {
     mapid: Active.Map.id,
     id: Active.Mapper.id
   })
-
   ChatView.mapperLeftCall(Active.Mapper.id)
   ChatView.leaveConversation() // the conversation will carry on without you
   self.room.leaveVideoOnly()
-  self.inConversation = false
+  self.store.dispatch(updateInConversation(false))
   self.localVideo.view.$container.hide()
 
   // if there's only two people in the room, and we're leaving

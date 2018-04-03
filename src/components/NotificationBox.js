@@ -17,7 +17,7 @@ class NotificationBox extends Component {
   }
 
   componentDidMount = () => {
-    //this.props.fetchNotifications()
+    this.props.fetchNotifications()
   }
 
   handleClickOutside = () => {

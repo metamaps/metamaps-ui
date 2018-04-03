@@ -9,46 +9,42 @@ import GlobalUI from './GlobalUI'
 import Settings from './Settings'
 import Visualize from './Visualize'
 
+import {
+  updateAllForFiltering,
+  updateFilterData,
+  updateVisibleForFiltering
+} from '../actions'
+
 const Filter = {
-  dataForPresentation: {
-    metacodes: {},
-    mappers: {},
-    synapses: {}
-  },
-  filters: {
-    metacodes: [],
-    mappers: [],
-    synapses: []
-  },
-  visible: {
-    metacodes: [],
-    mappers: [],
-    synapses: []
+  init: function(serverData, store) {
+    Filter.store = store
   },
   reset: function() {
-    var self = Filter
-    self.filters.metacodes = []
-    self.filters.mappers = []
-    self.filters.synapses = []
-    self.visible.metacodes = []
-    self.visible.mappers = []
-    self.visible.synapses = []
-    self.dataForPresentation.metacodes = {}
-    self.dataForPresentation.mappers = {}
-    self.dataForPresentation.synapses = {}
+    Filter.store.dispatch(updateAllForFiltering({
+      metacodes: [],
+      mappers: [],
+      synapses: []
+    }))
+    Filter.store.dispatch(updateVisibleForFiltering({
+      metacodes: [],
+      mappers: [],
+      synapses: []
+    }))
+    Filter.store.dispatch(updateFilterData({
+      metacodes: {},
+      mappers: {},
+      synapses: {}
+    }))
   },
   // an abstraction function for checkMetacodes, checkMappers, checkSynapses to reduce
   // code redundancy
   updateFilters: function(collection, propertyToCheck, correlatedModel, filtersToUse, listToModify) {
-    var self = Filter
-    var newList = []
-    var removed = []
-    var added = []
+    let newList = []
     // the first option enables us to accept
     // ['Topics', 'Synapses'] as 'collection'
     if (typeof collection === 'object') {
       DataModel[collection[0]].each(function(model) {
-        var prop = model.get(propertyToCheck)
+        let prop = model.get(propertyToCheck)
         if (prop !== null) {
           prop = prop.toString()
           if (newList.indexOf(prop) === -1) {
@@ -57,7 +53,7 @@ const Filter = {
         }
       })
       DataModel[collection[1]].each(function(model) {
-        var prop = model.get(propertyToCheck)
+        let prop = model.get(propertyToCheck)
         if (prop !== null) {
           prop = prop.toString()
           if (newList.indexOf(prop) === -1) {
@@ -67,7 +63,7 @@ const Filter = {
       })
     } else if (typeof collection === 'string') {
       DataModel[collection].each(function(model) {
-        var prop = model.get(propertyToCheck)
+        let prop = model.get(propertyToCheck)
         if (prop !== null) {
           prop = prop.toString()
           if (newList.indexOf(prop) === -1) {
@@ -76,88 +72,99 @@ const Filter = {
         }
       })
     }
-    removed = _.difference(self.filters[filtersToUse], newList)
-    added = _.difference(newList, self.filters[filtersToUse])
+    const { allForFiltering, filterData, visibleForFiltering } = Filter.store.getState()
+    const newFilterDataObj = Object.assign({}, filterData[filtersToUse])
+    const newVisibleList = Array.from(visibleForFiltering[filtersToUse])
+
+    const removed = _.difference(allForFiltering[filtersToUse], newList)
+    const added = _.difference(newList, allForFiltering[filtersToUse])
     _.each(removed, function(identifier) {
-      const index = self.visible[filtersToUse].indexOf(identifier)
-      self.visible[filtersToUse].splice(index, 1)
-      delete self.dataForPresentation[filtersToUse][identifier]
+      const index = newVisibleList.indexOf(identifier)
+      newVisibleList.splice(index, 1)
+      delete newFilterDataObj[identifier]
     })
     _.each(added, function(identifier) {
       const model = DataModel[correlatedModel].get(identifier) ||
       DataModel[correlatedModel].find(function(m) {
         return m.get(propertyToCheck) === identifier
       })
-      self.dataForPresentation[filtersToUse][identifier] = model.prepareDataForFilter()
-      self.visible[filtersToUse].push(identifier)
+      newFilterDataObj[identifier] = model.prepareDataForFilter()
+      newVisibleList.push(identifier)
     })
-    // update the list of filters with the new list we just generated
-    self.filters[filtersToUse] = newList
+    const newFilterData = Object.assign({}, filterData, { [filtersToUse]: newFilterDataObj })
+    const newVisible = Object.assign({}, visibleForFiltering, { [filtersToUse]: newVisibleList })
+    const newAll = Object.assign({}, allForFiltering, { [filtersToUse]: newList })
+    Filter.store.dispatch(updateAllForFiltering(newAll))
+    Filter.store.dispatch(updateFilterData(newFilterData))
+    Filter.store.dispatch(updateVisibleForFiltering(newVisible))
   },
   checkMetacodes: function() {
-    var self = Filter
-    self.updateFilters('Topics', 'metacode_id', 'Metacodes', 'metacodes', 'metacode')
+    Filter.updateFilters('Topics', 'metacode_id', 'Metacodes', 'metacodes', 'metacode')
   },
   checkMappers: function() {
-    var self = Filter
     if (Active.Map) {
-      self.updateFilters('Mappings', 'user_id', 'Mappers', 'mappers', 'mapper')
+      Filter.updateFilters('Mappings', 'user_id', 'Mappers', 'mappers', 'mapper')
     } else {
       // on topic view
-      self.updateFilters(['Topics', 'Synapses'], 'user_id', 'Creators', 'mappers', 'mapper')
+      Filter.updateFilters(['Topics', 'Synapses'], 'user_id', 'Creators', 'mappers', 'mapper')
     }
   },
   checkSynapses: function() {
-    var self = Filter
-    self.updateFilters('Synapses', 'desc', 'Synapses', 'synapses', 'synapse')
+    Filter.updateFilters('Synapses', 'desc', 'Synapses', 'synapses', 'synapse')
   },
   filterAllMetacodes: function(toVisible) {
-    var self = Filter
-    self.visible.metacodes = toVisible ? self.filters.metacodes.slice() : []
-    self.passFilters()
+    const { allForFiltering, visibleForFiltering } = Filter.store.getState()
+    const metacodes = toVisible ? Array.from(allForFiltering.metacodes) : []
+    const newVisible = Object.assign({}, visibleForFiltering, { metacodes })
+    Filter.store.dispatch(updateVisibleForFiltering(newVisible))
+    Filter.passFilters()
   },
   filterAllMappers: function(toVisible) {
-    var self = Filter
-    self.visible.mappers = toVisible ? self.filters.mappers.slice() : []
-    self.passFilters()
+    const { allForFiltering, visibleForFiltering } = Filter.store.getState()
+    const mappers = toVisible ? Array.from(allForFiltering.mappers) : []
+    const newVisible = Object.assign({}, visibleForFiltering, { mappers })
+    Filter.store.dispatch(updateVisibleForFiltering(newVisible))
+    Filter.passFilters()
   },
   filterAllSynapses: function(toVisible) {
-    var self = Filter
-    self.visible.synapses = toVisible ? self.filters.synapses.slice() : []
-    self.passFilters()
+    const { allForFiltering, visibleForFiltering } = Filter.store.getState()
+    const synapses = toVisible ? Array.from(allForFiltering.synapses) : []
+    const newVisible = Object.assign({}, visibleForFiltering, { synapses })
+    Filter.store.dispatch(updateVisibleForFiltering(newVisible))
+    Filter.passFilters()
   },
   // an abstraction function for toggleMetacode, toggleMapper, toggleSynapse
   // to reduce code redundancy
   // gets called in the context of a list item in a filter box
   toggleLi: function(whichToFilter, id) {
-    var self = Filter
-    if (self.visible[whichToFilter].indexOf(id) === -1) {
-      self.visible[whichToFilter].push(id)
+    const { visibleForFiltering } = Filter.store.getState()
+    const newList = Array.from(visibleForFiltering[whichToFilter])
+    if (newList.indexOf(id) === -1) {
+      // add it
+      newList.push(id)
     } else {
-      const index = self.visible[whichToFilter].indexOf(id)
-      self.visible[whichToFilter].splice(index, 1)
+      // remove it
+      newList.splice(newList.indexOf(id), 1)
     }
-    self.passFilters()
+    const newVisible = Object.assign({}, visibleForFiltering, { [whichToFilter]: newList })
+    Filter.store.dispatch(updateVisibleForFiltering(newVisible))
+    Filter.passFilters()
   },
   toggleMetacode: function(id) {
-    var self = Filter
-    self.toggleLi('metacodes', id)
+    Filter.toggleLi('metacodes', id)
   },
   toggleMapper: function(id) {
-    var self = Filter
-    self.toggleLi('mappers', id)
+    Filter.toggleLi('mappers', id)
   },
   toggleSynapse: function(id) {
-    var self = Filter
-    self.toggleLi('synapses', id)
+    Filter.toggleLi('synapses', id)
   },
   passFilters: function() {
-    var self = Filter
-    var visible = self.visible
+    const visible = Filter.store.getState().visibleForFiltering
 
-    var passesMetacode, passesMapper, passesSynapse
+    let passesMetacode, passesMapper, passesSynapse
 
-    var opacityForFilter = Active.Map ? 0 : 0.4
+    const opacityForFilter = Active.Map ? 0 : 0.4
 
     DataModel.Topics.each(function(topic) {
       var n = topic.get('node')

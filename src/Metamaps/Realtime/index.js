@@ -12,6 +12,10 @@ import Views, { ChatView } from '../Views'
 import Visualize from '../Visualize'
 
 import {
+  updateInConversation
+} from '../../actions'
+
+import {
   JUNTO_UPDATED,
   INVITED_TO_CALL,
   INVITED_TO_JOIN,
@@ -64,7 +68,6 @@ import {
 } from './sendable'
 
 let Realtime = {
-  juntoState: { connectedPeople: {}, liveMaps: {} },
   videoId: 'video-wrapper',
   socket: null,
   webrtc: null,
@@ -74,11 +77,12 @@ let Realtime = {
   chatOpen: false,
   soundId: null,
   broadcastingStatus: false,
-  inConversation: false,
   localVideo: null,
   'junto_spinner_darkgrey.gif': '',
-  init: function(serverData) {
+  init: function(serverData, store) {
     var self = Realtime
+
+    Realtime.store = store
 
     self.addJuntoListeners()
 
@@ -195,7 +199,7 @@ let Realtime = {
     var self = Realtime
     $(document).off('.map')
     // leave the appropriate rooms to leave
-    if (self.inConversation) self.leaveCall()
+    if (Realtime.store.getState().inConversation) self.leaveCall()
     self.leaveMap()
     $('.collabCompass').remove()
     if (self.room) self.room.leave()
@@ -312,7 +316,7 @@ let Realtime = {
 
     ChatView.conversationEnded()
     self.room.leaveVideoOnly()
-    self.inConversation = false
+    Realtime.store.dispatch(updateInConversation(false))
     self.localVideo.view.$container.hide().css({
       top: '72px',
       left: '30px'
