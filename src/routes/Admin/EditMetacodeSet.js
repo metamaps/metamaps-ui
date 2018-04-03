@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { browserHistory } from 'react-router'
 
 import AdminHeader from './AdminHeader'
 import MetacodeSetEditor from './MetacodeSetEditor'
@@ -14,7 +13,7 @@ class EditMetacodeSet extends Component {
     const { updateMetacodeSet, params: { id } } = this.props
     try {
       const result = await updateMetacodeSet(id, metacodes, name, desc)
-      browserHistory.push(`/metacode_sets`)
+      this.props.history.push(`/metacode_sets`)
     } catch (e) {
       console.log(e)
       window.alert('There was an error updating the metacode set')

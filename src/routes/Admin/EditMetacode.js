@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link, browserHistory } from 'react-router'
+import { Link } from 'react-router'
 import AdminHeader from './AdminHeader'
 
 class EditMetacode extends Component {
@@ -48,7 +48,7 @@ class EditMetacode extends Component {
     const { updateMetacode, params: { id } } = this.props
     try {
       const result = await updateMetacode(id, name, color, icon)
-      browserHistory.push(`/metacodes`)
+      this.props.history.push(`/metacodes`)
     } catch (e) {
       console.log(e)
       window.alert('There was an error updating the metacode, check the console')

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { browserHistory } from 'react-router'
 
 import AdminHeader from './AdminHeader'
 import MetacodeSetEditor from './MetacodeSetEditor'
@@ -13,7 +12,7 @@ class NewMetacodeSet extends Component {
     const { createMetacodeSet } = this.props
     try {
       const result = await createMetacodeSet(metacodes, name, desc)
-      browserHistory.push(`/metacode_sets`)
+      this.props.history.push(`/metacode_sets`)
     } catch (e) {
       console.log(e)
       window.alert('There was an error creating the metacode set')

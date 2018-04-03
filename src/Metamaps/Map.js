@@ -2,7 +2,6 @@
 
 import outdent from 'outdent'
 import { find as _find } from 'lodash'
-import { browserHistory } from 'react-router'
 
 import {
   updateHasLearnedTopicCreation,
@@ -93,7 +92,7 @@ const Map = {
         error: function(res) {
           // forbidden
           if (res.status === 403) {
-            browserHistory.push(`/maps/${id}/request_access`)
+            ReactApp.history.push(`/maps/${id}/request_access`)
           } else {
             GlobalUI.notifyUser('There was an error fetching the map')
           }
@@ -179,7 +178,7 @@ const Map = {
     var map = Active.Map
     DataModel.Maps.Active.remove(map)
     DataModel.Maps.Featured.remove(map)
-    browserHistory.push('/')
+    ReactApp.history.push('/')
     GlobalUI.notifyUser('Sorry! That map has been changed to Private.')
   },
   cantEditNow: function() {

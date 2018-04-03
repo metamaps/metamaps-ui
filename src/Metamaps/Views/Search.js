@@ -1,9 +1,7 @@
 /* global $, Hogan, Bloodhound, CanvasLoader */
 
-// TODO: this will be broken now
-import { browserHistory } from 'react-router'
-
 import Active from '../Active'
+import ReactApp from '../GlobalUI/ReactApp'
 
 const Search = {
   locked: false,
@@ -194,11 +192,11 @@ const Search = {
 
     if (['topic', 'map', 'mapper'].indexOf(datum.rtype) !== -1) {
       if (datum.rtype === 'topic') {
-        browserHistory.push(`/topics/${datum.id}`)
+        ReactApp.history.push(`/topics/${datum.id}`)
       } else if (datum.rtype === 'map') {
-        browserHistory.push(`/maps/${datum.id}`)
+        ReactApp.history.push(`/maps/${datum.id}`)
       } else if (datum.rtype === 'mapper') {
-        browserHistory.push(`/explore/mapper/${datum.id}`)
+        ReactApp.history.push(`/explore/mapper/${datum.id}`)
       }
     }
   },

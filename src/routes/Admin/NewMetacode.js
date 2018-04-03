@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link, browserHistory } from 'react-router'
+import { Link } from 'react-router'
 import AdminHeader from './AdminHeader'
 
 class NewMetacode extends Component {
@@ -36,7 +36,7 @@ class NewMetacode extends Component {
     const { createMetacode } = this.props
     try {
       const result = await createMetacode(name, color, icon)
-      browserHistory.push(`/metacodes`)
+      this.props.history.push(`/metacodes`)
     } catch (e) {
       console.log(e)
       window.alert('There was an error creating the metacode, check the console')

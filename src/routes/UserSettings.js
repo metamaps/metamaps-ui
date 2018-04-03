@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { browserHistory } from 'react-router'
 import ReactDOM from 'react-dom'
 import Loading from '../components/Loading'
 

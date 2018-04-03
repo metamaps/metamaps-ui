@@ -1,7 +1,6 @@
 /* global $, Hogan, Bloodhound, Countable */
 
 import outdent from 'outdent'
-import { browserHistory } from 'react-router'
 
 import Active from '../Active'
 import DataModel from '../DataModel'
@@ -168,7 +167,7 @@ const InfoBox = {
       DataModel.Maps.Mine.remove(map)
       DataModel.Maps.Shared.remove(map)
       map.destroy()
-      browserHistory.push('/')
+      ReactApp.history.push('/')
       GlobalUI.notifyUser('Map eliminated')
     } else if (!authorized) {
       window.alert("Hey now. We can't just go around willy nilly deleting other people's maps now can we? Run off and find something constructive to do, eh?")
