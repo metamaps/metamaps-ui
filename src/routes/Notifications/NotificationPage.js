@@ -21,14 +21,14 @@ class NotificationPage extends Component {
 
   componentDidMount() {
     // the notification id
-    const id  = parseInt(this.props.params.id, 10)
+    const id  = parseInt(this.props.match.params.id, 10)
     if (!this.props.notifications.find(n => n.id === id)) {
       this.props.fetchNotification(id)
     }
   }
 
   deny = async () => {
-    const id  = parseInt(this.props.params.id, 10)
+    const id  = parseInt(this.props.match.params.id, 10)
     const notification = this.props.notifications.find(n => n.id === id)
     const request = notification.data.object
     const map = notification.data.map
@@ -42,7 +42,7 @@ class NotificationPage extends Component {
   }
 
   approve = async () => {
-    const id  = parseInt(this.props.params.id, 10)
+    const id  = parseInt(this.props.match.params.id, 10)
     const notification = this.props.notifications.find(n => n.id === id)
     const request = notification.data.object
     const map = notification.data.map
@@ -56,7 +56,7 @@ class NotificationPage extends Component {
   }
 
   render = () => {
-    const id  = parseInt(this.props.params.id, 10)
+    const id  = parseInt(this.props.match.params.id, 10)
     const notification = this.props.notifications.find(n => n.id === id)
     if (!notification) {
       return (

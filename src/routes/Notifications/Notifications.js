@@ -17,8 +17,6 @@ const BLACKLIST = [MAP_ACCESS_REQUEST, MAP_ACCESS_APPROVED, MAP_INVITE_TO_EDIT]
   pagination
 */
 
-
-
 class Notifications extends Component {
   componentDidMount = () => {
     this.props.fetchNotifications()

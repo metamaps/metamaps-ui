@@ -58,7 +58,6 @@ const Map = {
   },
   launch: function(id) {
     var dataIsReadySetupMap = function() {
-      Map.setAccessRequest()
       Visualize.type = 'ForceDirected'
       JIT.prepareVizData()
       Selected.reset()
