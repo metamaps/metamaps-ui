@@ -3,12 +3,9 @@
 import Map from '../Map'
 
 const ImportDialog = {
-  openLightbox: null,
-  closeLightbox: null,
-  init: function(serverData, openLightbox, closeLightbox) {
-    const self = ImportDialog
-    self.openLightbox = openLightbox
-    self.closeLightbox = closeLightbox
+  init: function(serverData, store, openLightbox, closeLightbox) {
+    ImportDialog.openLightbox = openLightbox
+    ImportDialog.closeLightbox = closeLightbox
   },
   show: function() {
     ImportDialog.openLightbox('import-dialog')

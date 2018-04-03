@@ -1,5 +1,6 @@
 /* global $ */
 
+import GlobalUI from '../GlobalUI'
 import Notifications from './Notifications'
 import Search from './Search'
 import CreateMap from './CreateMap'
@@ -16,16 +17,16 @@ import { JUNTO_UPDATED } from '../Realtime/events'
 
 const Views = {
   init: (serverData, store) => {
-    $(document).on(JUNTO_UPDATED, () => ExploreMaps.render())
-
+    ContextMenu.init(serverData, store)
     ExploreMaps.init(serverData, store)
-
-    ChatView.init([serverData['sounds/MM_sounds.mp3'], serverData['sounds/MM_sounds.ogg']])
-    InfoBox.init(serverData)
-    Notifications.init(serverData)
-    CreateMap.init(serverData)
-    ImportDialog.init(serverData, self.openLightbox, self.closeLightbox)
-    Search.init(serverData)
+    TopicCard.init(serverData, store)
+    SynapseCard.init(serverData, store)
+    ChatView.init(serverData, store, [serverData['sounds/MM_sounds.mp3'], serverData['sounds/MM_sounds.ogg']])
+    InfoBox.init(serverData, store)
+    Notifications.init(serverData, store)
+    CreateMap.init(serverData, store)
+    ImportDialog.init(serverData, store, GlobalUI.openLightbox, GlobalUI.closeLightbox)
+    Search.init(serverData, store)
   },
   ContextMenu,
   ExploreMaps,

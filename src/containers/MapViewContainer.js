@@ -1,12 +1,14 @@
 import { connect } from 'react-redux'
 
 import ReactApp from '../Metamaps/GlobalUI/ReactApp'
+import MapView from '../routes/MapView'
 
 function mapStateToProps(state) {
   const {
-    mapId,
     mobile,
     map,
+    topic,
+    metacodeSets,
     currentUser,
     allForFiltering,
     visibleForFiltering,
@@ -14,23 +16,27 @@ function mapStateToProps(state) {
     mapIsStarred,
     openTopic,
     hasLearnedTopicCreation,
-    contextMenu,
     isNewMap,
     relevantPeopleForMap,
     openSynapse,
     synapseCardPosition,
     synapseCardSynapses,
-    metacodeSets,
     participants,
     isParticipating,
     conversationLive,
-    unreadMessages
+    unreadMessages,
+    contextNode,
+    contextEdge,
+    contextFetchingSiblingsData,
+    contextSiblingsData,
+    contextPos
   } = state
 
   return {
-    mapId,
     mobile,
     map,
+    topic,
+    metacodeSets,
     currentUser,
     allForFiltering,
     visibleForFiltering,
@@ -38,17 +44,21 @@ function mapStateToProps(state) {
     mapIsStarred,
     openTopic,
     hasLearnedTopicCreation,
-    contextMenu,
     isNewMap,
     relevantPeopleForMap,
     openSynapse,
     synapseCardPosition,
     synapseCardSynapses,
-    metacodeSets,
     participants,
     isParticipating,
     conversationLive,
-    unreadMessages
+    unreadMessages,
+    contextMenu: !!(contextNode || contextEdge),
+    contextNode,
+    contextEdge,
+    contextFetchingSiblingsData,
+    contextSiblingsData,
+    contextPos
   }
 }
 
@@ -94,7 +104,16 @@ function mapDispatchToProps(dispatch)  {
     inviteToJoin,
     videoToggleClick,
     cursorToggleClick,
-    soundToggleClick
+    soundToggleClick,
+    contextDelete,
+    contextRemove,
+    contextHide,
+    contextCenterOn,
+    contextPopoutTopic,
+    contextUpdatePermissions,
+    contextOnMetacodeSelect,
+    contextFetchSiblings,
+    contextPopulateSiblings
   } = ReactApp.getCallbackProps()
 
   return {
@@ -138,11 +157,17 @@ function mapDispatchToProps(dispatch)  {
     inviteToJoin,
     videoToggleClick,
     cursorToggleClick,
-    soundToggleClick
+    soundToggleClick,
+    contextDelete,
+    contextRemove,
+    contextHide,
+    contextCenterOn,
+    contextPopoutTopic,
+    contextUpdatePermissions,
+    contextOnMetacodeSelect,
+    contextFetchSiblings,
+    contextPopulateSiblings
   }
 }
 
-export default {
-  mapStateToProps,
-  mapDispatchToProps
-}
+export default connect(mapStateToProps, mapDispatchToProps)(MapView)

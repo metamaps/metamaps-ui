@@ -98,7 +98,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         serverData: Metamaps.ServerData,
         metacodeSets,
         metacodes,
-        mobileTitle: Metamaps.ServerData.mobileTitle
+        mobileTitle: Metamaps.ServerData.mobileTitle,
+        unreadNotificationCount: activeMapper ? activeMapper.unread_notifications_count : undefined
       },
       window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     )

@@ -1,10 +1,13 @@
+import { connect } from 'react-redux'
+
 import ReactApp from '../Metamaps/GlobalUI/ReactApp'
+import App from '../routes/App'
 
 function mapStateToProps(state) {
   const {
     currentUser,
     toast,
-    unreadNotificationsCount,
+    unreadNotificationCount,
     mobile,
     mobileTitle,
     mobileTitleWidth,
@@ -23,7 +26,7 @@ function mapStateToProps(state) {
   return {
     currentUser,
     toast,
-    unreadNotificationsCount,
+    unreadNotificationCount,
     mobile,
     mobileTitle,
     mobileTitleWidth,
@@ -68,8 +71,5 @@ function mapDispatchToProps(dispatch)  {
   }
 }
 
-export default {
-  mapStateToProps,
-  mapDispatchToProps
-}
+export default connect(mapStateToProps, mapDispatchToProps)(App)
 

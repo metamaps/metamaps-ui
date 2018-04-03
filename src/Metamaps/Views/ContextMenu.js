@@ -4,64 +4,67 @@ import DataModel from '../DataModel'
 import Selected from '../Selected'
 import Topic from '../Topic'
 
+import {
+  updateContextNode,
+  updateContextEdge,
+  updateContextPos,
+  updateContextFetchingSiblingsData,
+  updateContextSiblingsData
+} from '../../actions'
+
 const ContextMenu = {
-  clickedNode: null,
-  clickedEdge: null,
-  pos: {x: 0, y: 0},
-  fetchingSiblingsData: false,
-  siblingsData: null,
-  selectNode: (render, node, pos) => {
-    ContextMenu.pos = pos
-    ContextMenu.clickedNode = node
-    ContextMenu.clickedEdge = null
-    ContextMenu.fetchingSiblingsData = false
-    ContextMenu.siblingsData = null
-    render()
+  init: function(serverData, store) {
+    ContextMenu.store = store
   },
-  selectEdge: (render, edge, pos) => {
-    ContextMenu.pos = pos
-    ContextMenu.clickedNode = null
-    ContextMenu.clickedEdge = edge
-    ContextMenu.fetchingSiblingsData = false
-    ContextMenu.siblingsData = null
-    render()
+  selectNode: (node, pos) => {
+    ContextMenu.store.dispatch(updateContextPos(pos))
+    ContextMenu.store.dispatch(updateContextNode(node))
+    ContextMenu.store.dispatch(updateContextEdge(null))
+    ContextMenu.store.dispatch(updateContextFetchingSiblingsData(false))
+    ContextMenu.store.dispatch(updateContextSiblingsData(null))
   },
-  reset: (render) => {
-    ContextMenu.fetchingSiblingsData = false
-    ContextMenu.siblingsData = null
-    ContextMenu.clickedNode = null
-    ContextMenu.clickedEdge = null
-    render()
+  selectEdge: (edge, pos) => {
+    ContextMenu.store.dispatch(updateContextPos(pos))
+    ContextMenu.store.dispatch(updateContextNode(null))
+    ContextMenu.store.dispatch(updateContextEdge(edge))
+    ContextMenu.store.dispatch(updateContextFetchingSiblingsData(false))
+    ContextMenu.store.dispatch(updateContextSiblingsData(null))
   },
-  delete: (render) => {
+  reset: () => {
+    ContextMenu.store.dispatch(updateContextNode(null))
+    ContextMenu.store.dispatch(updateContextEdge(null))
+    ContextMenu.store.dispatch(updateContextFetchingSiblingsData(false))
+    ContextMenu.store.dispatch(updateContextSiblingsData(null))
+  },
+  delete: () => {
     Control.deleteSelected()
-    ContextMenu.reset(render)
+    ContextMenu.reset()
   },
-  remove: (render) => {
+  remove: () => {
     Control.removeSelectedEdges()
     Control.removeSelectedNodes()
-    ContextMenu.reset(render)
+    ContextMenu.reset()
   },
-  hide: (render) => {
+  hide: () => {
     Control.hideSelectedEdges()
     Control.hideSelectedNodes()
-    ContextMenu.reset(render)
+    ContextMenu.reset()
   },
-  centerOn: (render, id) => {
+  centerOn: (id) => {
     Topic.centerOn(id)
-    ContextMenu.reset(render)
+    ContextMenu.reset()
   },
-  popoutTopic: (render, id) => {
-    ContextMenu.reset(render)
+  popoutTopic: (id) => {
+    ContextMenu.reset()
     const win = window.open(`/topics/${id}`, '_blank')
     win.focus()
   },
-  updatePermissions: (render, permission) => {
+  updatePermissions: (permission) => {
     // will be 'commons' 'public' or 'private'
     Control.updateSelectedPermissions(permission)
-    ContextMenu.reset(render)
+    ContextMenu.reset()
   },
-  onMetacodeSelect: (render, id, metacodeId) => {
+  onMetacodeSelect: (id, metacodeId) => {
     if (Selected.Nodes.length > 1) {
       // batch update multiple topics
       Control.updateSelectedMetacodes(metacodeId)
@@ -71,29 +74,28 @@ const ContextMenu = {
         metacode_id: metacodeId
       })
     }
-    ContextMenu.reset(render)
+    ContextMenu.reset()
   },
-  fetchSiblings: (render, node, metacodeId) => {
+  fetchSiblings: (node, metacodeId) => {
     Topic.fetchSiblings(node, metacodeId)
-    ContextMenu.reset(render)
+    ContextMenu.reset()
   },
-  populateSiblings: (render, id) => {
+  populateSiblings: (id) => {
     // depending on how many topics are selected, do different things
-    ContextMenu.fetchingSiblingsData = true
-    render()
+    ContextMenu.store.dispatch(updateContextFetchingSiblingsData(true))
+    
 
     const topics = DataModel.Topics.map(function(t) { return t.id })
     const topicsString = topics.join()
 
     const successCallback = function(data) {
-      ContextMenu.fetchingSiblingsData = false
+      ContextMenu.store.dispatch(updateContextFetchingSiblingsData(false))
 
       // adjust the data for consumption by react
       for (var key in data) {
         data[key] = `${DataModel.Metacodes.get(key).get('name')} (${data[key]})`
       }
-      ContextMenu.siblingsData = data
-      render()
+      ContextMenu.store.dispatch(updateContextSiblingsData(data))
     }
 
     $.ajax({

@@ -5,7 +5,7 @@ import _ from 'lodash'
 import Active from './Active'
 import Control from './Control'
 import DataModel from './DataModel'
-import GlobalUI, { ReactApp } from './GlobalUI'
+import GlobalUI from './GlobalUI'
 import Settings from './Settings'
 import Visualize from './Visualize'
 
@@ -36,7 +36,6 @@ const Filter = {
     self.dataForPresentation.metacodes = {}
     self.dataForPresentation.mappers = {}
     self.dataForPresentation.synapses = {}
-    ReactApp.render()
   },
   // an abstraction function for checkMetacodes, checkMappers, checkSynapses to reduce
   // code redundancy
@@ -94,7 +93,6 @@ const Filter = {
     })
     // update the list of filters with the new list we just generated
     self.filters[filtersToUse] = newList
-    ReactApp.render()
   },
   checkMetacodes: function() {
     var self = Filter
@@ -116,19 +114,16 @@ const Filter = {
   filterAllMetacodes: function(toVisible) {
     var self = Filter
     self.visible.metacodes = toVisible ? self.filters.metacodes.slice() : []
-    ReactApp.render()
     self.passFilters()
   },
   filterAllMappers: function(toVisible) {
     var self = Filter
     self.visible.mappers = toVisible ? self.filters.mappers.slice() : []
-    ReactApp.render()
     self.passFilters()
   },
   filterAllSynapses: function(toVisible) {
     var self = Filter
     self.visible.synapses = toVisible ? self.filters.synapses.slice() : []
-    ReactApp.render()
     self.passFilters()
   },
   // an abstraction function for toggleMetacode, toggleMapper, toggleSynapse
@@ -142,7 +137,6 @@ const Filter = {
       const index = self.visible[whichToFilter].indexOf(id)
       self.visible[whichToFilter].splice(index, 1)
     }
-    ReactApp.render()
     self.passFilters()
   },
   toggleMetacode: function(id) {

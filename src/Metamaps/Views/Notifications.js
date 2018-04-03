@@ -2,67 +2,67 @@
 import { findIndex } from 'lodash'
 import GlobalUI from './index'
 
+import {
+  updateNotifications,
+  updateNotificationsLoading,
+  incrementUnreadNotificationCount,
+  decrementUnreadNotificationCount
+} from '../../actions'
+
 const Notifications = {
-  notifications: [],
-  notificationsLoading: false,
-  unreadNotificationsCount: 0,
-  init: serverData => {
-    if (serverData.ActiveMapper) {
-      Notifications.unreadNotificationsCount = serverData.ActiveMapper.unread_notifications_count
-    }
+  init: (serverData, store) => {
+    Notifications.store = store
   },
-  fetchNotifications: render => {
-    Notifications.notificationsLoading = true
-    render()
+  fetchNotifications: () => {
+    Notifications.store.dispatch(updateNotificationsLoading(true))
     $.ajax({
       url: '/notifications.json',
       success: function(data) {
-        Notifications.notifications = data
-        Notifications.notificationsLoading = false
-        render()
+        Notifications.store.dispatch(updateNotifications(data))
+        Notifications.store.dispatch(updateNotificationsLoading(false))
       },
       error: function() {
         GlobalUI.notifyUser('There was an error fetching notifications')
       }
     })
   },
-  fetchNotification: (render, id) => {
+  fetchNotification: (id) => {
     $.ajax({
       url: `/notifications/${id}.json`,
       success: function(data) {
-        const index = findIndex(Notifications.notifications, n => n.id === data.id)
+        const arr = Notifications.store.getState().notifications
+        const index = findIndex(arr, n => n.id === data.id)
         if (index === -1) {
           // notification not loaded yet, insert it at the start
+          // TODO
           Notifications.notifications.unshift(data)
         } else {
           // notification there, replace it
+          // TODO
           Notifications.notifications[index] = data
         }
-        render()
       },
       error: function() {
         GlobalUI.notifyUser('There was an error fetching that notification')
       }
     })
   },
-  incrementUnread: (render) => {
-    Notifications.unreadNotificationsCount++
-    render()
+  incrementUnread: () => {
+    Notifications.store.dispatch(incrementUnreadNotificationCount())
   },
-  decrementUnread: (render) => {
-    Notifications.unreadNotificationsCount--
-    render()
+  decrementUnread: () => {
+    Notifications.store.dispatch(decrementUnreadNotificationCount())
   },
-  markAsRead: (render, id) => {
+  markAsRead: (id) => {
     const n = Notifications.notifications.find(n => n.id === id)
     $.ajax({
       url: `/notifications/${id}/mark_read.json`,
       method: 'PUT',
       success: function(r) {
         if (n) {
-          Notifications.unreadNotificationsCount--
+          Notifications.store.dispatch(decrementUnreadNotificationCount())
+          // TODO
           n.is_read = true
-          render()
         }
       },
       error: function() {
@@ -70,16 +70,16 @@ const Notifications = {
       }
     })
   },
-  markAsUnread: (render, id) => {
+  markAsUnread: (id) => {
     const n = Notifications.notifications.find(n => n.id === id)
     $.ajax({
       url: `/notifications/${id}/mark_unread.json`,
       method: 'PUT',
       success: function() {
         if (n) {
-          Notifications.unreadNotificationsCount++
+          Notifications.store.dispatch(incrementUnreadNotificationCount())
+          // TODO
           n.is_read = false
-          render()
         }
       },
       error: function() {

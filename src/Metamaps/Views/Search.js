@@ -1,5 +1,6 @@
 /* global $, Hogan, Bloodhound, CanvasLoader */
 
+// TODO: this will be broken now
 import { browserHistory } from 'react-router'
 
 import Active from '../Active'
@@ -11,8 +12,10 @@ const Search = {
   limitMapsToMe: false,
   changing: false,
   optionsInitialized: false,
-  init: function(serverData) {
+  init: function(serverData, store) {
     var self = Search
+
+    Search.store = store
 
     self.wildcardIconUrl = serverData['icons/wildcard.png']
     self.userIconUrl = serverData['user.png']

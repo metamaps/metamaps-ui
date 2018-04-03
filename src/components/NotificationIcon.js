@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 class NotificationIcon extends Component {
 
   static propTypes = {
-    unreadNotificationsCount: PropTypes.number,
+    unreadNotificationCount: PropTypes.number,
     toggleNotificationsBox: PropTypes.func
   }
 
@@ -13,7 +13,7 @@ class NotificationIcon extends Component {
     let linkClasses = 'notificationsIcon upperRightEl upperRightIcon '
     linkClasses += 'ignore-react-onclickoutside '
 
-    if (this.props.unreadNotificationsCount > 0) {
+    if (this.props.unreadNotificationCount > 0) {
       linkClasses += 'unread'
     } else {
       linkClasses += 'read'
@@ -24,7 +24,7 @@ class NotificationIcon extends Component {
         <div className="tooltipsUnder">
           Notifications
         </div>
-        {this.props.unreadNotificationsCount === 0 ? null : (
+        {this.props.unreadNotificationCount === 0 ? null : (
           <div className="unread-notifications-dot"></div>
         )}
       </div>

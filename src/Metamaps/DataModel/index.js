@@ -1,3 +1,9 @@
+import {
+  updateCurrentUser,
+  updateMap,
+  updateTopic
+} from '../../actions'
+
 import Active from '../Active'
 import Filter from '../Filter'
 import { InfoBox } from '../Map'
@@ -54,7 +60,7 @@ const DataModel = {
   Synapses: new SynapseCollection(),
   Topics: new TopicCollection(),
 
-  init: function(serverData) {
+  init: function(serverData, store) {
     var self = DataModel
 
     // workaround circular import problem
@@ -62,9 +68,15 @@ const DataModel = {
 
     self.synapseIconUrl = serverData['synapse16.png']
 
-    if (serverData.ActiveMap) Active.Map = new Map(serverData.ActiveMap)
-    if (serverData.ActiveMapper) Active.Mapper = new Mapper(serverData.ActiveMapper)
-    if (serverData.ActiveTopic) Active.Topic = new Topic(serverData.ActiveTopic)
+    if (serverData.ActiveMap) {
+      store.dispatch(updateMap(new Map(serverData.ActiveMap)))
+    } else if (serverData.ActiveTopic) {
+      store.dispatch(updateTopic(new Topic(serverData.ActiveTopic)))
+    }
+
+    if (serverData.ActiveMapper) {
+      store.dispatch(updateCurrentUser(new Mapper(serverData.ActiveMapper)))
+    }
 
     if (serverData.Collaborators) self.Collaborators = new MapperCollection(serverData.Collaborators)
     if (serverData.Creators) self.Creators = new MapperCollection(serverData.Creators)

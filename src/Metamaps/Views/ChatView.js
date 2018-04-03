@@ -7,16 +7,24 @@ import Active from '../Active'
 import DataModel from '../DataModel'
 import ReactApp from '../GlobalUI/ReactApp'
 
+import {
+  decrementUnreadMessages,
+  incrementUnreadMessages,
+  updateUnreadMessages,
+  updateParticipants,
+  updateMessages,
+  updateConversationLive,
+  updateIsParticipating
+} from '../../actions'
+
 const ChatView = {
   isOpen: false,
-  unreadMessages: 0,
-  participants: new Backbone.Collection(),
-  messages: new Backbone.Collection(),
-  conversationLive: false,
-  isParticipating: false,
-  init: function(urls) {
-    const self = ChatView
-    self.sound = new Howl({
+  alertSound: true, // whether to play sounds on arrival of new messages or not
+  cursorsShowing: true,
+  videosShowing: true,
+  init: function(serverData, store, urls) {
+    ChatView.store = store
+    ChatView.sound = new Howl({
       src: urls,
       sprite: {
         joinmap: [0, 561],
@@ -26,79 +34,69 @@ const ChatView = {
         sessioninvite: [4000, 5393, true]
       }
     })
+    ChatView.store.dispatch(updateParticipants(new Backbone.Collection()))
+    ChatView.store.dispatch(updateMessages(new Backbone.Collection()))
   },
   setNewMap: function() {
-    const self = ChatView
-    self.unreadMessages = 0
-    self.isOpen = false
-    self.conversationLive = false
-    self.isParticipating = false
-    self.alertSound = true // whether to play sounds on arrival of new messages or not
-    self.cursorsShowing = true
-    self.videosShowing = true
-    self.participants = new Backbone.Collection()
-    self.messages = new Backbone.Collection()
-    self.render()
-  },
-  render: () => {
-    if (!Active.Map) return
-    const self = ChatView
-    ReactApp.render()
+    ChatView.store.dispatch(updateUnreadMessages(0))
+    ChatView.store.dispatch(updateConversationLive(false))
+    ChatView.store.dispatch(updateIsParticipating(false))
+    ChatView.store.dispatch(updateParticipants(new Backbone.Collection()))
+    ChatView.store.dispatch(updateMessages(new Backbone.Collection()))
+    ChatView.isOpen = false
+    ChatView.alertSound = true // whether to play sounds on arrival of new messages or not
+    ChatView.cursorsShowing = true
+    ChatView.videosShowing = true
   },
   onOpen: () => {
-    const self = ChatView
-    self.isOpen = true
-    self.unreadMessages = 0
-    self.render()
+    ChatView.isOpen = true
+    ChatView.store.dispatch(updateUnreadMessages(0))
     $(document).trigger(ChatView.events.openTray)
   },
   onClose: () => {
-    const self = ChatView
-    self.isOpen = false
+    ChatView.isOpen = false
     $(document).trigger(ChatView.events.closeTray)
   },
   addParticipant: participant => {
-    ChatView.participants.add(participant)
-    ChatView.render()
+    // TODO: check if this updates the view
+    ChatView.store.getState().participants.add(participant)
   },
   removeParticipant: participant => {
-    ChatView.participants.remove(participant)
-    ChatView.render()
+    // TODO: check if this updates the view
+    ChatView.store.getState().participants.remove(participant)
   },
   leaveConversation: () => {
-    ChatView.isParticipating = false
-    ChatView.render()
+    ChatView.store.dispatch(updateIsParticipating(false))
   },
   mapperJoinedCall: id => {
-    const mapper = ChatView.participants.findWhere({id})
+    // TODO: check if this updates the view
+    const mapper = ChatView.store.getState().participants.findWhere({id})
     mapper && mapper.set('isParticipating', true)
-    ChatView.render()
   },
   mapperLeftCall: id => {
-    const mapper = ChatView.participants.findWhere({id})
+    // TODO: check if this updates the view
+    const mapper = ChatView.store.getState().participants.findWhere({id})
     mapper && mapper.set('isParticipating', false)
-    ChatView.render()
   },
   invitationPending: id => {
-    const mapper = ChatView.participants.findWhere({id})
+    // TODO: check if this updates the view
+    const mapper = ChatView.store.getState().participants.findWhere({id})
     mapper && mapper.set('isPending', true)
-    ChatView.render()
   },
   invitationAnswered: id => {
-    const mapper = ChatView.participants.findWhere({id})
+    // TODO: check if this updates the view
+    const mapper = ChatView.store.getState().participants.findWhere({id})
     mapper && mapper.set('isPending', false)
-    ChatView.render()
   },
   conversationInProgress: participating => {
-    ChatView.conversationLive = true
-    ChatView.isParticipating = participating
-    ChatView.render()
+    ChatView.store.dispatch(updateConversationLive(true))
+    ChatView.store.dispatch(updateIsParticipating(participating))
   },
   conversationEnded: () => {
-    ChatView.conversationLive = false
-    ChatView.isParticipating = false
-    ChatView.participants.forEach(p => p.set({isParticipating: false, isPending: false}))
-    ChatView.render()
+    ChatView.store.dispatch(updateConversationLive(false))
+    ChatView.store.dispatch(updateIsParticipating(false))
+    // TODO: check if this updates the view
+    ChatView.store.getState().participants.forEach(p => p.set({isParticipating: false, isPending: false}))
   },
   videoToggleClick: function() {
     ChatView.videosShowing = !ChatView.videosShowing
@@ -118,14 +116,15 @@ const ChatView = {
     $(document).trigger(ChatView.events.inputBlur)
   },
   addMessage: (message, isInitial, wasMe) => {
-    const self = ChatView
-    if (!isInitial && !self.isOpen) self.unreadMessages += 1
-    if (!wasMe && !isInitial && self.alertSound) self.sound.play('receivechat')
-    self.messages.add(message)
-    if (!isInitial && self.isOpen) self.render()
+    if (!isInitial && !ChatView.isOpen) {
+      ChatView.store.dispatch(incrementUnreadMessages())
+    }
+    if (!wasMe && !isInitial && ChatView.alertSound) {
+      ChatView.sound.play('receivechat')
+    }
+    ChatView.store.getState().messages.add(message)
   },
   sendChatMessage: message => {
-    var self = ChatView
     if (ChatView.alertSound) ChatView.sound.play('sendchat')
     var m = new DataModel.Message({
       message: message.message,
@@ -134,7 +133,7 @@ const ChatView = {
     })
     m.save(null, {
       success: function(model, response) {
-        self.addMessages(new DataModel.MessageCollection(model), false, true)
+        ChatView.addMessages(new DataModel.MessageCollection(model), false, true)
       },
       error: function(model, response) {
         console.log('error!', response)

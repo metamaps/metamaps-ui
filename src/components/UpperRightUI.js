@@ -10,7 +10,7 @@ class UpperRightUI extends Component {
   static propTypes = {
     currentUser: PropTypes.object,
     signInPage: PropTypes.bool,
-    unreadNotificationsCount: PropTypes.number,
+    unreadNotificationCount: PropTypes.number,
     fetchNotifications: PropTypes.func,
     notifications: PropTypes.array,
     markAsRead: PropTypes.func.isRequired,
@@ -48,7 +48,7 @@ class UpperRightUI extends Component {
   }
 
   render () {
-    const { currentUser, signInPage, unreadNotificationsCount,
+    const { currentUser, signInPage, unreadNotificationCount,
             notifications, fetchNotifications, openInviteLightbox,
             markAsRead, markAsUnread, notificationsLoading } = this.props
     const { accountBoxOpen, notificationsBoxOpen } = this.state
@@ -60,7 +60,7 @@ class UpperRightUI extends Component {
       </a>}
       {currentUser && <span id="notification_icon">
         <NotificationIcon
-          unreadNotificationsCount={unreadNotificationsCount}
+          unreadNotificationCount={unreadNotificationCount}
           toggleNotificationsBox={this.toggleNotificationsBox}/>
         {notificationsBoxOpen && <NotificationBox
           loading={notificationsLoading}

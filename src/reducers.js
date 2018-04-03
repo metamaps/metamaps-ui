@@ -1,6 +1,10 @@
 import { combineReducers } from 'redux'
 
 import {
+  DECREMENT_UNREAD_MESSAGES,
+  DECREMENT_UNREAD_NOTIFICATION_COUNT,
+  INCREMENT_UNREAD_MESSAGES,
+  INCREMENT_UNREAD_NOTIFICATION_COUNT,
   UPDATE_ALL_FOR_FILTERING,
   UPDATE_CONTEXT_MENU,
   UPDATE_CONTEXT_NODE,
@@ -365,6 +369,7 @@ function participants(state = [], action) {
 }
 
 // This is to do with http requests for maps
+// TODO: rename pending
 function pending(state = false, action) {
   const { type, payload } = action
   switch (type) {
@@ -478,18 +483,26 @@ function topic(state = null, action) {
 function unreadMessages(state = 0, action) {
   const { type, payload } = action
   switch (type) {
-    case (UPDATE_MESSAGES):
+    case (UPDATE_UNREAD_MESSAGES):
       return payload
+    case (DECREMENT_UNREAD_MESSAGES):
+      return state - 1
+    case (INCREMENT_UNREAD_MESSAGES):
+      return state + 1
     default:
       return state
   }
 }
 
-function unreadNotificationsCount(state = 0, action) {
+function unreadNotificationCount(state = 0, action) {
   const { type, payload } = action
   switch (type) {
     case (UPDATE_UNREAD_NOTIFICATION_COUNT):
       return payload
+    case (DECREMENT_UNREAD_NOTIFICATION_COUNT):
+      return state - 1
+    case (INCREMENT_UNREAD_NOTIFICATION_COUNT):
+      return state + 1
     default:
       return state
   }
@@ -573,7 +586,7 @@ export default combineReducers({
   toast,
   topic,
   unreadMessages,
-  unreadNotificationsCount,
+  unreadNotificationCount,
   user,
   userRequested,
   visibleForFiltering

@@ -46,6 +46,8 @@ class Maps extends Component {
     const { mobile, maps, mapsWidth, currentUser, juntoState, pending, section, user, onStar, onRequest, onMapFollow } = this.props
     const style = { width: mapsWidth + 'px' }
 
+    const arr = (maps && maps.models) || []
+
     if (!maps) {
       return (
         <div>
@@ -64,7 +66,7 @@ class Maps extends Component {
           <div style={ style }>
             { user ? <MapperCard user={ user } /> : null }
             { currentUser && !user && !(pending && maps.length === 0) ? <div className="map newMap"><a href="/maps/new"><div className="newMapImage"></div><span>Create new map...</span></a></div> : null }
-            { maps.models.map(map => <MapCard key={ map.id } map={ map } mobile={ mobile } juntoState={ juntoState } currentUser={ currentUser } onStar={ onStar } onRequest={ onRequest } onMapFollow={ onMapFollow } />) }
+            { arr.map(map => <MapCard key={ map.id } map={ map } mobile={ mobile } juntoState={ juntoState } currentUser={ currentUser } onStar={ onStar } onRequest={ onRequest } onMapFollow={ onMapFollow } />) }
             <div className='clearfloat'></div>
           </div>
         </div>

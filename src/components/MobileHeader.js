@@ -6,7 +6,7 @@ import Sprite from './Sprite'
 
 class MobileHeader extends Component {
   static propTypes = {
-    unreadNotificationsCount: PropTypes.number,
+    unreadNotificationCount: PropTypes.number,
     currentUser: PropTypes.object,
     mobileTitle: PropTypes.string,
     mobileTitleWidth: PropTypes.number,
@@ -23,7 +23,7 @@ class MobileHeader extends Component {
   }
 
   render() {
-    const { unreadNotificationsCount, currentUser, mobileTitle,
+    const { unreadNotificationCount, currentUser, mobileTitle,
             mobileTitleWidth, onTitleClick, serverData } = this.props
     const { open } = this.state
     return <div>
@@ -32,7 +32,7 @@ class MobileHeader extends Component {
           {mobileTitle}
         </div>
         <div id="menu_icon" onClick={this.toggle}>
-          {unreadNotificationsCount > 0 && <div className="unread-notifications-dot"></div>}
+          {unreadNotificationCount > 0 && <div className="unread-notifications-dot"></div>}
         </div>
       </div>
       {open && <div id="mobile_menu">
@@ -91,7 +91,7 @@ class MobileHeader extends Component {
                         width={32} height={32} xIndex={0} yIndex={0} />
                 Notifications
               </Link>
-              {unreadNotificationsCount > 0 && <div className="unread-notifications-dot"></div>}
+              {unreadNotificationCount > 0 && <div className="unread-notifications-dot"></div>}
             </li>
             <li>
               <Link id="Logout" to="/logout">

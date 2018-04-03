@@ -4,13 +4,11 @@ import {
   Route,
   Router
 } from 'react-router-dom'
-import { Provider, connect } from 'react-redux'
+import { Provider } from 'react-redux'
 
-import App from './routes/App'
-import AppConnector from './connectors/AppConnector'
-import Maps from './routes/Maps'
-import MapView from './routes/MapView'
-import MapViewConnector from './connectors/MapViewConnector'
+import App from './containers/AppContainer'
+import Maps from './containers/MapsContainer'
+import MapView from './containers/MapViewContainer'
 import Metacodes from './routes/Admin/Metacodes'
 import NewMetacode from './routes/Admin/NewMetacode'
 import EditMetacode from './routes/Admin/EditMetacode'
@@ -33,14 +31,10 @@ function nullComponent(props) {
 
 export default function makeApp (currentUser, history, store) {
   const homeComponent = currentUser && currentUser.id ? Maps : LoggedOutHome
-  const
-    ConnectedApp = connect(AppConnector.mapStateToProps, AppConnector.mapDispatchToProps)(App),
-    ConnectedMapView = connect(MapViewConnector.mapStateToProps, MapViewConnector.mapDispatchToProps)(MapView)
   return <Provider store={store}>
     <Router history={history}>
-      <Route path="/" children={(props) => (<ConnectedApp {...props}>
+      <Route path="/" children={(props) => (<App {...props}>
         <div>
-          <Link to="/maps/1">Test</Link>
           <Route path="/" exact component={homeComponent} />
           {!currentUser && <Route path="/login" exact component={Login} />}
           {!currentUser && <Route path="/join" exact component={Join} />}
@@ -51,7 +45,7 @@ export default function makeApp (currentUser, history, store) {
           <Route path="/explore/shared" exact component={Maps} />
           <Route path="/explore/starred" exact component={Maps} />
           <Route path="/explore/mapper/:id" exact component={Maps} />
-          <Route path="/maps/:id" exact component={ConnectedMapView} />
+          <Route path="/maps/:id" exact component={MapView} />
           <Route path="/maps/:id/request_access" exact component={RequestAccess} />
           <Route path="/topics/:id" exact component={TopicView} />
           <Route path="/notifications" exact component={Notifications} />
@@ -67,7 +61,7 @@ export default function makeApp (currentUser, history, store) {
           <Route path="/metacode_sets/new" exact component={NewMetacodeSet} />
           <Route path="/metacode_sets/:id/edit" exact component={EditMetacodeSet} />
         </div>
-      </ConnectedApp>)}/>
+      </App>)}/>
     </Router>
   </Provider>
 }

@@ -16,11 +16,10 @@ import NewSynapse from '../components/NewSynapse'
 export default class MapView extends Component {
 
   static propTypes = {
-    contextMenu: PropTypes.bool,
+    currentUser: PropTypes.object,
     mobile: PropTypes.bool,
-    mapId: PropTypes.string,
     map: PropTypes.object,
-    fetchingMap: PropTypes.bool,
+    topic: PropTypes.object,
     mapIsStarred: PropTypes.bool,
     onMapStar: PropTypes.func,
     onMapUnstar: PropTypes.func,
@@ -72,7 +71,23 @@ export default class MapView extends Component {
     inviteToJoin: PropTypes.func,
     videoToggleClick: PropTypes.func,
     cursorToggleClick: PropTypes.func,
-    soundToggleClick: PropTypes.func
+    soundToggleClick: PropTypes.func,
+    metacodeSets: PropTypes.array,
+    contextMenu: PropTypes.bool,
+    contextNode: PropTypes.object,
+    contextEdge: PropTypes.object,
+    contextPos: PropTypes.object,
+    contextFetchingSiblingsData: PropTypes.bool,
+    contextSiblingsData: PropTypes.object,
+    contextDelete: PropTypes.func,
+    contextRemove: PropTypes.func,
+    contextHide: PropTypes.func,
+    contextCenterOn: PropTypes.func,
+    contextPopoutTopic: PropTypes.func,
+    contextUpdatePermissions: PropTypes.func,
+    contextOnMetacodeSelect: PropTypes.func,
+    contextFetchSiblings: PropTypes.func,
+    contextPopulateSiblings: PropTypes.func
   }
 
   constructor(props) {
@@ -110,14 +125,14 @@ export default class MapView extends Component {
   }
 
   render = () => {
-    const { mobile, map, currentUser, onOpen, onClose,
+    const { mobile, map, topic, currentUser, onOpen, onClose,
             toggleInfoBox, allForFiltering, visibleForFiltering,
             toggleMetacode, toggleMapper, toggleSynapse, filterAllMetacodes,
             filterAllMappers, filterAllSynapses, filterData,
             openImportLightbox, forkMap, openHelpLightbox,
             mapIsStarred, onMapStar, onMapUnstar, openTopic,
             onZoomExtents, onZoomIn, onZoomOut, hasLearnedTopicCreation,
-            contextMenu, initNewTopic, initNewSynapse, openMetacodeSwitcher,
+            initNewTopic, initNewSynapse, openMetacodeSwitcher,
             isNewMap, selectMapPermission, deleteActiveMap, updateThumbnail,
             relevantPeopleForMap, onInfoBoxMount, removeCollaborator,
             openSynapse, synapseCardPosition, synapseCardSynapses, onSynapseCardMount,
@@ -127,7 +142,11 @@ export default class MapView extends Component {
             isParticipating, conversationLive,
             unreadMessages, leaveCall, joinCall,
             inviteACall, inviteToJoin, videoToggleClick,
-            cursorToggleClick, soundToggleClick } = this.props
+            cursorToggleClick, soundToggleClick, contextMenu, contextNode,
+            contextEdge, contextPos, contextFetchingSiblingsData,
+            contextSiblingsData, contextDelete, contextRemove, contextHide, contextCenterOn,
+            contextPopoutTopic, contextUpdatePermissions, contextOnMetacodeSelect,
+            contextFetchSiblings, contextPopulateSiblings } = this.props
     const { chatOpen } = this.state
     const onChatOpen = () => {
       this.setState({chatOpen: true})
@@ -171,7 +190,24 @@ export default class MapView extends Component {
                                    onDirectionChange={onSynapseDirectionChange} 
                                    onPermissionSelect={onSynapsePermissionSelect} 
                                    onSynapseSelect={onSynapseSelect} />}
-      {contextMenu && <ContextMenu {...this.props} />}
+      {contextMenu && <ContextMenu metacodeSets={metacodeSets}
+                                   currentUser={currentUser}
+                                   map={map}
+                                   topic={topic}
+                                   contextNode={contextNode}
+                                   contextEdge={contextEdge}
+                                   contextFetchingSiblingsData={contextFetchingSiblingsData}
+                                   contextSiblingsData={contextSiblingsData}
+                                   contextPos={contextPos}
+                                   contextDelete={contextDelete}
+                                   contextRemove={contextRemove}
+                                   contextHide={contextHide}
+                                   contextCenterOn={contextCenterOn}
+                                   contextPopoutTopic={contextPopoutTopic}
+                                   contextUpdatePermissions={contextUpdatePermissions}
+                                   contextOnMetacodeSelect={contextOnMetacodeSelect}
+                                   contextFetchSiblings={contextFetchSiblings}
+                                   contextPopulateSiblings={contextPopulateSiblings} />}
       {currentUser && <Instructions mobile={mobile} hasLearnedTopicCreation={hasLearnedTopicCreation} />}
       {currentUser && <MapChat onOpen={onChatOpen}
                                onClose={onChatClose}

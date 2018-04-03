@@ -16,7 +16,7 @@ class SynapseDirection extends Component {
       dirCat = 'from-to'
       dir = [leftId, rightId]
     }
-    onDirectionChange(dirCat, dir)
+    onDirectionChange(synapse, dirCat, dir)
   }
 
   onRightClick = (leftId, rightId, toLeft, toRight) => {
@@ -33,7 +33,7 @@ class SynapseDirection extends Component {
       dirCat = 'from-to'
       dir = [leftId, rightId]
     }
-    onDirectionChange(dirCat, dir)
+    onDirectionChange(synapse, dirCat, dir)
   }
 
   render = () => {

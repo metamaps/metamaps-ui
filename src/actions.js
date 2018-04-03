@@ -1,5 +1,9 @@
-import Active from '../Metamaps/Active'
+import Active from './Metamaps/Active'
 
+export const INCREMENT_UNREAD_MESSAGES = 'INCREMENT_UNREAD_MESSAGES'
+export const INCREMENT_UNREAD_NOTIFICATION_COUNT = 'INCREMENT_UNREAD_NOTIFICATION_COUNT'
+export const DECREMENT_UNREAD_MESSAGES = 'DECREMENT_UNREAD_MESSAGES'
+export const DECREMENT_UNREAD_NOTIFICATION_COUNT = 'DECREMENT_UNREAD_NOTIFICATION_COUNT'
 export const UPDATE_ALL_FOR_FILTERING = 'UPDATE_ALL_FOR_FILTERING'
 export const UPDATE_CONTEXT_MENU = 'UPDATE_CONTEXT_MENU'
 export const UPDATE_CONTEXT_NODE = 'UPDATE_CONTEXT_NODE'
@@ -47,6 +51,31 @@ export const UPDATE_UNREAD_NOTIFICATION_COUNT = 'UPDATE_UNREAD_NOTIFICATION_COUN
 export const UPDATE_USER = 'UPDATE_USER'
 export const UPDATE_USER_REQUESTED = 'UPDATE_USER_REQUESTED'
 export const UPDATE_VISIBLE_FOR_FILTERING = 'UPDATE_VISIBLE_FOR_FILTERING'
+
+export function decrementUnreadNotificationCount() {
+  return {
+    type: DECREMENT_UNREAD_NOTIFICATION_COUNT
+  }
+}
+
+export function decrementUnreadMessages() {
+  return {
+    type: DECREMENT_UNREAD_MESSAGES
+  }
+}
+
+export function incrementUnreadNotificationCount() {
+  return {
+    type: INCREMENT_UNREAD_NOTIFICATION_COUNT
+  }
+}
+
+export function incrementUnreadMessages() {
+  return {
+    type: INCREMENT_UNREAD_MESSAGES
+  }
+}
+
 
 export function updateAllForFiltering(value) {
   return {
@@ -105,6 +134,9 @@ export function updateConversationLive(value) {
 }
 
 export function updateCurrentUser(value) {
+  // HACK/TODO: right now we just hard update this here, since
+  // many files reference this by 'import'
+  Active.Mapper = value
   return {
     type: UPDATE_CURRENT_USER,
     payload: value
@@ -247,7 +279,7 @@ export function updateOpenSynapse(value) {
   }
 }
 
-function updateOpenTopic(value) {
+export function updateOpenTopic(value) {
   return {
     type: UPDATE_OPEN_TOPIC,
     payload: value
@@ -355,7 +387,7 @@ export function updateUnreadMessages(value) {
   }
 }
 
-export function updateUnreadNotificationsCount(value) {
+export function updateUnreadNotificationCount(value) {
   return {
     type: UPDATE_UNREAD_NOTIFICATION_COUNT,
     payload: value

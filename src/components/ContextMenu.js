@@ -5,16 +5,15 @@ import MetacodeSelect from './MetacodeSelect'
 
 class ContextMenu extends Component {
   static propTypes = {
-    topicId: PropTypes.string,
-    mapId: PropTypes.string,
     currentUser: PropTypes.object,
+    topic: PropTypes.object,
     map: PropTypes.object,
+    metacodeSets: PropTypes.array,
     contextNode: PropTypes.object,
     contextEdge: PropTypes.object,
     contextPos: PropTypes.object,
     contextFetchingSiblingsData: PropTypes.bool,
     contextSiblingsData: PropTypes.object,
-    metacodeSets: PropTypes.array,
     contextDelete: PropTypes.func,
     contextRemove: PropTypes.func,
     contextHide: PropTypes.func,
@@ -114,8 +113,8 @@ class ContextMenu extends Component {
   }
 
   center = () => {
-    const { contextCenterOn, contextNode, topicId } = this.props
-    if (!(contextNode && topicId)) {
+    const { contextCenterOn, contextNode, topic } = this.props
+    if (!(contextNode && topic)) {
       return null
     }
     return <li className='rc-center'
@@ -190,14 +189,14 @@ class ContextMenu extends Component {
   siblings = () => {
     const { contextPopulateSiblings, contextFetchSiblings,
             contextSiblingsData, contextFetchingSiblingsData,
-            topicId, contextNode } = this.props
+            topic, contextNode } = this.props
     const populateSiblings = () => {
       if (!this.state.populateSiblingsSent) {
         contextPopulateSiblings(contextNode.id)
         this.setState({populateSiblingsSent: true})
       }
     }
-    if (!(contextNode && topicId)) {
+    if (!(contextNode && topic)) {
       return null
     }
     return <li className='rc-siblings'
@@ -223,10 +222,10 @@ class ContextMenu extends Component {
   }
 
   render() {
-    const { contextNode, currentUser, topicId } = this.props
+    const { contextNode, currentUser, topic } = this.props
     const positionData = this.getPositionData()
     const style = Object.assign({}, {position: 'absolute'}, positionData.pos)
-    const showSpacer = currentUser || (contextNode && topicId)
+    const showSpacer = currentUser || (contextNode && topic)
 
     return <div style={style}
       className={'rightclickmenu ' + positionData.extraClasses.join(' ')}>

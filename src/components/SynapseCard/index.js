@@ -13,7 +13,8 @@ class SynapseCard extends Component {
     }
   }
   componentDidMount= () => {
-    //this.props.onCardMount()
+    const { synapse, onCardMount } = this.props
+    onCardMount(synapse)
   }
 
   toggleSelect = () => {
@@ -29,8 +30,9 @@ class SynapseCard extends Component {
   }
 
   onSynapseSelect = (index) => {
+    const { synapse, onSynapseSelect } = this.props
     this.closeSelect()
-    this.props.onSynapseSelect(index)
+    onSynapseSelect(synapse, index)
   }
 
   render = () => {
@@ -53,6 +55,9 @@ class SynapseCard extends Component {
       left: position.x,
       top: position.y
     }
+    const wrappedOnPermissionSelect = (permission) => {
+      onPermissionSelect(synapse, permission)
+    }
     return (
       <div className={className} id="edit_synapse" style={style}>
         <div id="editSynUpperBar">
@@ -68,7 +73,7 @@ class SynapseCard extends Component {
             </Link>
             <div className="tip">{synapse.get('user_name')}</div>
           </div>
-          <Permission authorizedToEdit={canEditPerm} permission={permission} permissionSelected={onPermissionSelect} />
+          <Permission synapse={synapse} authorizedToEdit={canEditPerm} permission={permission} permissionSelected={wrappedOnPermissionSelect} />
           <SynapseDirection canEdit={canEdit} onDirectionChange={onDirectionChange} synapse={synapse} />
         </div>
       </div>

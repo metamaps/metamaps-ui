@@ -4,27 +4,26 @@ import Create from '../Create'
 import CreateMap from '../Views/CreateMap'
 import ReactApp from './ReactApp'
 
+import {
+  updateToast
+} from '../../actions'
+
 const GlobalUI = {
   notifyTimeout: null,
   notifyQueue: [],
   notifying: false,
   lightbox: null,
   init: function(serverData, store) {
-    const self = GlobalUI
-    
-    ReactApp.init(serverData, store, self.openLightbox)
-
-    if (serverData.toast) self.notifyUser(serverData.toast)
-
+    GlobalUI.store = store
+    ReactApp.init(serverData, store, GlobalUI.openLightbox)
+    if (serverData.toast) GlobalUI.notifyUser(serverData.toast)
     // bind lightbox clicks
     $('.openLightbox').click(function(event) {
-      self.openLightbox($(this).attr('data-open'))
+      GlobalUI.openLightbox($(this).attr('data-open'))
       event.preventDefault()
       return false
     })
-
-    $('#lightbox_screen, #lightbox_close').click(self.closeLightbox)
-
+    $('#lightbox_screen, #lightbox_close').click(GlobalUI.closeLightbox)
     // tab the cheatsheet
     $('#cheatSheet').tabs()
     $('#quickReference').tabs().addClass('ui-tabs-vertical ui-helper-clearfix')
@@ -42,12 +41,10 @@ const GlobalUI = {
     }, 200, 'easeInCubic', function() { $(this).hide() })
   },
   openLightbox: function(which) {
-    const self = GlobalUI
-
     $('.lightboxContent').hide()
     $('#' + which).show()
 
-    self.lightbox = which
+    GlobalUI.lightbox = which
 
     $('#lightbox_overlay').show()
 
@@ -69,8 +66,6 @@ const GlobalUI = {
   },
 
   closeLightbox: function(event) {
-    const self = GlobalUI
-
     if (event) event.preventDefault()
 
     // animate the lightbox content offscreen
@@ -86,50 +81,42 @@ const GlobalUI = {
       $('#lightbox_overlay').hide()
     })
 
-    if (self.lightbox === 'forkmap') CreateMap.reset('fork_map')
+    if (GlobalUI.lightbox === 'forkmap') CreateMap.reset('fork_map')
     if (Create && Create.isSwitchingSet) {
       Create.cancelMetacodeSetSwitch()
     }
-    self.lightbox = null
+    GlobalUI.lightbox = null
   },
   notifyUser: function(message, opts = {}) {
-    const self = GlobalUI
-
-    if (self.notifying) {
-      self.notifyQueue.push({ message, opts })
+    if (GlobalUI.notifying) {
+      GlobalUI.notifyQueue.push({ message, opts })
       return
     } else {
-      self._notifyUser(message, opts)
+      GlobalUI._notifyUser(message, opts)
     }
   },
   // note: use the wrapper function notifyUser instead of this one
   _notifyUser: function(message, opts = {}) {
-    const self = GlobalUI
-
     const { leaveOpen = false, timeOut = 5000 } = opts
-    ReactApp.toast = message
-    ReactApp.render()
-    clearTimeout(self.notifyTimeOut)
+    GlobalUI.store.dispatch(updateToast(message))
+    clearTimeout(GlobalUI.notifyTimeOut)
 
     if (!leaveOpen) {
-      self.notifyTimeOut = setTimeout(function() {
+      GlobalUI.notifyTimeOut = setTimeout(function() {
         GlobalUI.clearNotify()
       }, timeOut)
     }
 
-    self.notifying = true
+    GlobalUI.notifying = true
   },
   clearNotify: function() {
-    const self = GlobalUI
-
     // if there are messages remaining, display them
-    if (self.notifyQueue.length > 0) {
-      const { message, opts } = self.notifyQueue.shift()
-      self._notifyUser(message, opts)
+    if (GlobalUI.notifyQueue.length > 0) {
+      const { message, opts } = GlobalUI.notifyQueue.shift()
+      GlobalUI._notifyUser(message, opts)
     } else {
-      ReactApp.toast = null
-      ReactApp.render()
-      self.notifying = false
+      GlobalUI.store.dispatch(updateToast(''))
+      GlobalUI.notifying = false
     }
   }
 }

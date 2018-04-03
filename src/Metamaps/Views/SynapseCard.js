@@ -58,7 +58,6 @@ const SynapseCard = {
       permission: permission,
       defer_to_map_id: null
     })
-    render()
   },
   onSynapseSelect: function(plot, synapse, index) {
     const edge = synapse.get('edge')

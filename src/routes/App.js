@@ -11,7 +11,7 @@ class App extends Component {
   static propTypes = {
     children: PropTypes.object,
     toast: PropTypes.string,
-    unreadNotificationsCount: PropTypes.number,
+    unreadNotificationCount: PropTypes.number,
     notifications: PropTypes.array,
     fetchNotifications: PropTypes.func,
     markAsRead: PropTypes.func,
@@ -40,7 +40,7 @@ class App extends Component {
   }
 
   render () {
-    const { children, toast, unreadNotificationsCount, openInviteLightbox,
+    const { children, toast, unreadNotificationCount, openInviteLightbox,
             mobile, mobileTitle, mobileTitleWidth, mobileTitleClick, location,
             map, userRequested, requestAnswered, requestApproved, serverData,
             onRequestAccess, notifications, fetchNotifications,
@@ -54,7 +54,7 @@ class App extends Component {
     const unauthedHome = pathname === '/' && !currentUser
     return <div className="wrapper" id="wrapper">
       {mobile && <MobileHeader currentUser={currentUser}
-                               unreadNotificationsCount={unreadNotificationsCount}
+                               unreadNotificationCount={unreadNotificationCount}
                                mobileTitle={mobileTitle}
                                mobileTitleWidth={mobileTitleWidth}
                                onTitleClick={mobileTitleClick}
@@ -66,7 +66,7 @@ class App extends Component {
                                      requestApproved={requestApproved}
                                      onRequestClick={onRequestAccess} />}
       {!mobile && <UpperRightUI currentUser={currentUser}
-                                unreadNotificationsCount={unreadNotificationsCount}
+                                unreadNotificationCount={unreadNotificationCount}
                                 notifications={notifications}
                                 notificationsLoading={notificationsLoading}
                                 fetchNotifications={fetchNotifications}

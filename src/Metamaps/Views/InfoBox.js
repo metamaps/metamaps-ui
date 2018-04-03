@@ -8,13 +8,17 @@ import DataModel from '../DataModel'
 import GlobalUI, { ReactApp } from '../GlobalUI'
 import Util from '../Util'
 
+import {
+  updateIsNewMap
+} from '../../actions'
+
 const InfoBox = {
   isOpen: false,
-  isNewMap: false,
-  init: function(serverData) {
+  init: function(serverData, store) {
+    InfoBox.store = store
     const querystring = window.location.search.replace(/^\?/, '')
     if (querystring === 'new') {
-      InfoBox.isNewMap = true
+      InfoBox.store.dispatch(updateIsNewMap(true))
       InfoBox.open()
     }
   },
@@ -34,7 +38,7 @@ const InfoBox = {
       InfoBox.isOpen = false
     })
   },
-  attachEventListeners: function(render, map, mapper) {
+  attachEventListeners: function(map, mapper) {
     $('.mapInfoBox.canEdit .best_in_place').best_in_place()
     // because anyone who can edit the map can change the map title
     var bipName = $('.mapInfoBox .best_in_place_name')
@@ -58,18 +62,18 @@ const InfoBox = {
       const name = $(this).html()
       // mobile menu
       // update mobile menu?
-      InfoBox.isNewMap = false
+      InfoBox.store.dispatch(updateIsNewMap(false))
       document.title = `${name} | Metamaps`
       window.history.replaceState('', `${name} | Metamaps`, window.location.pathname)
       map.set('name', name)
       map.trigger('saved')
-      render()
+      // TODO: check if this updates the view
     })
     $('.mapInfoDesc .best_in_place_desc').unbind('ajax:success').bind('ajax:success', function() {
       var desc = $(this).html()
       map.set('desc', desc)
       map.trigger('saved')
-      render()
+      // TODO: check if this updates the view
     })
     $('.mapInfoDesc .best_in_place_desc, .mapInfoName .best_in_place_name').unbind('keypress').keypress(function(e) {
       const ENTER = 13
@@ -77,9 +81,9 @@ const InfoBox = {
         $(this).data('bestInPlaceEditor').update()
       }
     })
-    InfoBox.addTypeahead(render, map, mapper)
+    InfoBox.addTypeahead(map, mapper)
   },
-  addTypeahead: function(render, map, mapper) {
+  addTypeahead: function(map, mapper) {
     // for autocomplete
     var collaborators = {
       name: 'collaborators',
@@ -117,37 +121,37 @@ const InfoBox = {
         [collaborators]
       )
       $('.collaboratorSearchField').bind('typeahead:select', function(event, item) {
-        InfoBox.addCollaborator(render, map, item.id)
+        InfoBox.addCollaborator(map, item.id)
         $('.collaboratorSearchField').typeahead('val', '')
       })
     }
   },
-  removeCollaborator: function(render, map, collaboratorId) {
+  removeCollaborator: function(map, collaboratorId) {
     DataModel.Collaborators.remove(DataModel.Collaborators.get(collaboratorId))
     var mapperIds = DataModel.Collaborators.models.map(function(mapper) { return mapper.id })
     $.post('/maps/' + map.id + '/access', { access: mapperIds })
-    render()
+    // TODO: check if this updates the view
   },
-  addCollaborator: function(render, map, newCollaboratorId) {
+  addCollaborator: function(map, newCollaboratorId) {
     if (DataModel.Collaborators.get(newCollaboratorId)) {
       GlobalUI.notifyUser('That user already has access')
       return
     }
     function callback(mapper) {
+      // TODO: check if this updates the view
       DataModel.Collaborators.add(mapper)
       const mapperIds = DataModel.Collaborators.models.map(function(mapper) { return mapper.id })
       $.post('/maps/' + map.id + '/access', { access: mapperIds })
       const name = DataModel.Collaborators.get(newCollaboratorId).get('name')
       GlobalUI.notifyUser(name + ' will be notified')
-      render()
     }
     $.getJSON('/users/' + newCollaboratorId + '.json', callback)
   },
-  selectPermission: function(render, map, permission) {
+  selectPermission: function(map, permission) {
+    // TODO: check if this updates the view
     map.save({
       permission: permission
     })
-    render()
     // map.updateMapWrapper()
   },
   deleteActiveMap: function(map, mapper) {
