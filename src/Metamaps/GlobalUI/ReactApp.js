@@ -1,20 +1,14 @@
-/* global $ */
-
 import React from 'react'
 import ReactDOM from 'react-dom'
-import apply from 'async/apply'
-import createHistory from "history/createBrowserHistory"
+import createHistory from 'history/createBrowserHistory'
 
-import { notifyUser } from './index.js'
 import Active from '../Active'
 import Create from '../Create'
-import DataModel from '../DataModel'
 import DataFetcher from '../DataFetcher'
 import ImportDialog from '../Views/ImportDialog'
 import Notifications from '../Views/Notifications'
 import ExploreMaps from '../Views/ExploreMaps'
 import ChatView from '../Views/ChatView'
-import TopicCard from '../Views/TopicCard'
 import SynapseCard from '../Views/SynapseCard'
 import ContextMenu from '../Views/ContextMenu'
 import InfoBox from '../Views/InfoBox'
@@ -199,8 +193,8 @@ const ReactApp = {
     const numCards = (maps ? maps.length : 0) + (user || currentUser ? 1 : 0)
     const mapSpaces = Math.floor(document.body.clientWidth / MAP_WIDTH)
     const mapsWidth = document.body.clientWidth <= MOBILE_VIEW_BREAKPOINT
-                        ? document.body.clientWidth - MOBILE_VIEW_PADDING
-                        : Math.min(MAX_COLUMNS, Math.min(numCards, mapSpaces)) * MAP_WIDTH
+      ? document.body.clientWidth - MOBILE_VIEW_PADDING
+      : Math.min(MAX_COLUMNS, Math.min(numCards, mapSpaces)) * MAP_WIDTH
 
     const mobileTitleWidth = document ? document.body.clientWidth - 70 : 0
     const mobile = document && document.body.clientWidth <= MOBILE_VIEW_BREAKPOINT
