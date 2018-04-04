@@ -2,7 +2,6 @@ import { combineReducers } from 'redux'
 
 import {
   GET_METACODES_COMPLETED,
-  APPROVE_ACCESS_REQUEST_COMPLETED,
   DECREMENT_UNREAD_MESSAGES,
   DECREMENT_UNREAD_NOTIFICATION_COUNT,
   INCREMENT_UNREAD_MESSAGES,
@@ -39,8 +38,6 @@ import {
   UPDATE_PARTICIPANTS,
   UPDATE_PENDING,
   UPDATE_RELEVANT_PEOPLE_FOR_MAP,
-  UPDATE_REQUEST_ANSWERED,
-  UPDATE_REQUEST_APPROVED,
   UPDATE_REQUESTS,
   UPDATE_SECTION,
   UPDATE_SELECTED_METACODES,
@@ -52,7 +49,6 @@ import {
   UPDATE_UNREAD_MESSAGES,
   UPDATE_UNREAD_NOTIFICATION_COUNT,
   UPDATE_USER,
-  UPDATE_USER_REQUESTED,
   UPDATE_VISIBLE_FOR_FILTERING
 } from './actions'
 
@@ -79,8 +75,6 @@ function requestsPending(state = {}, action) {
   }
 }
 /* end for redux-thunk */
-
-
 
 function allForFiltering(state = {
   metacodes: [],
@@ -140,7 +134,7 @@ function contextEdge(state = null, action) {
   }
 }
 
-function contextPos(state = {x:0,y:0}, action) {
+function contextPos(state = {x: 0, y: 0}, action) {
   const { type, payload } = action
   switch (type) {
     case (UPDATE_CONTEXT_POS):
@@ -220,7 +214,7 @@ function isParticipating(state = false, action) {
   }
 }
 
-function juntoState(state = { 
+function juntoState(state = {
   connectedPeople: {},
   liveMaps: {}
 }, action) {
@@ -416,20 +410,10 @@ function relevantPeopleForMap(state = [], action) {
   }
 }
 
-function requestAnswered(state = false, action) {
+function requests(state = [], action) {
   const { type, payload } = action
   switch (type) {
-    case (UPDATE_REQUEST_ANSWERED):
-      return payload
-    default:
-      return state
-  }
-}
-
-function requestApproved(state = false, action) {
-  const { type, payload } = action
-  switch (type) {
-    case (UPDATE_REQUEST_APPROVED):
+    case (UPDATE_REQUESTS):
       return payload
     default:
       return state
@@ -466,7 +450,7 @@ function serverData(state = {}, action) {
   }
 }
 
-function synapseCardPosition(state = {x:0,y:0}, action) {
+function synapseCardPosition(state = {x: 0, y: 0}, action) {
   const { type, payload } = action
   switch (type) {
     case (UPDATE_SYNAPSE_CARD_POSITION):
@@ -545,16 +529,6 @@ function user(state = null, action) {
   }
 }
 
-function userRequested(state = false, action) {
-  const { type, payload } = action
-  switch (type) {
-    case (UPDATE_USER_REQUESTED):
-      return payload
-    default:
-      return state
-  }
-}
-
 function visibleForFiltering(state = {
   metacodes: [],
   mappers: [],
@@ -604,6 +578,7 @@ export default combineReducers({
   participants,
   pending,
   relevantPeopleForMap,
+  requests,
   section,
   selectedMetacodes,
   serverData,
