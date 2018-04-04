@@ -13,7 +13,6 @@ export const INCREMENT_UNREAD_NOTIFICATION_COUNT = 'INCREMENT_UNREAD_NOTIFICATIO
 export const DECREMENT_UNREAD_MESSAGES = 'DECREMENT_UNREAD_MESSAGES'
 export const DECREMENT_UNREAD_NOTIFICATION_COUNT = 'DECREMENT_UNREAD_NOTIFICATION_COUNT'
 
-
 /* raw updates to the state */
 export const UPDATE_ALL_FOR_FILTERING = 'UPDATE_ALL_FOR_FILTERING'
 export const UPDATE_CONTEXT_MENU = 'UPDATE_CONTEXT_MENU'
@@ -61,7 +60,7 @@ export const UPDATE_USER = 'UPDATE_USER'
 export const UPDATE_VISIBLE_FOR_FILTERING = 'UPDATE_VISIBLE_FOR_FILTERING'
 
 // this uses redux-thunk to enable async actions like this
-function asyncActionCreator(baseActionType, asyncAction, meta = null) {
+export function asyncActionCreator(baseActionType, asyncAction, meta = null) {
   return dispatch => {
     // dispatch an action to indicate the request is pending
     dispatch({
@@ -70,7 +69,7 @@ function asyncActionCreator(baseActionType, asyncAction, meta = null) {
       meta
     })
     // call the async action
-    asyncAction()
+    return asyncAction()
       .then(res => {
         // dispatch the result of the async action
         // if it was successful
@@ -90,7 +89,7 @@ function asyncActionCreator(baseActionType, asyncAction, meta = null) {
           meta
         })
       })
-    }
+  }
 }
 
 export function approveAccessRequest(mapId, requestId) {
@@ -126,7 +125,6 @@ export function incrementUnreadMessages() {
     type: INCREMENT_UNREAD_MESSAGES
   }
 }
-
 
 export function updateAllForFiltering(value) {
   return {
