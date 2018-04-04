@@ -5,7 +5,6 @@ import _ from 'lodash'
 import Active from './Active'
 import Control from './Control'
 import DataModel from './DataModel'
-import GlobalUI from './GlobalUI'
 import Settings from './Settings'
 import Visualize from './Visualize'
 
