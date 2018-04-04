@@ -5,22 +5,18 @@ import MetacodeSets from '../routes/Admin/MetacodeSets'
 
 function mapStateToProps(state) {
   const {
-    
+    metacodeSets,
+    metacodes
   } = state
 
   return {
-    
+    metacodeSets,
+    metacodes
   }
 }
 
 function mapDispatchToProps(dispatch)  {
-  const {
-    
-  } = ReactApp.getCallbackProps()
-
-  return {
-    
-  }
+  return {}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MetacodeSets)

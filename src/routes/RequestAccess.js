@@ -15,7 +15,7 @@ class RequestAccess extends Component {
       return
     }
     this.setState({ requestPending: true })
-    const success = this.props.requestAccess(this.props.params.id)
+    const success = this.props.requestAccess(this.props.match.params.id)
     if (success) {
       this.setState({
         requestPending: false,

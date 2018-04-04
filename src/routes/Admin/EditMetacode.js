@@ -15,7 +15,7 @@ class EditMetacode extends Component {
 
   componentDidMount() {
     const { metacodes } = this.props
-    const id = parseInt(this.props.params.id, 10)
+    const id = parseInt(this.props.match.params.id, 10)
     const metacode = metacodes.find(m => m.id === id)
     this.setState({
       existingIcon: metacode.icon,
@@ -45,7 +45,7 @@ class EditMetacode extends Component {
   onSubmit = async (event) => {
     event.preventDefault()
     const { name, color, icon } = this.state
-    const { updateMetacode, params: { id } } = this.props
+    const { updateMetacode, match:{params: { id }} } = this.props
     try {
       const result = await updateMetacode(id, name, color, icon)
       this.props.history.push(`/metacodes`)

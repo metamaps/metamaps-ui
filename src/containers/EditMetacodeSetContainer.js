@@ -5,21 +5,23 @@ import EditMetacodeSet from '../routes/Admin/EditMetacodeSet'
 
 function mapStateToProps(state) {
   const {
-    
+    metacodeSets,
+    metacodes
   } = state
 
   return {
-    
+    metacodeSets,
+    metacodes
   }
 }
 
 function mapDispatchToProps(dispatch)  {
   const {
-    
+    updateMetacodeSet
   } = ReactApp.getCallbackProps()
 
   return {
-    
+    updateMetacodeSet
   }
 }
 

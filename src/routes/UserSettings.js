@@ -143,7 +143,7 @@ class UserSettings extends Component {
 
   onSubmit = async (event) => {
     event.preventDefault()
-    const { updateUser, params: { id } } = this.props
+    const { updateUser, match:{params: { id }} } = this.props
     const { name, email, imagePreviewFile, emailsAllowed, removeImage,
             followTopicOnCreated, followTopicOnContributed,
             followMapOnCreated, followMapOnContributed,

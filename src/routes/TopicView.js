@@ -41,7 +41,23 @@ export default class TopicView extends Component {
     onSynapseCardMount: PropTypes.func,
     onSynapseDirectionChange: PropTypes.func,
     onSynapsePermissionSelect: PropTypes.func,
-    onSynapseSelect: PropTypes.func
+    onSynapseSelect: PropTypes.func,
+    metacodeSets: PropTypes.array,
+    contextMenu: PropTypes.bool,
+    contextNode: PropTypes.object,
+    contextEdge: PropTypes.object,
+    contextPos: PropTypes.object,
+    contextFetchingSiblingsData: PropTypes.bool,
+    contextSiblingsData: PropTypes.object,
+    contextDelete: PropTypes.func,
+    contextRemove: PropTypes.func,
+    contextHide: PropTypes.func,
+    contextCenterOn: PropTypes.func,
+    contextPopoutTopic: PropTypes.func,
+    contextUpdatePermissions: PropTypes.func,
+    contextOnMetacodeSelect: PropTypes.func,
+    contextFetchSiblings: PropTypes.func,
+    contextPopulateSiblings: PropTypes.func
   }
 
   componentWillUnmount() {
@@ -54,25 +70,30 @@ export default class TopicView extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    /*const oldTopicId = prevProps.topicId
-    const { topicId, launchNewTopic } = this.props
-    if (!oldTopicId && topicId) launchNewTopic(topicId)
-    else if (oldTopicId && topicId && oldTopicId !== topicId) {
+    const oldTopicId = prevProps.match.params.id
+    const { match:{params:{ id }}, launchNewTopic } = this.props
+    if (!oldTopicId && id) launchNewTopic(parseInt(id, 10))
+    else if (oldTopicId && id && oldTopicId !== id) {
       this.endTopic()
-      launchNewTopic(topicId)
+      launchNewTopic(parseInt(id, 10))
     }
-    else if (oldTopicId && !topicId) this.endTopic()*/
+    else if (oldTopicId && !id) this.endTopic()
   }
 
   render = () => {
-    const { mobile, topic, currentUser, allForFiltering, visibleForFiltering,
+    const { mobile, map, topic, currentUser, allForFiltering, visibleForFiltering,
             toggleMetacode, toggleMapper, toggleSynapse, filterAllMetacodes,
             filterAllMappers, filterAllSynapses, filterData, forkMap,
             openHelpLightbox, onZoomIn, onZoomOut, contextMenu,
             openTopic, openSynapse, synapseCardSynapses, onSynapseCardMount,
             onSynapseDirectionChange, onSynapsePermissionSelect,
-            onSynapseSelect, synapseCardPosition } = this.props
-    // TODO: stop using {...this.props} and make explicit
+            onSynapseSelect, synapseCardPosition,
+            redrawCanvas, metacodeSets, updateTopic,
+            onTopicFollow, contextNode,
+            contextEdge, contextPos, contextFetchingSiblingsData,
+            contextSiblingsData, contextDelete, contextRemove, contextHide, contextCenterOn,
+            contextPopoutTopic, contextUpdatePermissions, contextOnMetacodeSelect,
+            contextFetchSiblings, contextPopulateSiblings } = this.props
     return <div className="topicWrapper">
       <UpperOptions ref={x => this.upperOptions = x}
                     currentUser={currentUser}
@@ -88,7 +109,12 @@ export default class TopicView extends Component {
                     filterAllMappers={filterAllMappers}
                     filterAllSynapses={filterAllSynapses} />
       <DataVis />
-      {openTopic && <TopicCard {...this.props} />}
+      {openTopic && <TopicCard currentUser={currentUser}
+                               onTopicFollow={onTopicFollow}
+                               updateTopic={updateTopic}
+                               metacodeSets={metacodeSets}
+                               redrawCanvas={redrawCanvas}
+                               topic={openTopic} />}
       {openSynapse && <SynapseCard synapse={openSynapse}
                                    currentUser={currentUser}
                                    position={synapseCardPosition}
@@ -97,7 +123,24 @@ export default class TopicView extends Component {
                                    onDirectionChange={onSynapseDirectionChange} 
                                    onPermissionSelect={onSynapsePermissionSelect} 
                                    onSynapseSelect={onSynapseSelect} />}
-      {contextMenu && <ContextMenu {...this.props} />}
+      {contextMenu && <ContextMenu metacodeSets={metacodeSets}
+                                   currentUser={currentUser}
+                                   map={map}
+                                   topic={topic}
+                                   contextNode={contextNode}
+                                   contextEdge={contextEdge}
+                                   contextFetchingSiblingsData={contextFetchingSiblingsData}
+                                   contextSiblingsData={contextSiblingsData}
+                                   contextPos={contextPos}
+                                   contextDelete={contextDelete}
+                                   contextRemove={contextRemove}
+                                   contextHide={contextHide}
+                                   contextCenterOn={contextCenterOn}
+                                   contextPopoutTopic={contextPopoutTopic}
+                                   contextUpdatePermissions={contextUpdatePermissions}
+                                   contextOnMetacodeSelect={contextOnMetacodeSelect}
+                                   contextFetchSiblings={contextFetchSiblings}
+                                   contextPopulateSiblings={contextPopulateSiblings} />}
       <VisualizationControls onClickZoomIn={onZoomIn}
                              onClickZoomOut={onZoomOut} />
       <InfoAndHelp topic={topic}

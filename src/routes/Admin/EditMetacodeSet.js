@@ -10,7 +10,7 @@ TODO:
 
 class EditMetacodeSet extends Component {
   onSubmit = async (metacodes, name, desc) => {
-    const { updateMetacodeSet, params: { id } } = this.props
+    const { updateMetacodeSet, match:{params: { id }} } = this.props
     try {
       const result = await updateMetacodeSet(id, metacodes, name, desc)
       this.props.history.push(`/metacode_sets`)
@@ -22,7 +22,7 @@ class EditMetacodeSet extends Component {
 
   render = () => {
     const { metacodeSets, metacodes } = this.props
-    const id = parseInt(this.props.params.id, 10)
+    const id = parseInt(this.props.match.params.id, 10)
     const metacodeSet = metacodeSets.find(m => m.id === id)
     return (
       <div>

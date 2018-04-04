@@ -4,22 +4,18 @@ import ReactApp from '../Metamaps/GlobalUI/ReactApp'
 import EditMetacode from '../routes/Admin/EditMetacode'
 
 function mapStateToProps(state) {
-  const {
-    
-  } = state
-
   return {
-    
+    metacodes: state.metacodes
   }
 }
 
 function mapDispatchToProps(dispatch)  {
   const {
-    
+    updateMetacode
   } = ReactApp.getCallbackProps()
 
   return {
-    
+    updateMetacode
   }
 }
 

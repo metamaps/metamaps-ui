@@ -4,22 +4,16 @@ import ReactApp from '../Metamaps/GlobalUI/ReactApp'
 import RequestAccess from '../routes/RequestAccess'
 
 function mapStateToProps(state) {
-  const {
-    
-  } = state
-
-  return {
-    
-  }
+  return {}
 }
 
 function mapDispatchToProps(dispatch)  {
   const {
-    
+    requestAccess
   } = ReactApp.getCallbackProps()
 
   return {
-    
+    requestAccess
   }
 }
 

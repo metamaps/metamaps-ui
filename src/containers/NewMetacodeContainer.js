@@ -4,22 +4,16 @@ import ReactApp from '../Metamaps/GlobalUI/ReactApp'
 import NewMetacode from '../routes/Admin/NewMetacode'
 
 function mapStateToProps(state) {
-  const {
-    
-  } = state
-
-  return {
-    
-  }
+  return {}
 }
 
 function mapDispatchToProps(dispatch)  {
   const {
-    
+    createMetacode
   } = ReactApp.getCallbackProps()
 
   return {
-    
+    createMetacode
   }
 }
 

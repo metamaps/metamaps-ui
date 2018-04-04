@@ -118,10 +118,12 @@ export default class MapView extends Component {
   componentDidUpdate(prevProps) {
     const oldMapId = prevProps.match.params.id
     const { match:{params:{ id }}, launchNewMap } = this.props
-    if (oldMapId !== id) {
+    if (!oldMapId && id) launchNewMap(parseInt(id, 10))
+    else if (oldMapId && id && oldMapId !== id) {
       this.endMap()
       launchNewMap(parseInt(id, 10))
     }
+    else if (oldMapId && !id) this.endTopic()
   }
 
   render = () => {
