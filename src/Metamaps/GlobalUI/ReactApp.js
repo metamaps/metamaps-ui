@@ -83,51 +83,89 @@ const ReactApp = {
     //ReactApp.store.dispatch({type: UPDATE, payload: ReactApp.getDataProps()})
   },
   getCallbackProps: function() {
-    const plot = Visualize.mGraph ? Visualize.mGraph.plot.bind(Visualize.mGraph) : () => {}
     return {
-      updateUser: DataFetcher.updateUser,
       mobileTitleClick: (e) => Active.Map && InfoBox.toggleBox(e),
       openInviteLightbox: () => ReactApp.openLightbox('invite'),
+      openHelpLightbox: () => ReactApp.openLightbox('cheatsheet'),
+
+      // notifications
       fetchNotifications: Notifications.fetchNotifications,
       fetchNotification: Notifications.fetchNotification,
       markAsRead: Notifications.markAsRead,
       markAsUnread: Notifications.markAsUnread,
-      denyAccessRequest: DataFetcher.denyAccessRequest,
-      approveAccessRequest: DataFetcher.approveAccessRequest,
+
+      // content creation
       onSetSelect: Create.updateMetacodeSet,
       onMetacodeSetSelectMount: Create.setupMetacodeSetTabs,
+      openMetacodeSwitcher: () => ReactApp.openLightbox('switchMetacodes'),
+      initNewTopic: Create.newTopic.init,
+      initNewSynapse: Create.newSynapse.init,
+
+      // access requests for maps
+      // TODO: dedupe with Map.requestAccess
+      requestAccess: DataFetcher.requestAccess,
+      denyAccessRequest: DataFetcher.denyAccessRequest,
+      approveAccessRequest: DataFetcher.approveAccessRequest,
+
+      // individual map
+      launchNewMap: Map.launch,
+      endActiveMap: Map.end,
       selectMapPermission: apply(InfoBox.selectPermission, Active.Map),
       deleteActiveMap: apply(InfoBox.deleteActiveMap, Active.Map, Active.Mapper),
       updateThumbnail: apply(Map.uploadMapScreenshot, Active.Map),
+      toggleInfoBox: InfoBox.toggleBox,
       onInfoBoxMount: apply(InfoBox.attachEventListeners, Active.Map, Active.Mapper),
       removeCollaborator: apply(InfoBox.removeCollaborator, Active.Map),
       openImportLightbox: () => ImportDialog.show(),
-      openMetacodeSwitcher: () => ReactApp.openLightbox('switchMetacodes'),
       forkMap: Map.fork,
       onMapStar: Map.star,
       onMapUnstar: Map.unstar,
-      initNewTopic: Create.newTopic.init,
-      initNewSynapse: Create.newSynapse.init,
+      // TODO: dedupe with DataFetcher.requestAccess
+      onRequestAccess: Map.requestAccess,
       importHandleFile: PasteInput.handleFile,
       downloadScreenshot: ImportDialog.downloadScreenshot,
       onExport: format => () => {
         window.open(`${window.location.pathname}/export.${format}`, '_blank')
       },
-      requestAccess: DataFetcher.requestAccess,
-      endActiveMap: Map.end,
-      launchNewMap: Map.launch,
-      toggleInfoBox: InfoBox.toggleBox,
-      onRequestAccess: Map.requestAccess,
-      openHelpLightbox: () => ReactApp.openLightbox('cheatsheet'),
       onZoomExtents: (event) => JIT.zoomExtents(event, Visualize.mGraph.canvas),
       onZoomIn: JIT.zoomIn,
       onZoomOut: JIT.zoomOut,
+
+      // on map realtime conversations
+      leaveCall: Realtime.leaveCall,
+      joinCall: Realtime.joinCall,
+      inviteACall: Realtime.inviteACall,
+      inviteToJoin: Realtime.inviteToJoin,
+
+      // on map chat panel
+      onOpen: ChatView.onOpen,
+      onClose: ChatView.onClose,
+      videoToggleClick: ChatView.videoToggleClick,
+      cursorToggleClick: ChatView.cursorToggleClick,
+      soundToggleClick: ChatView.soundToggleClick,
+      inputBlur: ChatView.inputBlur,
+      inputFocus: ChatView.inputFocus,
+      handleInputMessage: ChatView.handleInputMessage,
+
+      // on map (or topic view) filters
+      toggleMetacode: Filter.toggleMetacode,
+      toggleMapper: Filter.toggleMapper,
+      toggleSynapse: Filter.toggleSynapse,
+      filterAllMetacodes: Filter.filterAllMetacodes,
+      filterAllMappers: Filter.filterAllMappers,
+      filterAllSynapses: Filter.filterAllSynapses,
+
+      // individual topic
       updateTopic: (topic, obj) => topic.save(obj),
       onTopicFollow: Topic.onTopicFollow,
-      onSynapseCardMount: apply(SynapseCard.onSynapseCardMount, plot),
-      onSynapseDirectionChange: apply(SynapseCard.onDirectionChange, plot),
-      onSynapseSelect: apply(SynapseCard.onSynapseSelect, plot),
+
+      // individual synapse
+      onSynapseCardMount: SynapseCard.onSynapseCardMount,
+      onSynapseDirectionChange: SynapseCard.onDirectionChange,
+      onSynapseSelect: SynapseCard.onSynapseSelect,
       onSynapsePermissionSelect: SynapseCard.onPermissionSelect,
+
+      // right-click / context menu
       contextDelete: ContextMenu.delete,
       contextRemove: ContextMenu.remove,
       contextHide: ContextMenu.hide,
@@ -137,33 +175,26 @@ const ReactApp = {
       contextOnMetacodeSelect: ContextMenu.onMetacodeSelect,
       contextFetchSiblings: ContextMenu.fetchSiblings,
       contextPopulateSiblings: ContextMenu.populateSiblings,
+
+      // topic view
       endActiveTopic: Topic.end,
       launchNewTopic: Topic.launch,
+
+      // explore maps
       loadMore: ExploreMaps.loadMore,
       onStar: ExploreMaps.onStar,
       onRequest: ExploreMaps.onRequest,
       onMapFollow: ExploreMaps.onMapFollow,
-      onOpen: ChatView.onOpen,
-      onClose: ChatView.onClose,
-      leaveCall: Realtime.leaveCall,
-      joinCall: Realtime.joinCall,
-      inviteACall: Realtime.inviteACall,
-      inviteToJoin: Realtime.inviteToJoin,
-      videoToggleClick: ChatView.videoToggleClick,
-      cursorToggleClick: ChatView.cursorToggleClick,
-      soundToggleClick: ChatView.soundToggleClick,
-      inputBlur: ChatView.inputBlur,
-      inputFocus: ChatView.inputFocus,
-      handleInputMessage: ChatView.handleInputMessage,
-      toggleMetacode: Filter.toggleMetacode,
-      toggleMapper: Filter.toggleMapper,
-      toggleSynapse: Filter.toggleSynapse,
-      filterAllMetacodes: Filter.filterAllMetacodes,
-      filterAllMappers: Filter.filterAllMappers,
-      filterAllSynapses: Filter.filterAllSynapses,
+
+      // user settings
+      updateUser: DataFetcher.updateUser,
+
+      // metacode sets
       createMetacodeSet: DataFetcher.createMetacodeSet,
       updateMetacodeSet: DataFetcher.updateMetacodeSet,
       deleteMetacodeSet: DataFetcher.deleteMetacodeSet,
+
+      // metacodes
       createMetacode: DataFetcher.createMetacode,
       updateMetacode: DataFetcher.updateMetacode
     }

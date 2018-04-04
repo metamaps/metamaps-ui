@@ -1,4 +1,7 @@
 Main things
+
+-- define a pattern for async calls affecting app state
+
 -- Backbone hooks!!
 -- create map
 -- collab cursors

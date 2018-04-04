@@ -5,6 +5,7 @@ import {
   updateSynapseCardPosition
 } from '../../actions'
 import Control from '../Control'
+import Visualize from '../Visualize'
 
 const SynapseCard = {
   init: function(serverData, store) {
@@ -25,7 +26,7 @@ const SynapseCard = {
     SynapseCard.store.dispatch(updateOpenSynapse(null))
     SynapseCard.store.dispatch(updateSynapseCardSynapses([]))
   },
-  onSynapseCardMount: function(plot, synapse) {
+  onSynapseCardMount: function(synapse) {
     $('#edit_synapse.permission.canEdit .best_in_place').best_in_place()
     $('#edit_synapse_desc').keypress(function(e) {
       const ENTER = 13
@@ -42,16 +43,16 @@ const SynapseCard = {
       }
       synapse.trigger('saved')
       Control.selectEdge(synapse.get('edge'))
-      plot() // the datavis
+      Visualize.mGraph.plot() // the datavis
     })
   },
-  onDirectionChange: function(plot, synapse, category, direction) {
+  onDirectionChange: function(synapse, category, direction) {
     synapse.save({
       category: category,
       topic1_id: direction[0],
       topic2_id: direction[1]
     })
-    plot()
+    Visualize.mGraph.plot() // the datavis
   },
   onPermissionSelect: function(synapse, permission) {
     synapse.save({
@@ -59,10 +60,10 @@ const SynapseCard = {
       defer_to_map_id: null
     })
   },
-  onSynapseSelect: function(plot, synapse, index) {
+  onSynapseSelect: function(synapse, index) {
     const edge = synapse.get('edge')
     edge.setData('displayIndex', index)
-    plot()
+    Visualize.mGraph.plot() // the datavis
     SynapseCard.showCard(edge)
   }
 }
