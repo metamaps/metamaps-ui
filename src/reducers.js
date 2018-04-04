@@ -7,7 +7,6 @@ import {
   INCREMENT_UNREAD_MESSAGES,
   INCREMENT_UNREAD_NOTIFICATION_COUNT,
   UPDATE_ALL_FOR_FILTERING,
-  UPDATE_CONTEXT_MENU,
   UPDATE_CONTEXT_NODE,
   UPDATE_CONTEXT_EDGE,
   UPDATE_CONTEXT_POS,
@@ -98,16 +97,6 @@ function filterData(state = {
   const { type, payload } = action
   switch (type) {
     case (UPDATE_FILTER_DATA):
-      return payload
-    default:
-      return state
-  }
-}
-
-function contextMenu(state = false, action) {
-  const { type, payload } = action
-  switch (type) {
-    case (UPDATE_CONTEXT_MENU):
       return payload
     default:
       return state
@@ -547,7 +536,6 @@ export default combineReducers({
   requestsPending,
   errors,
   allForFiltering,
-  contextMenu,
   contextNode,
   contextEdge,
   contextPos,
