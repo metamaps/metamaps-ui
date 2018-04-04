@@ -19,9 +19,17 @@ import ContextMenu from './Views/ContextMenu'
 import Util from './Util'
 import Visualize from './Visualize'
 
+import {
+  updateTopic,
+  updateMobileTitle
+} from '../actions'
+
 const noOp = () => {}
 
 const Topic = {
+  init: function(serverData, store) {
+    Topic.store = store
+  },
   // this function is to retrieve a topic JSON object from the database
   // @param id = the id of the topic to retrieve
   get: function(id, callback = noOp) {
@@ -46,8 +54,7 @@ const Topic = {
       Filter.checkSynapses()
       Filter.checkMappers()
       document.title = Active.Topic.get('name') + ' | Metamaps'
-      ReactApp.mobileTitle = Active.Topic.get('name')
-      ReactApp.render()
+      Topic.store.dispatch(updateMobileTitle(Active.Topic.get('name')))
     }
     if (Active.Topic && Active.Topic.id === id) {
       dataIsReadySetupTopic()
@@ -57,7 +64,7 @@ const Topic = {
       $.ajax({
         url: '/topics/' + id + '/network.json',
         success: function(data) {
-          Active.Topic = new DataModel.Topic(data.topic)
+          Topic.store.dispatch(updateTopic(new DataModel.Topic(data.topic)))
           DataModel.Creators = new DataModel.MapperCollection(data.creators)
           DataModel.Topics = new DataModel.TopicCollection([data.topic].concat(data.relatives))
           DataModel.Synapses = new DataModel.SynapseCollection(data.synapses)
@@ -99,7 +106,6 @@ const Topic = {
       GlobalUI.notifyUser('You are now following this topic')
       Active.Mapper.followTopic(topic.id)
     }
-    ReactApp.render()
   },
   fetchSiblings: function(nodes, metacodeId) {
     var self = this

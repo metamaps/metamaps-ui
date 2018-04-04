@@ -79,9 +79,6 @@ const ReactApp = {
     }
     window.ga && window.ga('send', 'pageview', pathname)
   },
-  render: function() {
-    //ReactApp.store.dispatch({type: UPDATE, payload: ReactApp.getDataProps()})
-  },
   getCallbackProps: function() {
     return {
       mobileTitleClick: (e) => Active.Map && InfoBox.toggleBox(e),
