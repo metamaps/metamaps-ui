@@ -40,7 +40,7 @@ function mockTopic({ hasAttachment, canEdit, isOwner }) {
 
 function assertCssClassPresent({ mockTopicParam, mockTopicValue, cssClass }) {
   const topic = mockTopic({ [mockTopicParam]: mockTopicValue })
-  const wrapper = render({ openTopic: topic })
+  const wrapper = render({ topic })
   it(`correctly shows ${cssClass} css class`, function() {
     expect(wrapper.find(`.${cssClass}`).length).to.equal(1)
   })
@@ -65,7 +65,7 @@ describe('TopicCard', function() {
   })
 
   describe('Draggable wrapper', function() {
-    const wrapper = render({ openTopic: mockTopic({}) })
+    const wrapper = render({ topic: mockTopic({}) })
     it('handle is metacodeImage', function() {
       expect(wrapper.props().handle).to.equal('.metacodeImage')
     })
@@ -76,7 +76,7 @@ describe('TopicCard', function() {
   })
 
   describe('content', function() {
-    const wrapper = render({ openTopic: mockTopic({}) })
+    const wrapper = render({ topic: mockTopic({}) })
     const innerDiv = wrapper.find('.CardOnGraph')
     it('renders a Links component', function() {
       expect(innerDiv.childAt(0).type()).to.equal(Links)
