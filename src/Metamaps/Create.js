@@ -99,6 +99,7 @@ const Create = {
         Create.newTopic.name = $(this).val()
       })
 
+      // TODO: move this callback def into react
       $('.pinCarousel').click(function() {
         if (Create.newTopic.pinned) {
           $('.pinCarousel').removeClass('isPinned')
