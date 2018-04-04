@@ -1,4 +1,6 @@
-import { createStore } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
+import { compact } from 'lodash'
+import thunk from 'redux-thunk'
 
 import metamapsReducer from '../reducers'
 
@@ -93,6 +95,8 @@ document.addEventListener('DOMContentLoaded', async function() {
       Metamaps.ServerData.ActiveMapper = activeMapper
       $('body').removeClass('unauthenticated').addClass('authenticated')
     }
+    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+    const middleware = compact([thunk])
     const store = createStore(
       metamapsReducer,
       {
@@ -102,7 +106,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         mobileTitle: Metamaps.ServerData.mobileTitle,
         unreadNotificationCount: activeMapper ? activeMapper.unread_notifications_count : undefined
       },
-      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+      composeEnhancers(applyMiddleware(...middleware))
     )
     runInitFunctions(Metamaps.ServerData, store)
   })

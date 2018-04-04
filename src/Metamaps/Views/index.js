@@ -13,7 +13,6 @@ import InfoBox from './InfoBox'
 import Room from './Room'
 import TopicCard from './TopicCard'
 import SynapseCard from './SynapseCard'
-import { JUNTO_UPDATED } from '../Realtime/events'
 
 const Views = {
   init: (serverData, store) => {

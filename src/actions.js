@@ -1,9 +1,20 @@
 import Active from './Metamaps/Active'
+import DataFetcher from './Metamaps/DataFetcher'
 
+/* async actions */
+export const APPROVE_ACCESS_REQUEST = 'APPROVE_ACCESS_REQUEST'
+export const APPROVE_ACCESS_REQUEST_COMPLETED = APPROVE_ACCESS_REQUEST + '_COMPLETED'
+export const GET_METACODES = 'GET_METACODES'
+export const GET_METACODES_COMPLETED = GET_METACODES + '_COMPLETED'
+
+/* other actions */
 export const INCREMENT_UNREAD_MESSAGES = 'INCREMENT_UNREAD_MESSAGES'
 export const INCREMENT_UNREAD_NOTIFICATION_COUNT = 'INCREMENT_UNREAD_NOTIFICATION_COUNT'
 export const DECREMENT_UNREAD_MESSAGES = 'DECREMENT_UNREAD_MESSAGES'
 export const DECREMENT_UNREAD_NOTIFICATION_COUNT = 'DECREMENT_UNREAD_NOTIFICATION_COUNT'
+
+
+/* raw updates to the state */
 export const UPDATE_ALL_FOR_FILTERING = 'UPDATE_ALL_FOR_FILTERING'
 export const UPDATE_CONTEXT_MENU = 'UPDATE_CONTEXT_MENU'
 export const UPDATE_CONTEXT_NODE = 'UPDATE_CONTEXT_NODE'
@@ -48,6 +59,49 @@ export const UPDATE_UNREAD_MESSAGES = 'UPDATE_UNREAD_MESSAGES'
 export const UPDATE_UNREAD_NOTIFICATION_COUNT = 'UPDATE_UNREAD_NOTIFICATION_COUNT'
 export const UPDATE_USER = 'UPDATE_USER'
 export const UPDATE_VISIBLE_FOR_FILTERING = 'UPDATE_VISIBLE_FOR_FILTERING'
+
+// this uses redux-thunk to enable async actions like this
+function asyncActionCreator(baseActionType, asyncAction, meta = null) {
+  return dispatch => {
+    // dispatch an action to indicate the request is pending
+    dispatch({
+      type: `${baseActionType}_PENDING`,
+      baseActionType,
+      meta
+    })
+    // call the async action
+    asyncAction()
+      .then(res => {
+        // dispatch the result of the async action
+        // if it was successful
+        dispatch({
+          type: `${baseActionType}_COMPLETED`,
+          payload: res,
+          baseActionType,
+          meta
+        })
+      })
+      .catch(e => {
+        // dispatch an error action if async action failed
+        dispatch({
+          type: `${baseActionType}_FAILED`,
+          error: e,
+          baseActionType,
+          meta
+        })
+      })
+    }
+}
+
+export function approveAccessRequest(mapId, requestId) {
+  return asyncActionCreator(APPROVE_ACCESS_REQUEST, () => {
+    return DataFetcher.approveAccessRequest(mapId, requestId)
+  }, { mapId, requestId })
+}
+
+export function getMetacodes() {
+  return asyncActionCreator(GET_METACODES, () => DataFetcher.getMetacodes())
+}
 
 export function decrementUnreadNotificationCount() {
   return {

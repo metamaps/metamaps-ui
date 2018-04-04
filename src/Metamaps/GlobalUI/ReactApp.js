@@ -10,16 +10,14 @@ import Active from '../Active'
 import Create from '../Create'
 import DataModel from '../DataModel'
 import DataFetcher from '../DataFetcher'
-import {
-  ImportDialog,
-  Notifications,
-  ExploreMaps,
-  ChatView,
-  TopicCard,
-  SynapseCard,
-  ContextMenu,
-  InfoBox
-} from '../Views'
+import ImportDialog from '../Views/ImportDialog'
+import Notifications from '../Views/Notifications'
+import ExploreMaps from '../Views/ExploreMaps'
+import ChatView from '../Views/ChatView'
+import TopicCard from '../Views/TopicCard'
+import SynapseCard from '../Views/SynapseCard'
+import ContextMenu from '../Views/ContextMenu'
+import InfoBox from '../Views/InfoBox'
 import Filter from '../Filter'
 import JIT from '../JIT'
 import PasteInput from '../PasteInput'
@@ -99,7 +97,7 @@ const ReactApp = {
       initNewSynapse: Create.newSynapse.init,
 
       // access requests for maps
-      // TODO: dedupe with Map.requestAccess
+      // TODO: dedupe with Map.requestAccess and ExploreMaps.onRequest
       requestAccess: DataFetcher.requestAccess,
       denyAccessRequest: DataFetcher.denyAccessRequest,
       approveAccessRequest: DataFetcher.approveAccessRequest,
@@ -107,17 +105,17 @@ const ReactApp = {
       // individual map
       launchNewMap: Map.launch,
       endActiveMap: Map.end,
-      selectMapPermission: apply(InfoBox.selectPermission, Active.Map),
-      deleteActiveMap: apply(InfoBox.deleteActiveMap, Active.Map, Active.Mapper),
-      updateThumbnail: apply(Map.uploadMapScreenshot, Active.Map),
+      selectMapPermission: InfoBox.selectPermission,
+      deleteActiveMap: InfoBox.deleteActiveMap,
+      updateThumbnail: Map.uploadMapScreenshot,
       toggleInfoBox: InfoBox.toggleBox,
-      onInfoBoxMount: apply(InfoBox.attachEventListeners, Active.Map, Active.Mapper),
-      removeCollaborator: apply(InfoBox.removeCollaborator, Active.Map),
+      onInfoBoxMount: InfoBox.attachEventListeners,
+      removeCollaborator: InfoBox.removeCollaborator,
       openImportLightbox: () => ImportDialog.show(),
       forkMap: Map.fork,
       onMapStar: Map.star,
       onMapUnstar: Map.unstar,
-      // TODO: dedupe with DataFetcher.requestAccess
+      // TODO: dedupe with DataFetcher.requestAccess and ExploreMaps.onRequest
       onRequestAccess: Map.requestAccess,
       importHandleFile: PasteInput.handleFile,
       downloadScreenshot: ImportDialog.downloadScreenshot,

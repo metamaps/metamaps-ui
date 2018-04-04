@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux'
 
 import {
+  GET_METACODES_COMPLETED,
+  APPROVE_ACCESS_REQUEST_COMPLETED,
   DECREMENT_UNREAD_MESSAGES,
   DECREMENT_UNREAD_NOTIFICATION_COUNT,
   INCREMENT_UNREAD_MESSAGES,
@@ -54,11 +56,31 @@ import {
   UPDATE_VISIBLE_FOR_FILTERING
 } from './actions'
 
-function gen() {
-  const newArr = Array.from(arguments)
-  newArr.unshift({})
-  return Object.assign.apply(this, newArr)
+/* for redux-thunk async actions */
+function errors(state = {}, action) {
+  const { type, baseActionType, error } = action
+  if (type.endsWith('_FAILED')) {
+    return Object.assign({}, state, {[baseActionType]: error})
+  } else if (type.endsWith('_COMPLETED') || type.endsWith('_PENDING')) {
+    return Object.assign({}, state, {[baseActionType]: null})
+  } else {
+    return state
+  }
 }
+
+function requestsPending(state = {}, action) {
+  const { type, baseActionType } = action
+  if (type.endsWith('_PENDING')) {
+    return Object.assign({}, state, {[baseActionType]: true})
+  } else if (type.endsWith('_COMPLETED') || type.endsWith('_FAILED')) {
+    return Object.assign({}, state, {[baseActionType]: false})
+  } else {
+    return state
+  }
+}
+/* end for redux-thunk */
+
+
 
 function allForFiltering(state = {
   metacodes: [],
@@ -264,6 +286,7 @@ function messages(state = [], action) {
 function metacodes(state = [], action) {
   const { type, payload } = action
   switch (type) {
+    case (GET_METACODES_COMPLETED):
     case (UPDATE_METACODES):
       return payload
     default:
@@ -547,6 +570,8 @@ function visibleForFiltering(state = {
 }
 
 export default combineReducers({
+  requestsPending,
+  errors,
   allForFiltering,
   contextMenu,
   contextNode,

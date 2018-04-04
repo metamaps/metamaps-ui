@@ -22,8 +22,11 @@ class InfoBox extends Component {
   }
 
   componentDidMount = () => {
-    // TODO!
-    //this.props.onInfoBoxMount()
+    const {
+      currentUser,
+      map
+    } = this.props
+    this.props.onInfoBoxMount(map, currentUser)
   }
 
   handleClickOutside = () => {
@@ -54,6 +57,19 @@ class InfoBox extends Component {
     const createdAt = map.get('created_at_clean')
     const updatedAt = map.get('updated_at_clean')
 
+    const wrappedSelectMapPermission = (permission) => {
+      selectMapPermission(map, permission)
+    }
+    const wrappedDeleteActiveMap = () => {
+      deleteActiveMap(map, currentUser)
+    }
+    const wrappedUpdateThumbnail = () => {
+      updateThumbnail(map)
+    }
+    const wrappedRemoveCollaborator = (id) => {
+      removeCollaborator(map, id)
+    }
+
     let classes = 'mapInfoBox mapElement mapElementHidden permission '
     classes += isCreator ? 'yourMap' : ''
     classes += canEdit ? ' canEdit' : ''
@@ -61,9 +77,9 @@ class InfoBox extends Component {
 
     return <div className={classes}>
       <MapName canEdit={canEdit} id={map.id} name={map.get('name')} />
-      <MapInfo {...{isCreator, permission, topicCount, synapseCount, relevantPeople, userId, selectMapPermission, removeCollaborator}} />
+      <MapInfo {...{isCreator, permission, topicCount, synapseCount, relevantPeople, userId, selectMapPermission: wrappedSelectMapPermission, removeCollaborator: wrappedRemoveCollaborator}} />
       <MapDesc {...{canEdit, id, desc}} />
-      <MapMeta {...{userName, createdAt, updatedAt, deleteActiveMap, updateThumbnail}} />
+      <MapMeta {...{userName, createdAt, updatedAt, deleteActiveMap: wrappedDeleteActiveMap, updateThumbnail: wrappedUpdateThumbnail}} />
     </div>
   }
 }
