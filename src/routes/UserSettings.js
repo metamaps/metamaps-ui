@@ -149,38 +149,40 @@ class UserSettings extends Component {
             followMapOnCreated, followMapOnContributed,
             currentPassword, newPassword, newPasswordConfirmation  } = this.state
     this.setState({ loading: true, error: false })
-    try {
-      const res = await updateUser(id, {
-        name,
-        email,
-        removeImage,
-        image: imagePreviewFile,
-        emailsAllowed,
-        followTopicOnCreated,
-        followTopicOnContributed,
-        followMapOnCreated,
-        followMapOnContributed,
-        currentPassword,
-        newPassword,
-        newPasswordConfirmation
+    const updateData = {
+      name,
+      email,
+      removeImage,
+      image: imagePreviewFile,
+      emailsAllowed,
+      followTopicOnCreated,
+      followTopicOnContributed,
+      followMapOnCreated,
+      followMapOnContributed,
+      currentPassword,
+      newPassword,
+      newPasswordConfirmation
+    }
+    updateUser(id, updateData)
+      .then(res => {
+        if (res.ok) {
+          this.setState({ loading: false, success: true })
+          window.setTimeout(() => this.setState({ success: false }), 4000)
+        } else {
+          res.json().then(({ error }) => {
+            this.setState({
+              loading: false,
+              error
+            })
+          })
+        }
       })
-      if (res.ok) {
-        this.setState({ loading: false, success: true })
-        window.setTimeout(() => this.setState({ success: false }), 4000)
-      } else {
-        const parsed = await res.json()
-        const error = parsed.error
+      .catch(e => {
         this.setState({
           loading: false,
-          error
+          error: 'There was an error saving'
         })
-      }
-    } catch (e) {
-      this.setState({
-        loading: false,
-        error: 'There was an error saving'
       })
-    }
   }
 
   submitClick = (event) => {

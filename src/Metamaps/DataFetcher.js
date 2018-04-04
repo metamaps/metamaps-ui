@@ -56,19 +56,17 @@ function deleteReq(url) {
 }
 
 async function getMetacodes() {
-  const res = await get('/metacodes')
-  const data = await res.json()
-  return data
+  return get('/metacodes')
+    .then(res => res.json())
 }
 
 async function getMetacodeSets() {
-  const res = await get('/metacode_sets')
-  const data = await res.json()
-  return data
+  return get('/metacode_sets')
+    .then(res => res.json())
 }
 
 async function createMetacodeSet(metacodes, name, desc) {
-  const res = await post(`/metacode_sets`, {
+  const data = {
     metacodes: {
       value: metacodes.toString()
     },
@@ -76,17 +74,13 @@ async function createMetacodeSet(metacodes, name, desc) {
       name,
       desc
     }
-  })
-  if (!res.ok) {
-    throw new Error()
-    return
   }
-  const data = await res.json()
-  return data
+  return post(`/metacode_sets`, data)
+    .then(res => res.json())
 }
 
 async function updateMetacodeSet(id, metacodes, name, desc) {
-  const res = await put(`/metacode_sets/${id}`, {
+  const data = {
     metacodes: {
       value: metacodes.toString()
     },
@@ -94,17 +88,14 @@ async function updateMetacodeSet(id, metacodes, name, desc) {
       name,
       desc
     }
-  })
-  if (!res.ok) {
-    throw new Error()
-    return
   }
-  return true
+  return put(`/metacode_sets/${id}`, data)
+    .then(res => Promise.resolve(res.ok))
 }
 
 async function deleteMetacodeSet(id) {
-  const res = await deleteReq(`/metacode_sets/${id}`)
-  return res.ok
+  return deleteReq(`/metacode_sets/${id}`)
+    .then(res => Promise.resolve(res.ok))
 }
 
 async function createMetacode(name, color, icon) {
@@ -112,13 +103,7 @@ async function createMetacode(name, color, icon) {
   formdata.append('metacode[name]', name)
   formdata.append('metacode[color]', color)
   formdata.append('metacode[aws_icon]', icon)
-  const res = await postNoStringify(`/metacodes`, formdata)
-  if (!res.ok) {
-    throw new Error()
-    return
-  }
-  const data = await res.json()
-  return data
+  return postNoStringify(`/metacodes`, formdata)
 }
 
 async function updateMetacode(id, name, color, icon) {
@@ -126,14 +111,13 @@ async function updateMetacode(id, name, color, icon) {
   formdata.append('metacode[name]', name)
   formdata.append('metacode[color]', color)
   if (icon) formdata.append('metacode[aws_icon]', icon)
-  const res = await putNoStringify(`/metacodes/${id}`, formdata)
-  return res.ok
+  return putNoStringify(`/metacodes/${id}`, formdata)
+    .then(res => Promise.resolve(res.ok))
 }
 
 async function getCurrentUser() {
-  const res = await get('/users/current')
-  const data = await res.json()
-  return data
+  return get('/users/current')
+    .then(res => res.json())
 }
 
 async function updateUser(id, opts) {
@@ -150,31 +134,33 @@ async function updateUser(id, opts) {
   formdata.append('settings[follow_map_on_contributed]', opts.followMapOnContributed)
   formdata.append('remove_image', opts.removeImage)
   if (opts.image) formdata.append('user[image]', opts.image)
-  const res = await putNoStringify(`/users/${id}`, formdata)
-  return res
+  return putNoStringify(`/users/${id}`, formdata)
+    .then(res => res.json())
 }
 
 function changeMetacodeSet(set) {
-  return post('/user/updatemetacodes', {
+  const data = {
     'metacodes': {
       'value': set
     }
-  }).then(res => res.ok)
+  }
+  return post('/user/updatemetacodes', data)
+    .then(res => Promise.resolve(res.ok))
 }
 
 async function approveAccessRequest(mapId, requestId) {
-  const res = await post(`/maps/${mapId}/approve_access/${requestId}`)
-  return res.ok
+  return post(`/maps/${mapId}/approve_access/${requestId}`)
+    .then(res => Promise.resolve(res.ok))
 }
 
 async function denyAccessRequest(mapId, requestId) {
-  const res = await post(`/maps/${mapId}/deny_access/${requestId}`)
-  return res.ok
+  return post(`/maps/${mapId}/deny_access/${requestId}`)
+    .then(res => Promise.resolve(res.ok))
 }
 
 async function requestAccess(mapId) {
-  const res = await post(`/maps/${mapId}/access_request`)
-  return res.ok
+  return post(`/maps/${mapId}/access_request`)
+    .then(res => Promise.resolve(res.ok))
 }
 
 module.exports = {

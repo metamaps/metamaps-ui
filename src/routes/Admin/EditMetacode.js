@@ -45,14 +45,12 @@ class EditMetacode extends Component {
   onSubmit = async (event) => {
     event.preventDefault()
     const { name, color, icon } = this.state
-    const { updateMetacode, match:{params: { id }} } = this.props
-    try {
-      const result = await updateMetacode(id, name, color, icon)
-      this.props.history.push(`/metacodes`)
-    } catch (e) {
-      console.log(e)
-      window.alert('There was an error updating the metacode, check the console')
-    }
+    const { updateMetacode, history, match:{params: { id }} } = this.props
+    updateMetacode(id, name, color, icon)
+      .then(res => {
+        console.log(res)
+        history.push(`/metacodes`)
+      })
   }
 
   render = () => {

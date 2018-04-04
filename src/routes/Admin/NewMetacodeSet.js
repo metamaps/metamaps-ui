@@ -9,14 +9,12 @@ TODO:
 
 class NewMetacodeSet extends Component {
   onSubmit = async (metacodes, name, desc) => {
-    const { createMetacodeSet } = this.props
-    try {
-      const result = await createMetacodeSet(metacodes, name, desc)
-      this.props.history.push(`/metacode_sets`)
-    } catch (e) {
-      console.log(e)
-      window.alert('There was an error creating the metacode set')
-    }
+    const { createMetacodeSet, history } = this.props
+    createMetacodeSet(metacodes, name, desc)
+      .then(res => {
+        console.log(res)
+        history.push(`/metacode_sets`)
+      })
   }
 
   render = () => {

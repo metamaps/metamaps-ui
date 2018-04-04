@@ -28,31 +28,37 @@ class NotificationPage extends Component {
   }
 
   deny = async () => {
+    const { notifications, denyAccessRequest } = this.props
     const id  = parseInt(this.props.match.params.id, 10)
-    const notification = this.props.notifications.find(n => n.id === id)
+    const notification = notifications.find(n => n.id === id)
     const request = notification.data.object
     const map = notification.data.map
     this.setState({ declinePending: true })
-    const success = await this.props.denyAccessRequest(map.id, request.id)
-    if (success) {
-      this.setState({ declined: true, declinePending: false })
-    } else {
-      this.setState({ error: true })
-    }
+    denyAccessRequest(map.id, request.id)
+      .then(success => {
+        if (success) {
+          this.setState({ declined: true, declinePending: false })
+        } else {
+          this.setState({ error: true })
+        }
+      })
   }
 
   approve = async () => {
+    const { notifications, approveAccessRequest } = this.props
     const id  = parseInt(this.props.match.params.id, 10)
     const notification = this.props.notifications.find(n => n.id === id)
     const request = notification.data.object
     const map = notification.data.map
     this.setState({ allowPending: true })
-    const success = await this.props.approveAccessRequest(map.id, request.id)
-    if (success) {
-      this.setState({ allowed: true, allowPending: false })
-    } else {
-      this.setState({ error: true })
-    }
+    denyAccessRequest(map.id, request.id)
+      .then(success => {
+        if (success) {
+          this.setState({ allowed: true, allowPending: false })
+        } else {
+          this.setState({ error: true })
+        }
+      })
   }
 
   render = () => {

@@ -79,15 +79,16 @@ function runInitFunctions(serverData, store) {
 // fetch data from API then pass into init functions
 document.addEventListener('DOMContentLoaded', async function() {
   Metamaps.ServerData = Metamaps.ServerData || {}
-  // try {
-    // TODO: do these in parallel (Promise.all)
-    const metacodes = await DataFetcher.getMetacodes()
+  Promise.all([
+    DataFetcher.getMetacodes(),
+    DataFetcher.getMetacodeSets(),
+    DataFetcher.getCurrentUser()
+  ]).then(results => {
+    const metacodes = results[0]
+    const metacodeSets = results[1]
+    const activeMapper = results[2]
     Metamaps.ServerData.Metacodes = metacodes
-
-    const metacodeSets = await DataFetcher.getMetacodeSets()
     Metamaps.ServerData.metacodeSets = metacodeSets
-
-    const activeMapper = await DataFetcher.getCurrentUser()
     if (activeMapper) {
       Metamaps.ServerData.ActiveMapper = activeMapper
       $('body').removeClass('unauthenticated').addClass('authenticated')
@@ -104,10 +105,7 @@ document.addEventListener('DOMContentLoaded', async function() {
       window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     )
     runInitFunctions(Metamaps.ServerData, store)
-  /*  
-  } catch (e) {
-    console.log(e)
-  }*/
+  })
 })
 
 export default Metamaps

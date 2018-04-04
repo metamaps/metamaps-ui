@@ -33,14 +33,12 @@ class NewMetacode extends Component {
   onSubmit = async (event) => {
     event.preventDefault()
     const { name, color, icon } = this.state
-    const { createMetacode } = this.props
-    try {
-      const result = await createMetacode(name, color, icon)
-      this.props.history.push(`/metacodes`)
-    } catch (e) {
-      console.log(e)
-      window.alert('There was an error creating the metacode, check the console')
-    }
+    const { createMetacode, history } = this.props
+    createMetacode(name, color, icon)
+      .then(res => {
+        console.log(res)
+        history.push(`/metacodes`)
+      })
   }
 
   render = () => {

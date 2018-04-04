@@ -10,14 +10,12 @@ TODO:
 
 class EditMetacodeSet extends Component {
   onSubmit = async (metacodes, name, desc) => {
-    const { updateMetacodeSet, match:{params: { id }} } = this.props
-    try {
-      const result = await updateMetacodeSet(id, metacodes, name, desc)
-      this.props.history.push(`/metacode_sets`)
-    } catch (e) {
-      console.log(e)
-      window.alert('There was an error updating the metacode set')
-    }
+    const { updateMetacodeSet, history, match:{params: { id }} } = this.props
+    updateMetacodeSet(id, metacodes, name, desc)
+      .then(res => {
+        console.log(res)
+        history.push(`/metacode_sets`)
+      })
   }
 
   render = () => {
