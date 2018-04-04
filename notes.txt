@@ -1,0 +1,78 @@
+Main things
+-- Backbone hooks!!
+-- create map
+-- collab cursors
+-- consolidate all http requests into DataFetcher
+-- document the reducers/app state
+-- user settings
+-- leaving a map leaves junto state on map
+-- explore maps needs resizing
+-- new map
+
+-- Map
+-- Realtime
+-- Filter
+-- remove async calls and replace with promises
+-- rest of containers
+-- history .push
+
+
+-- realtime state
+
+
+
+// backbone models and collections
+      currentUser: Active.Mapper,
+      map: Active.Map,
+      maps: ExploreMaps.collection,
+      openSynapse: SynapseCard.openSynapse,
+      openTopic: TopicCard.openTopic,
+      topic: Active.Topic
+// non backbone
+      metacodes: DataModel.Metacodes.toJSON()
+      selectedMetacodes: Active.Mapper.get("metacodes")
+      user: ExploreMaps.collection && ExploreMaps.collection.id === 'mapper' ? ExploreMaps.mapper : null,
+      moreToLoad: ExploreMaps.collection && ExploreMaps.collection.page !== 'loadedAll',
+      participants: ChatView.participants ? ChatView.participants.models.map(p => p.attributes) : [],
+      messages: ChatView.messages ? ChatView.messages.models.map(m => m.attributes) : [],
+
+      allForFiltering: Filter.filters,
+      filterData: Filter.dataForPresentation,
+      visibleForFiltering: Filter.visible
+
+      relevantPeopleForMap: Active.Map ? (Active.Map.get('permission') === 'commons' ? DataModel.Mappers : DataModel.Collaborators) : [],
+      juntoState: Realtime.juntoState,
+      mapIsStarred: Map.mapIsStarred,
+      requestAnswered: Map.requestAnswered,
+      requestApproved: Map.requestApproved,
+      userRequested: Map.userRequested,
+
+
+    
+      
+      // DONE
+      section: ExploreMaps.collection && ExploreMaps.collection.id,
+      pending: ExploreMaps.pending,
+      contextMenu: !!(ContextMenu.clickedNode || ContextMenu.clickedEdge),
+      contextNode: ContextMenu.clickedNode,
+      contextEdge: ContextMenu.clickedEdge,
+      contextPos: ContextMenu.pos,
+      contextFetchingSiblingsData: ContextMenu.fetchingSiblingsData,
+      contextSiblingsData: ContextMenu.siblingsData,
+      unreadMessages: ChatView.unreadMessages,
+      conversationLive: ChatView.conversationLive,
+      isParticipating: ChatView.isParticipating,
+      metacodeSets: ReactApp.metacodeSets,
+      toast: ReactApp.toast,
+      mobileTitle: ReactApp.mobileTitle,
+      serverData: ReactApp.serverData,
+      notifications: Notifications.notifications,
+      notificationsLoading: Notifications.notificationsLoading,
+      unreadNotificationsCount: Notifications.unreadNotificationsCount,
+      isNewMap: InfoBox.isNewMap,
+      mapsWidth: ReactApp.mapsWidth,
+      mobile: ReactApp.mobile,
+      mobileTitleWidth: ReactApp.mobileTitleWidth,
+      synapseCardPosition: SynapseCard.mouse,
+      synapseCardSynapses: SynapseCard.synapseCardSynapses,
+      
