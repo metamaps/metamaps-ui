@@ -2,8 +2,12 @@ Main things
 
 -- define a pattern for async calls affecting app state
 
--- Backbone hooks!!
--- create map
+-- eliminate usage of ReactApp.getCallbackProps
+  -- remove usage of 'apply'
+  -- remove usage of inline function definition
+-- eliminate usage of Active module, Active.Topic, Active.Mapper, Active.Map
+-- Backbone hooks!! eliminate usage of .get and .models in react components
+-- fork map (createmap)
 -- collab cursors
 -- consolidate all http requests into DataFetcher
 -- document the reducers/app state
@@ -11,6 +15,7 @@ Main things
 -- leaving a map leaves junto state on map
 -- explore maps needs resizing
 -- new map
+-- actioncable stuff
 
 -- Map
 -- Realtime
@@ -21,6 +26,13 @@ Main things
 
 
 -- realtime state
+
+
+General Pattern:
+-- make the network request
+-- update the state
+-- update the data (in DataModel)
+-- update the user (with a ui notification)
 
 
 
