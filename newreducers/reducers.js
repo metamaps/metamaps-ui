@@ -4,12 +4,14 @@ import pending from './pending'
 import errors from './errors'
 import db from './db'
 import ui from './ui'
+import juntoState from './juntoState'
 
 export default combineReducers({
   pending,
   errors,
   db,
-  ui
+  ui,
+  juntoState
 })
 
 // current map id comes from the URL
@@ -39,6 +41,10 @@ const test = {
     metacodeSets: {},
     notifications: {}
   },
+  juntoState: {
+    connectedPeople: {},
+    liveMaps: {}
+  },
   ui: {
     mobileTitle: '',
     mobileTitleWidth: 0,
@@ -46,10 +52,6 @@ const test = {
     currentUserId: 123,
     unreadNotificationCount: 10,
     toast: 'Hi!',
-    juntoState: {
-      connectedPeople: {},
-      liveMaps: {}
-    },
     maps: {
       123: {
         unreadMessageCount: 0,

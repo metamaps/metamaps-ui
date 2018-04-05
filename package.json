@@ -8,7 +8,7 @@
     "sass": "node-sass sass/application.scss public/css/application.css",
     "sass:watch": "node-sass -w sass/application.scss public/css/application.css",
     "test": "mocha-webpack --webpack-config webpack.test.config.js --require test_support/dom.js --recursive test",
-    "testnew": "mocha-webpack --webpack-config webpack.test.config.js --require test_support/dom.js --recursive newreducers",
+    "testnew": "mocha-webpack --webpack-config webpack.test.config.js --recursive newreducers",
     "eslint": "eslint src",
     "eslint:fix": "eslint --fix src"
   },
