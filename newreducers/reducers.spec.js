@@ -8,8 +8,7 @@ describe('reducers.js', function() {
   it('has the right default state', function() {
     const state = reducers(undefined, {type: 'RUN'})
     expect(state).to.deep.equal({
-      pending: {},
-      errors: {},
+      models: {},
       juntoState: {
         connectedPeople: {},
         liveMaps: {}
@@ -23,21 +22,6 @@ describe('reducers.js', function() {
         unreadNotificationCount: 0,
         maps: {},
         topics: {}
-      },
-      db: {
-        events: {},
-        follows: {},
-        mappings: {},
-        maps: {},
-        messages: {},
-        metacodeSets: {},
-        metacodes: {},
-        notifications: {},
-        requests: {},
-        stars: {},
-        synapses: {},
-        topics: {},
-        users: {}
       }
     })
   })

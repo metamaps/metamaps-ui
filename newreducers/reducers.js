@@ -1,15 +1,11 @@
 import { combineReducers } from 'redux'
+import { crudReducer } from 'redux-crud-store'
 
-import pending from './pending'
-import errors from './errors'
-import db from './db'
 import ui from './ui'
 import juntoState from './juntoState'
 
 export default combineReducers({
-  pending,
-  errors,
-  db,
+  models: crudReducer,
   ui,
   juntoState
 })
@@ -24,9 +20,7 @@ export default combineReducers({
 
 // all the remaining things are synthesis of what's stored in state
 const test = {
-  pending: {},
-  errors: {},
-  db: {
+  models: {
     maps: {},
     messages: {},
     users: {},
