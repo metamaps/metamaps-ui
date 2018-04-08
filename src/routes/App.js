@@ -39,15 +39,15 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser, children, mobile, location } = this.props
+    const { currentUser, children, mobile, location, history, match } = this.props
     const unauthedHome = location.pathname === '/' && !currentUser
     return <div className="wrapper" id="wrapper">
-      {mobile && <MobileHeader />}
-      {!unauthedHome && <UpperLeftUI />}
-      {!mobile && <UpperRightUI />}
-      <Toast />
+      {mobile && <MobileHeader location={location} history={history} match={match} />}
+      {!unauthedHome && <UpperLeftUI location={location} history={history} match={match} />}
+      {!mobile && <UpperRightUI location={location} history={history} match={match} />}
+      <Toast location={location} history={history} match={match} />
       {children}
-      <LightBoxes />
+      <LightBoxes location={location} history={history} match={match} />
     </div>
   }
 }
