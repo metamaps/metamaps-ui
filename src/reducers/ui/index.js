@@ -9,7 +9,7 @@ import {
   SET_UNREAD_NOTIFICATION_COUNT,
   INCREMENT_UNREAD_NOTIFICATION_COUNT,
   DECREMENT_UNREAD_NOTIFICATION_COUNT
-} from '../actions'
+} from '../../actions'
 
 import maps from './maps'
 import topics from './topics'

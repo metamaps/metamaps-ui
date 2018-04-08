@@ -4,9 +4,9 @@ import { expect } from 'chai'
 
 import {
   SET_JUNTO_STATE
-} from './actions'
+} from '../../src/actions'
 
-import reducers from './juntoState'
+import reducers from '../../src/reducers/juntoState'
 
 describe('juntoState', function() {
   it('sets a default value', function() {

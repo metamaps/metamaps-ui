@@ -3,11 +3,15 @@ import { crudReducer } from 'redux-crud-store'
 
 import ui from './ui'
 import juntoState from './juntoState'
+import pending from './pending'
+import errors from './errors'
 
 export default combineReducers({
   models: crudReducer,
   ui,
-  juntoState
+  juntoState,
+  pending,
+  errors
 })
 
 // current map id comes from the URL

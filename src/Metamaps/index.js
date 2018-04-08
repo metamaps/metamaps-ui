@@ -1,8 +1,5 @@
-import { createStore, applyMiddleware, compose } from 'redux'
-import { compact } from 'lodash'
-import thunk from 'redux-thunk'
 
-import metamapsReducer from '../reducers'
+import createStore from '../store'
 
 import Active from './Active'
 import AutoLayout from './AutoLayout'
@@ -80,36 +77,8 @@ function runInitFunctions(serverData, store) {
 
 // fetch data from API then pass into init functions
 document.addEventListener('DOMContentLoaded', async function() {
-  Metamaps.ServerData = Metamaps.ServerData || {}
-  Promise.all([
-    DataFetcher.getMetacodes(),
-    DataFetcher.getMetacodeSets(),
-    DataFetcher.getCurrentUser()
-  ]).then(results => {
-    const metacodes = results[0]
-    const metacodeSets = results[1]
-    const activeMapper = results[2]
-    Metamaps.ServerData.Metacodes = metacodes
-    Metamaps.ServerData.metacodeSets = metacodeSets
-    if (activeMapper) {
-      Metamaps.ServerData.ActiveMapper = activeMapper
-      $('body').removeClass('unauthenticated').addClass('authenticated')
-    }
-    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-    const middleware = compact([thunk])
-    const store = createStore(
-      metamapsReducer,
-      {
-        serverData: Metamaps.ServerData,
-        metacodeSets,
-        metacodes,
-        mobileTitle: Metamaps.ServerData.mobileTitle,
-        unreadNotificationCount: activeMapper ? activeMapper.unread_notifications_count : undefined
-      },
-      composeEnhancers(applyMiddleware(...middleware))
-    )
-    runInitFunctions(Metamaps.ServerData, store)
-  })
+  const store = createStore('http://localhost:3001/api/v2')
+  // runInitFunctions(Metamaps.ServerData, store)
 })
 
 export default Metamaps

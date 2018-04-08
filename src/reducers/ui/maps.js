@@ -54,7 +54,7 @@ import {
   SHOW_VIDEOS,
   MUTE_SOUNDS,
   UNMUTE_SOUNDS
-} from '../actions'
+} from '../../actions'
 
 const initialMapState = {
   unreadMessageCount: 0,

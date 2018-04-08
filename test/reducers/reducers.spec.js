@@ -2,54 +2,77 @@
 
 import { expect } from 'chai'
 
-import reducers from '../src/reducers'
+import reducers from '../../src/reducers'
 
 describe('reducers.js', function() {
-  describe('requestsPending', function() {
+  it('has the right default state', function() {
+    const state = reducers(undefined, {type: 'RUN'})
+    expect(state).to.deep.equal({
+      models: {},
+      juntoState: {
+        connectedPeople: {},
+        liveMaps: {}
+      },
+      ui: {
+        currentUserId: null,
+        mapsWidth: 0,
+        mobileTitle: '',
+        mobileTitleWidth: 0,
+        toast: null,
+        unreadNotificationCount: 0,
+        maps: {},
+        topics: {}
+      },
+      pending: {},
+      errors: {}
+    })
+  })
+
+  describe('pending', function() {
     it('has an empty object as default state', function() {
       const state = reducers(undefined, {type: 'RUN'})
-      expect(state.requestsPending).to.deep.equal({})
+      expect(state.pending).to.deep.equal({})
     })
     it('sets an async action as pending if pending action is dispatched', function() {
       const state = reducers(undefined, {
         type: 'RUN_PENDING',
         baseActionType: 'RUN'
       })
-      expect(state.requestsPending).to.deep.equal({
+      expect(state.pending).to.deep.equal({
         RUN: true
       })
     })
     it('sets pending to false if action completed', function() {
       const state = reducers({
-        requestsPending: {
+        pending: {
           RUN: true
         }
       }, {
         type: 'RUN_COMPLETED',
         baseActionType: 'RUN'
       })
-      expect(state.requestsPending).to.deep.equal({
+      expect(state.pending).to.deep.equal({
         RUN: false
       })
     })
     it('sets pending to false if action failed', function() {
       const state = reducers({
-        requestsPending: {
+        pending: {
           RUN: true
         }
       }, {
         type: 'RUN_FAILED',
         baseActionType: 'RUN'
       })
-      expect(state.requestsPending).to.deep.equal({
+      expect(state.pending).to.deep.equal({
         RUN: false
       })
     })
     it('returns the existing state if irrelevant action', function() {
       const state = reducers({
-        requestsPending: { FUN: true }
+        pending: { FUN: true }
       }, {type: 'RUN'})
-      expect(state.requestsPending).to.deep.equal({ FUN: true })
+      expect(state.pending).to.deep.equal({ FUN: true })
     })
   })
 

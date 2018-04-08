@@ -5,7 +5,7 @@ import sinon from 'sinon'
 
 import {
   asyncActionCreator
-} from '../src/actions'
+} from '../../src/actions'
 
 describe('actions.js asyncActionCreator', function() {
   it('returns a function', function() {

@@ -1,6 +1,6 @@
 import {
   SET_JUNTO_STATE
-} from './actions'
+} from '../actions'
 
 export default function(state = {
   connectedPeople: {},

@@ -11,11 +11,11 @@ import {
   SET_UNREAD_NOTIFICATION_COUNT,
   INCREMENT_UNREAD_NOTIFICATION_COUNT,
   DECREMENT_UNREAD_NOTIFICATION_COUNT
-} from './actions'
+} from '../../src/actions'
 
-import reducers from './ui'
+import reducers from '../../src/reducers/ui'
 
-describe('ui', function() {
+describe('reducers/ui', function() {
   describe('mobileTitle', function() {
     it('has empty string as default value', function() {
       const state = reducers(undefined, {

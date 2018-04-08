@@ -56,11 +56,11 @@ import {
   SHOW_VIDEOS,
   MUTE_SOUNDS,
   UNMUTE_SOUNDS
-} from '../actions'
+} from '../../src/actions'
 
-import reducers from './maps'
+import reducers from '../../src/reducers/ui/maps'
 
-describe('ui maps', function() {
+describe('reducers/ui/maps', function() {
   it('should set a default state for a map when you open it', function() {
     const state = reducers(undefined, {
       type: OPEN_MAP,

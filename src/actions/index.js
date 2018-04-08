@@ -1,3 +1,12 @@
+// import DataFetcher from './Metamaps/DataFetcher'
+
+/* async actions */
+/*
+export const APPROVE_ACCESS_REQUEST = 'APPROVE_ACCESS_REQUEST'
+export const APPROVE_ACCESS_REQUEST_COMPLETED = APPROVE_ACCESS_REQUEST + '_COMPLETED'
+export const GET_METACODES = 'GET_METACODES'
+export const GET_METACODES_COMPLETED = GET_METACODES + '_COMPLETED'
+*/
 
 export const OPEN_NOTIFICATIONS = 'OPEN_NOTIFICATIONS'
 export const CLOSE_NOTIFICATIONS = 'CLOSE_NOTIFICATIONS'
@@ -69,3 +78,48 @@ export const ADD_SYNAPSE_FILTER = 'ADD_SYNAPSE_FILTER'
 export const REMOVE_SYNAPSE_FILTER = 'REMOVE_SYNAPSE_FILTER'
 export const CLEAR_SYNAPSES_FILTERS = 'CLEAR_SYNAPSES_FILTERS'
 export const FILL_SYNAPSES_FILTERS = 'FILL_SYNAPSES_FILTERS'
+
+// this uses redux-thunk to enable async actions like this
+export function asyncActionCreator(baseActionType, asyncAction, meta = null) {
+  return dispatch => {
+    // dispatch an action to indicate the request is pending
+    dispatch({
+      type: `${baseActionType}_PENDING`,
+      baseActionType,
+      meta
+    })
+    // call the async action
+    return asyncAction()
+      .then(res => {
+        // dispatch the result of the async action
+        // if it was successful
+        dispatch({
+          type: `${baseActionType}_COMPLETED`,
+          payload: res,
+          baseActionType,
+          meta
+        })
+      })
+      .catch(e => {
+        // dispatch an error action if async action failed
+        dispatch({
+          type: `${baseActionType}_FAILED`,
+          error: e,
+          baseActionType,
+          meta
+        })
+      })
+  }
+}
+
+/*
+export function approveAccessRequest(mapId, requestId) {
+  return asyncActionCreator(APPROVE_ACCESS_REQUEST, () => {
+    return DataFetcher.approveAccessRequest(mapId, requestId)
+  }, { mapId, requestId })
+}
+
+export function getMetacodes() {
+  return asyncActionCreator(GET_METACODES, () => DataFetcher.getMetacodes())
+}
+*/
