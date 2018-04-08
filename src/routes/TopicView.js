@@ -1,150 +1,42 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 
-import ContextMenu from '../components/ContextMenu'
-import DataVis from '../components/DataVis'
-import UpperOptions from '../components/UpperOptions'
-import InfoAndHelp from '../components/InfoAndHelp'
-import VisualizationControls from '../components/VisualizationControls'
-import SynapseCard from '../components/SynapseCard'
-import TopicCard from '../components/TopicCard'
+import ContextMenu from '../containers/componentContainers/ContextMenu'
+import DataVis from '../containers/componentContainers/DataVis'
+import UpperOptions from '../containers/componentContainers/UpperOptions'
+import InfoAndHelp from '../containers/componentContainers/InfoAndHelp'
+import VisualizationControls from '../containers/componentContainers/VisualizationControls'
+import TopicCard from '../containers/componentContainers/TopicCard'
+import SynapseCard from '../containers/componentContainers/SynapseCard'
 
 export default class TopicView extends Component {
-
-  static propTypes = {
-    contextMenu: PropTypes.bool,
-    mobile: PropTypes.bool,
-    topicId: PropTypes.string,
-    topic: PropTypes.object,
-    filterData: PropTypes.object,
-    allForFiltering: PropTypes.object,
-    visibleForFiltering: PropTypes.object,
-    toggleMetacode: PropTypes.func,
-    toggleMapper: PropTypes.func,
-    toggleSynapse: PropTypes.func,
-    filterAllMetacodes: PropTypes.func,
-    filterAllMappers: PropTypes.func,
-    filterAllSynapses: PropTypes.func,
-    currentUser: PropTypes.object,
-    endActiveTopic: PropTypes.func,
-    launchNewTopic: PropTypes.func,
-    openHelpLightbox: PropTypes.func,
-    forkMap: PropTypes.func,
-    onZoomIn: PropTypes.func,
-    onZoomOut: PropTypes.func,
-    openSynapse: PropTypes.object,
-    synapseCardPosition: PropTypes.shape({
-      x: PropTypes.number,
-      y: PropTypes.number
-    }),
-    synapseCardSynapses: PropTypes.array,
-    onSynapseCardMount: PropTypes.func,
-    onSynapseDirectionChange: PropTypes.func,
-    onSynapsePermissionSelect: PropTypes.func,
-    onSynapseSelect: PropTypes.func,
-    metacodeSets: PropTypes.array,
-    contextMenu: PropTypes.bool,
-    contextNode: PropTypes.object,
-    contextEdge: PropTypes.object,
-    contextPos: PropTypes.object,
-    contextFetchingSiblingsData: PropTypes.bool,
-    contextSiblingsData: PropTypes.object,
-    contextDelete: PropTypes.func,
-    contextRemove: PropTypes.func,
-    contextHide: PropTypes.func,
-    contextCenterOn: PropTypes.func,
-    contextPopoutTopic: PropTypes.func,
-    contextUpdatePermissions: PropTypes.func,
-    contextOnMetacodeSelect: PropTypes.func,
-    contextFetchSiblings: PropTypes.func,
-    contextPopulateSiblings: PropTypes.func
-  }
-
-  componentWillUnmount() {
-    this.endTopic()
-  }
-
-  endTopic() {
-    this.upperOptions.reset()
-    this.props.endActiveTopic()
-  }
-
-  componentDidUpdate(prevProps) {
-    const oldTopicId = prevProps.match.params.id
-    const { match:{params:{ id }}, launchNewTopic } = this.props
-    if (!oldTopicId && id) launchNewTopic(parseInt(id, 10))
-    else if (oldTopicId && id && oldTopicId !== id) {
-      this.endTopic()
-      launchNewTopic(parseInt(id, 10))
+  componentWillMount = () => {
+    const { ui, topic, fetchTopic, openTopic } = this.props
+    if (topic.needsFetch) {
+      fetchTopic()
     }
-    else if (oldTopicId && !id) this.endTopic()
+    if (!ui) {
+      openTopic()
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { topic } = nextProps
+    const { fetchTopic } = this.props
+    if (topic.needsFetch) {
+      fetchTopic()
+    }
   }
 
   render = () => {
-    const { mobile, map, topic, currentUser, allForFiltering, visibleForFiltering,
-            toggleMetacode, toggleMapper, toggleSynapse, filterAllMetacodes,
-            filterAllMappers, filterAllSynapses, filterData, forkMap,
-            openHelpLightbox, onZoomIn, onZoomOut, contextMenu,
-            openTopic, openSynapse, synapseCardSynapses, onSynapseCardMount,
-            onSynapseDirectionChange, onSynapsePermissionSelect,
-            onSynapseSelect, synapseCardPosition,
-            redrawCanvas, metacodeSets, updateTopic,
-            onTopicFollow, contextNode,
-            contextEdge, contextPos, contextFetchingSiblingsData,
-            contextSiblingsData, contextDelete, contextRemove, contextHide, contextCenterOn,
-            contextPopoutTopic, contextUpdatePermissions, contextOnMetacodeSelect,
-            contextFetchSiblings, contextPopulateSiblings } = this.props
+    const { history, location, match } = this.props
     return <div className="topicWrapper">
-      <UpperOptions ref={x => this.upperOptions = x}
-                    currentUser={currentUser}
-                    topic={topic}
-                    onForkClick={forkMap}
-                    filterData={filterData}
-                    allForFiltering={allForFiltering}
-                    visibleForFiltering={visibleForFiltering}
-                    toggleMetacode={toggleMetacode}
-                    toggleMapper={toggleMapper}
-                    toggleSynapse={toggleSynapse}
-                    filterAllMetacodes={filterAllMetacodes}
-                    filterAllMappers={filterAllMappers}
-                    filterAllSynapses={filterAllSynapses} />
-      <DataVis />
-      {openTopic && <TopicCard currentUser={currentUser}
-                               onTopicFollow={onTopicFollow}
-                               updateTopic={updateTopic}
-                               metacodeSets={metacodeSets}
-                               redrawCanvas={redrawCanvas}
-                               topic={openTopic} />}
-      {openSynapse && <SynapseCard synapse={openSynapse}
-                                   currentUser={currentUser}
-                                   position={synapseCardPosition}
-                                   synapses={synapseCardSynapses} 
-                                   onCardMount={onSynapseCardMount} 
-                                   onDirectionChange={onSynapseDirectionChange} 
-                                   onPermissionSelect={onSynapsePermissionSelect} 
-                                   onSynapseSelect={onSynapseSelect} />}
-      {contextMenu && <ContextMenu metacodeSets={metacodeSets}
-                                   currentUser={currentUser}
-                                   map={map}
-                                   topic={topic}
-                                   contextNode={contextNode}
-                                   contextEdge={contextEdge}
-                                   contextFetchingSiblingsData={contextFetchingSiblingsData}
-                                   contextSiblingsData={contextSiblingsData}
-                                   contextPos={contextPos}
-                                   contextDelete={contextDelete}
-                                   contextRemove={contextRemove}
-                                   contextHide={contextHide}
-                                   contextCenterOn={contextCenterOn}
-                                   contextPopoutTopic={contextPopoutTopic}
-                                   contextUpdatePermissions={contextUpdatePermissions}
-                                   contextOnMetacodeSelect={contextOnMetacodeSelect}
-                                   contextFetchSiblings={contextFetchSiblings}
-                                   contextPopulateSiblings={contextPopulateSiblings} />}
-      <VisualizationControls onClickZoomIn={onZoomIn}
-                             onClickZoomOut={onZoomOut} />
-      <InfoAndHelp topic={topic}
-                   onHelpClick={openHelpLightbox} />
+      <UpperOptions history={history} location={location} match={match} />
+      <DataVis history={history} location={location} match={match} />
+      <TopicCard history={history} location={location} match={match} />
+      <SynapseCard history={history} location={location} match={match} />
+      <ContextMenu history={history} location={location} match={match} />
+      <VisualizationControls history={history} location={location} match={match} />
+      <InfoAndHelp history={history} location={location} match={match} />
     </div>
   }
 }

@@ -43,7 +43,7 @@ class UserSettings extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.imagePreviewFile && !prevState.imagePreviewFile) {
-      //this.updatePreview()
+      // this.updatePreview()
     }
   }
 
@@ -68,7 +68,7 @@ class UserSettings extends Component {
       const destHeight = 84
       context.drawImage(imageObj, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight)
     }
-    reader.onload = () => { 
+    reader.onload = () => {
       imageObj.src = reader.result
     }
     if (this.state.imagePreviewFile) {
@@ -135,19 +135,19 @@ class UserSettings extends Component {
       if (event.target.type === 'checkbox') {
         newState[key] = !this.state[key]
       } else {
-        newState[key] = event.target.value  
+        newState[key] = event.target.value
       }
       this.setState(newState)
     }
   }
 
-  onSubmit = async (event) => {
+  onSubmit = async(event) => {
     event.preventDefault()
-    const { updateUser, match:{params: { id }} } = this.props
+    const { updateUser, match: {params: { id }} } = this.props
     const { name, email, imagePreviewFile, emailsAllowed, removeImage,
-            followTopicOnCreated, followTopicOnContributed,
-            followMapOnCreated, followMapOnContributed,
-            currentPassword, newPassword, newPasswordConfirmation  } = this.state
+      followTopicOnCreated, followTopicOnContributed,
+      followMapOnCreated, followMapOnContributed,
+      currentPassword, newPassword, newPasswordConfirmation } = this.state
     this.setState({ loading: true, error: false })
     const updateData = {
       name,
@@ -272,7 +272,7 @@ class UserSettings extends Component {
           </div>
           <div className="clearfloat"></div>
           <div id="accountPageSuccess">
-            {this.state.success && "Saved"}
+            {this.state.success && 'Saved'}
           </div>
           <div className="clearfloat"></div>
           <div id="accountPageError">

@@ -10,7 +10,7 @@ class RequestAccess extends Component {
     }
   }
 
-  requestAccess = async () => {
+  requestAccess = async() => {
     if (this.state.requestSent || this.state.requestPending || this.state.error) {
       return
     }
