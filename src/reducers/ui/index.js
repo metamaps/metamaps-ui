@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 
 import {
   SET_CURRENT_USER_ID,
+  SET_MOBILE,
   SET_MOBILE_TITLE,
   SET_MOBILE_TITLE_WIDTH,
   SET_TOAST,
@@ -12,6 +13,12 @@ import {
 
 import maps from './maps'
 import topics from './topics'
+
+function mobile(state = false, action) {
+  const { type, payload } = action
+  if (type === SET_MOBILE) return payload
+  else return state
+}
 
 function mobileTitle(state = '', action) {
   const { type, payload } = action
@@ -46,6 +53,7 @@ function toast(state = null, action) {
 }
 
 export default combineReducers({
+  mobile,
   mobileTitle,
   mobileTitleWidth,
   currentUserId,

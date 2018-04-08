@@ -4,6 +4,7 @@ import { expect } from 'chai'
 
 import {
   SET_CURRENT_USER_ID,
+  SET_MOBILE,
   SET_MOBILE_TITLE,
   SET_MOBILE_TITLE_WIDTH,
   SET_TOAST,
@@ -15,6 +16,32 @@ import {
 import reducers from '../../src/reducers/ui'
 
 describe('reducers/ui', function() {
+  describe('mobile', function() {
+    it('has false as default value', function() {
+      const state = reducers(undefined, {
+        type: SET_TOAST,
+        payload: 'Hello'
+      })
+      expect(state.mobile).to.equal(false)
+    })
+
+    it('can set mobile to true', function() {
+      const state = reducers(undefined, {
+        type: SET_MOBILE,
+        payload: true
+      })
+      expect(state.mobile).to.equal(true)
+    })
+
+    it('returns the existing state if irrelevant action', function() {
+      const state = reducers({ mobile: true }, {
+        type: SET_TOAST,
+        payload: 'Test'
+      })
+      expect(state.mobile).to.equal(true)
+    })
+  })
+
   describe('mobileTitle', function() {
     it('has empty string as default value', function() {
       const state = reducers(undefined, {

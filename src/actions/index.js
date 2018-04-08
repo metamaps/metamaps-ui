@@ -14,6 +14,7 @@ export const OPEN_USER_MENU = 'OPEN_USER_MENU'
 export const CLOSE_USER_MENU = 'CLOSE_USER_MENU'
 export const SET_CURRENT_USER_ID = 'SET_CURRENT_USER_ID'
 export const SET_JUNTO_STATE = 'SET_JUNTO_STATE'
+export const SET_MOBILE = 'SET_MOBILE'
 export const SET_MOBILE_TITLE = 'SET_MOBILE_TITLE'
 export const SET_MOBILE_TITLE_WIDTH = 'SET_MOBILE_TITLE_WIDTH'
 export const SET_TOAST = 'SET_TOAST'
@@ -136,6 +137,20 @@ export function zoomIn(id) {
   return {
     type: ZOOM_IN,
     payload: id
+  }
+}
+
+export function setMobile(val) {
+  return {
+    type: SET_MOBILE,
+    payload: val
+  }
+}
+
+export function setMobileTitleWidth(val) {
+  return {
+    type: SET_MOBILE_TITLE_WIDTH,
+    payload: val
   }
 }
 

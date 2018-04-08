@@ -5,12 +5,12 @@ import Header from './Header'
 import MapperCard from './MapperCard'
 import MapCard from './MapCard'
 import LoadingPage from '../helpers/LoadingPage'
-
-// 220 wide + 16 padding on both sides
-const MAP_WIDTH = 252
-const MOBILE_VIEW_BREAKPOINT = 504
-const MOBILE_VIEW_PADDING = 40
-const MAX_COLUMNS = 4
+import {
+  MAP_WIDTH,
+  MOBILE_VIEW_BREAKPOINT,
+  MOBILE_VIEW_PADDING,
+  MAX_COLUMNS
+} from '../../constants'
 
 class Maps extends Component {
   static propTypes = {
