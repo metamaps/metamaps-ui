@@ -34,19 +34,24 @@ class App extends Component {
     location: PropTypes.object
   }
 
-  getChildContext () {
+  getChildContext() {
     const { location } = this.props
     return {location}
   }
 
-  render () {
+  render() {
+    console.log(this.props.notifications)
+    return <div>
+      {this.props.children}
+    </div>
+
     const { children, toast, unreadNotificationCount, openInviteLightbox,
-            mobile, mobileTitle, mobileTitleWidth, mobileTitleClick, location,
-            map, userRequested, requestAnswered, requestApproved, serverData,
-            onRequestAccess, notifications, fetchNotifications,
-            markAsRead, markAsUnread, notificationsLoading,
-            importHandleFile, downloadScreenshot, onExport, metacodes,
-            onSetSelect, selectedMetacodes, onMetacodeSetSelectMount } = this.props
+      mobile, mobileTitle, mobileTitleWidth, mobileTitleClick, location,
+      map, userRequested, requestAnswered, requestApproved, serverData,
+      onRequestAccess, notifications, fetchNotifications,
+      markAsRead, markAsUnread, notificationsLoading,
+      importHandleFile, downloadScreenshot, onExport, metacodes,
+      onSetSelect, selectedMetacodes, onMetacodeSetSelectMount } = this.props
     const { pathname } = location || {}
     const metacodeSetsForSelector = this.props.metacodeSets.filter(set => set.name !== "All")
     // this fixes a bug that happens otherwise when you logout
@@ -54,38 +59,38 @@ class App extends Component {
     const unauthedHome = pathname === '/' && !currentUser
     return <div className="wrapper" id="wrapper">
       {mobile && <MobileHeader currentUser={currentUser}
-                               unreadNotificationCount={unreadNotificationCount}
-                               mobileTitle={mobileTitle}
-                               mobileTitleWidth={mobileTitleWidth}
-                               onTitleClick={mobileTitleClick}
-                               serverData={serverData} />}
+        unreadNotificationCount={unreadNotificationCount}
+        mobileTitle={mobileTitle}
+        mobileTitleWidth={mobileTitleWidth}
+        onTitleClick={mobileTitleClick}
+        serverData={serverData} />}
       {!unauthedHome && <UpperLeftUI currentUser={currentUser}
-                                     map={map}
-                                     userRequested={userRequested}
-                                     requestAnswered={requestAnswered}
-                                     requestApproved={requestApproved}
-                                     onRequestClick={onRequestAccess} />}
+        map={map}
+        userRequested={userRequested}
+        requestAnswered={requestAnswered}
+        requestApproved={requestApproved}
+        onRequestClick={onRequestAccess} />}
       {!mobile && <UpperRightUI currentUser={currentUser}
-                                unreadNotificationCount={unreadNotificationCount}
-                                notifications={notifications}
-                                notificationsLoading={notificationsLoading}
-                                fetchNotifications={fetchNotifications}
-                                markAsRead={markAsRead}
-                                markAsUnread={markAsUnread}
-                                openInviteLightbox={openInviteLightbox}
-                                signInPage={pathname === '/login'} />}
+        unreadNotificationCount={unreadNotificationCount}
+        notifications={notifications}
+        notificationsLoading={notificationsLoading}
+        fetchNotifications={fetchNotifications}
+        markAsRead={markAsRead}
+        markAsUnread={markAsUnread}
+        openInviteLightbox={openInviteLightbox}
+        signInPage={pathname === '/login'} />}
       <Toast message={toast} />
       {children}
       <LightBoxes inviteCode={currentUser && currentUser.get('invite_code')}
-                  importHandleFile={importHandleFile}
-                  downloadScreenshot={downloadScreenshot}
-                  onExport={onExport}
-                  currentUser={currentUser}
-                  metacodeSets={metacodeSetsForSelector}
-                  metacodes={metacodes}
-                  onSetSelect={onSetSelect}
-                  selectedMetacodes={selectedMetacodes}
-                  onMetacodeSetSelectMount={onMetacodeSetSelectMount} />
+        importHandleFile={importHandleFile}
+        downloadScreenshot={downloadScreenshot}
+        onExport={onExport}
+        currentUser={currentUser}
+        metacodeSets={metacodeSetsForSelector}
+        metacodes={metacodes}
+        onSetSelect={onSetSelect}
+        selectedMetacodes={selectedMetacodes}
+        onMetacodeSetSelectMount={onMetacodeSetSelectMount} />
     </div>
   }
 }

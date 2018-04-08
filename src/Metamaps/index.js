@@ -1,3 +1,5 @@
+import ReactDOM from 'react-dom'
+import createHistory from 'history/createBrowserHistory'
 
 import createStore from '../store'
 
@@ -74,6 +76,7 @@ function runInitFunctions(serverData, store) {
 // fetch data from API then pass into init functions
 document.addEventListener('DOMContentLoaded', async function() {
   const store = createStore('http://localhost:3001/api/v2')
+
   // runInitFunctions(Metamaps.ServerData, store)
 })
 

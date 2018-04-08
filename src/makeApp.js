@@ -5,10 +5,10 @@ import {
 } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
-import LoggedOutHome from './routes/LoggedOutHome'
 import RequestInvite from './routes/RequestInvite'
 
 import App from './containers/AppContainer'
+import Index from './containers/IndexContainer'
 import Maps from './containers/MapsContainer'
 import MapView from './containers/MapViewContainer'
 import Metacodes from './containers/MetacodesContainer'
@@ -29,16 +29,15 @@ function nullComponent(props) {
   return null
 }
 
-export default function makeApp(currentUser, history, store) {
-  const homeComponent = currentUser && currentUser.id ? Maps : LoggedOutHome
+export default function makeApp(history, store) {
   return <Provider store={store}>
     <Router history={history}>
       <Route path="/" children={(props) => (<App {...props}>
         <div>
-          <Route path="/" exact component={homeComponent} />
-          {!currentUser && <Route path="/login" exact component={Login} />}
-          {!currentUser && <Route path="/join" exact component={Join} />}
-          {!currentUser && <Route path="/request" exact component={RequestInvite} />}
+          <Route path="/" exact component={Index} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/join" exact component={Join} />
+          <Route path="/request" exact component={RequestInvite} />
           <Route path="/explore/active" exact component={Maps} />
           <Route path="/explore/featured" exact component={Maps} />
           <Route path="/explore/mine" exact component={Maps} />

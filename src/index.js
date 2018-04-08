@@ -1,12 +1,19 @@
 import {} from 'jquery-ujs'
-// make changes to Backbone before loading Metamaps code
-import Backbone from 'backbone'
-try { Backbone.$ = window.$ } catch (err) {}
-Backbone.ajax = (opts) => window.$.ajaxq('backbone-ajaxq', opts)
-
 import _ from 'lodash'
-import Metamaps from './Metamaps'
+import ReactDOM from 'react-dom'
+import createHistory from 'history/createBrowserHistory'
+
+import createStore from './store'
+import makeApp from './makeApp'
+// import Metamaps from './Metamaps'
 
 // create global references
 window._ = _
-window.Metamaps = Metamaps
+// window.Metamaps = Metamaps
+
+document.addEventListener('DOMContentLoaded', async function() {
+  const store = createStore('http://localhost:3000')
+  const history = createHistory()
+  const app = makeApp(history, store)
+  ReactDOM.render(app, document.getElementById('app'))
+})

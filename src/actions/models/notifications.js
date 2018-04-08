@@ -3,7 +3,7 @@ import {
 } from 'redux-crud-store'
 
 const MODEL = 'notifications'
-const PATH = '/api/v2/notifications'
+const PATH = '/notifications.json'
 
 export function fetchNotifications(params = {}) {
   return fetchCollection(MODEL, PATH, params)

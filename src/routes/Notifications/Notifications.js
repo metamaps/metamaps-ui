@@ -17,14 +17,25 @@ const BLACKLIST = [MAP_ACCESS_REQUEST, MAP_ACCESS_APPROVED, MAP_INVITE_TO_EDIT]
 */
 
 class Notifications extends Component {
-  componentDidMount = () => {
-    this.props.fetchNotifications()
+  componentWillMount = () => {
+    const { notifications, fetchNotifications } = this.props
+    if (notifications.needsFetch) {
+      fetchNotifications()
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { notifications } = nextProps
+    const { fetchNotifications } = this.props
+    if (notifications.needsFetch) {
+      fetchNotifications()
+    }
   }
 
   render = () => {
-    const { notificationsLoading, markAsRead, markAsUnread } = this.props
-    const notifications = (this.props.notifications || []).filter(n => !(BLACKLIST.indexOf(n.type) > -1 && (!n.data.object || !n.data.map)))
-    if (notifications.length === 0 && notificationsLoading) {
+    const { notifications, markAsRead, markAsUnread } = this.props
+    const list = notifications.data.filter(n => !(BLACKLIST.indexOf(n.type) > -1 && (!n.data.object || !n.data.map)))
+    if (notifications.isLoading) {
       return (
         <div>
           <LoadingPage />
@@ -40,7 +51,7 @@ class Notifications extends Component {
               <h2 className="title">Notifications</h2>
             </header>
             <ul className="notifications">
-              {notifications.map(n => {
+              {list.map(n => {
                 return (
                   <Notification key={`notification-${n.id}`}
                     notification={n}
@@ -48,20 +59,23 @@ class Notifications extends Component {
                     markAsUnread={markAsUnread} />
                 )
               })}
-              {notifications.length === 0 && <div className="emptyInbox">
+              {list.length === 0 && <div className="emptyInbox">
                     You have no notifications. More time for dancing.
               </div>}
             </ul>
           </div>
-          {notifications.total_pages > 1 && <div className="centerContent withPadding pagination">
-            <Paginate notifications={notifications} />
-          </div>}
         </div>
         <NotificationsHeader />
       </div>
     )
   }
 }
+
+/*
+{notifications.total_pages > 1 && <div className="centerContent withPadding pagination">
+            <Paginate notifications={notifications} />
+          </div>}
+*/
 
 class Paginate extends Component {
   render = () => {
