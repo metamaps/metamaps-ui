@@ -1,27 +1,13 @@
 import { connect } from 'react-redux'
 
-import ReactApp from '../Metamaps/GlobalUI/ReactApp'
 import NotificationPage from '../routes/Notifications/NotificationPage'
 
 function mapStateToProps(state) {
-  return {
-    notifications: state.notifications
-  }
+  return {}
 }
 
-function mapDispatchToProps(dispatch)  {
-  const {
-    approveAccessRequest,
-    denyAccessRequest,
-    fetchNotification
-  } = ReactApp.getCallbackProps()
-
-  return {
-    approveAccessRequest,
-    denyAccessRequest,
-    fetchNotification
-  }
+function mapDispatchToProps(dispatch) {
+  return {}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationPage)
-

@@ -1,27 +1,13 @@
 import { connect } from 'react-redux'
 
-import ReactApp from '../Metamaps/GlobalUI/ReactApp'
 import Join from '../routes/Join'
 
 function mapStateToProps(state) {
-  const {
-    
-  } = state
-
-  return {
-    
-  }
+  return {}
 }
 
-function mapDispatchToProps(dispatch)  {
-  const {
-    
-  } = ReactApp.getCallbackProps()
-
-  return {
-    
-  }
+function mapDispatchToProps(dispatch) {
+  return {}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Join)
-

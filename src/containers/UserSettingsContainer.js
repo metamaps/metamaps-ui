@@ -1,27 +1,13 @@
 import { connect } from 'react-redux'
 
-import ReactApp from '../Metamaps/GlobalUI/ReactApp'
 import UserSettings from '../routes/UserSettings'
 
 function mapStateToProps(state) {
-  const {
-    currentUser
-  } = state
-
-  return {
-    currentUser
-  }
+  return {}
 }
 
-function mapDispatchToProps(dispatch)  {
-  const {
-    updateUser
-  } = ReactApp.getCallbackProps()
-
-  return {
-    updateUser
-  }
+function mapDispatchToProps(dispatch) {
+  return {}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserSettings)
-

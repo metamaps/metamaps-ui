@@ -1,27 +1,13 @@
 import { connect } from 'react-redux'
 
-import ReactApp from '../Metamaps/GlobalUI/ReactApp'
 import NewMetacodeSet from '../routes/Admin/NewMetacodeSet'
 
 function mapStateToProps(state) {
-  const {
-    metacodes
-  } = state
-
-  return {
-    metacodes
-  }
+  return {}
 }
 
-function mapDispatchToProps(dispatch)  {
-  const {
-    createMetacodeSet
-  } = ReactApp.getCallbackProps()
-
-  return {
-    createMetacodeSet
-  }
+function mapDispatchToProps(dispatch) {
+  return {}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewMetacodeSet)
-

@@ -12,8 +12,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    /*  approveAccessRequest,
-    denyAccessRequest, */
     fetchNotifications: () => dispatch(fetchNotifications())
   }
 }
