@@ -3,16 +3,16 @@ import PropTypes from 'prop-types'
 
 export default class VisualizationControls extends Component {
   static propTypes = {
-    map: PropTypes.object,
+    isMap: PropTypes.bool,
     onClickZoomExtents: PropTypes.func,
     onClickZoomIn: PropTypes.func,
     onClickZoomOut: PropTypes.func
   }
 
-  render () {
-    const { map, onClickZoomExtents, onClickZoomIn, onClickZoomOut } = this.props
+  render() {
+    const { isMap, onClickZoomExtents, onClickZoomIn, onClickZoomOut } = this.props
     return <div className="mapControls mapElement">
-      {map && <div className="zoomExtents mapControl" onClick={onClickZoomExtents}>
+      {isMap && <div className="zoomExtents mapControl" onClick={onClickZoomExtents}>
         <div className="tooltips">Center View</div>
       </div>}
       <div className="zoomIn mapControl" onClick={onClickZoomIn}>

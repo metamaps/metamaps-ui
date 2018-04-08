@@ -111,6 +111,34 @@ export function asyncActionCreator(baseActionType, asyncAction, meta = null) {
   }
 }
 
+export function openMap(id) {
+  return {
+    type: OPEN_MAP,
+    payload: id
+  }
+}
+
+export function centerView(id) {
+  return {
+    type: CENTER_VIEW,
+    payload: id
+  }
+}
+
+export function zoomOut(id) {
+  return {
+    type: ZOOM_OUT,
+    payload: id
+  }
+}
+
+export function zoomIn(id) {
+  return {
+    type: ZOOM_IN,
+    payload: id
+  }
+}
+
 /*
 export function approveAccessRequest(mapId, requestId) {
   return asyncActionCreator(APPROVE_ACCESS_REQUEST, () => {

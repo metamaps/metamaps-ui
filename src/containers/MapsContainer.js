@@ -4,7 +4,7 @@ import { select } from 'redux-crud-store'
 import { fetchMaps } from '../actions/models/maps'
 import Maps from '../routes/Maps'
 
-function makeFetchMapParams(ownProps) {
+function makeFetchMapsParams(ownProps) {
   return {
     // user_id: 1234
     embed: 'user'
@@ -15,9 +15,9 @@ function mapStateToProps(state, ownProps) {
   const { pathname } = ownProps.location
   // which maps are selected here depends on which
   // section of the maps are being viewed
-  const fetchMapParams = makeFetchMapParams(ownProps)
+  const fetchMapsParams = makeFetchMapsParams(ownProps)
   return {
-    maps: select(fetchMaps(fetchMapParams), state.models),
+    maps: select(fetchMaps(fetchMapsParams), state.models),
     juntoState: state.juntoState,
     mobile: false, // TODO,
     currentUser: {
@@ -28,7 +28,7 @@ function mapStateToProps(state, ownProps) {
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
-  const fetchMapParams = makeFetchMapParams(ownProps)
+  const fetchMapParams = makeFetchMapsParams(ownProps)
   return {
     fetchMaps: () => {
       dispatch(fetchMaps(fetchMapParams))

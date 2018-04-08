@@ -1,172 +1,33 @@
 import { connect } from 'react-redux'
+import { select } from 'redux-crud-store'
 
-import ReactApp from '../Metamaps/GlobalUI/ReactApp'
+import { openMap } from '../actions'
+import { fetchMap } from '../actions/models/maps'
 import MapView from '../routes/MapView'
 
-function mapStateToProps(state) {
-  const {
-    mobile,
-    map,
-    topic,
-    metacodeSets,
-    currentUser,
-    allForFiltering,
-    visibleForFiltering,
-    filterData,
-    mapIsStarred,
-    openTopic,
-    hasLearnedTopicCreation,
-    isNewMap,
-    relevantPeopleForMap,
-    openSynapse,
-    synapseCardPosition,
-    synapseCardSynapses,
-    participants,
-    isParticipating,
-    conversationLive,
-    unreadMessages,
-    contextNode,
-    contextEdge,
-    contextFetchingSiblingsData,
-    contextSiblingsData,
-    contextPos
-  } = state
-
+function makeFetchMapParams(ownProps) {
   return {
-    mobile,
-    map,
-    topic,
-    metacodeSets,
-    currentUser,
-    allForFiltering,
-    visibleForFiltering,
-    filterData,
-    mapIsStarred,
-    openTopic,
-    hasLearnedTopicCreation,
-    isNewMap,
-    relevantPeopleForMap,
-    openSynapse,
-    synapseCardPosition,
-    synapseCardSynapses,
-    participants,
-    isParticipating,
-    conversationLive,
-    unreadMessages,
-    contextMenu: !!(contextNode || contextEdge),
-    contextNode,
-    contextEdge,
-    contextFetchingSiblingsData,
-    contextSiblingsData,
-    contextPos
+    // user_id: 1234
+    embed: 'user,topics,synapses,mappings,contributors,collaborators'
   }
 }
 
-function mapDispatchToProps(dispatch)  {
-  const {
-    launchNewMap,
-    endActiveMap,
-    toggleInfoBox,
-    toggleMetacode,
-    toggleMapper,
-    toggleSynapse,
-    filterAllMetacodes,
-    filterAllMappers,
-    filterAllSynapses,
-    openImportLightbox,
-    forkMap,
-    openHelpLightbox,
-    onMapStar,
-    onMapUnstar,
-    onZoomExtents,
-    onZoomIn,
-    onZoomOut,
-    initNewTopic,
-    initNewSynapse,
-    openMetacodeSwitcher,
-    selectMapPermission,
-    deleteActiveMap,
-    updateThumbnail,
-    onInfoBoxMount,
-    removeCollaborator,
-    onSynapseCardMount,
-    onSynapseDirectionChange,
-    onSynapsePermissionSelect,
-    onSynapseSelect,
-    updateTopic,
-    onTopicFollow,
-    redrawCanvas,
-    onOpen,
-    onClose,
-    leaveCall,
-    joinCall,
-    inviteACall,
-    inviteToJoin,
-    videoToggleClick,
-    cursorToggleClick,
-    soundToggleClick,
-    contextDelete,
-    contextRemove,
-    contextHide,
-    contextCenterOn,
-    contextPopoutTopic,
-    contextUpdatePermissions,
-    contextOnMetacodeSelect,
-    contextFetchSiblings,
-    contextPopulateSiblings
-  } = ReactApp.getCallbackProps()
-
+function mapStateToProps(state, ownProps) {
+  const { id } = ownProps.match.params
+  const fetchMapParams = makeFetchMapParams(ownProps)
   return {
-    launchNewMap,
-    endActiveMap,  
-    toggleInfoBox,
-    toggleMetacode,
-    toggleMapper,
-    toggleSynapse,
-    filterAllMetacodes,
-    filterAllMappers,
-    filterAllSynapses,
-    openImportLightbox,
-    forkMap,
-    openHelpLightbox,
-    onMapStar,
-    onMapUnstar,
-    onZoomExtents,
-    onZoomIn,
-    onZoomOut,
-    initNewTopic,
-    initNewSynapse,
-    openMetacodeSwitcher,
-    selectMapPermission,
-    deleteActiveMap,
-    updateThumbnail,
-    onInfoBoxMount,
-    removeCollaborator,
-    onSynapseCardMount,
-    onSynapseDirectionChange,
-    onSynapsePermissionSelect,
-    onSynapseSelect,
-    updateTopic,
-    onTopicFollow,
-    redrawCanvas,
-    onOpen,
-    onClose,
-    leaveCall,
-    joinCall,
-    inviteACall,
-    inviteToJoin,
-    videoToggleClick,
-    cursorToggleClick,
-    soundToggleClick,
-    contextDelete,
-    contextRemove,
-    contextHide,
-    contextCenterOn,
-    contextPopoutTopic,
-    contextUpdatePermissions,
-    contextOnMetacodeSelect,
-    contextFetchSiblings,
-    contextPopulateSiblings
+    map: select(fetchMap(id, fetchMapParams), state.models),
+    ui: state.ui.maps[id],
+    juntoState: state.juntoState
+  }
+}
+
+function mapDispatchToProps(dispatch, ownProps) {
+  const { id } = ownProps.match.params
+  const fetchMapParams = makeFetchMapParams(ownProps)
+  return {
+    openMap: () => dispatch(openMap(id)),
+    fetchMap: () => dispatch(fetchMap(id, fetchMapParams))
   }
 }
 
