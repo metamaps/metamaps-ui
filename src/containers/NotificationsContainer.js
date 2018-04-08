@@ -1,27 +1,21 @@
 import { connect } from 'react-redux'
+import { select } from 'redux-crud-store'
 
-import ReactApp from '../Metamaps/GlobalUI/ReactApp'
+import { fetchNotifications } from '../actions/models/notifications'
 import Notifications from '../routes/Notifications/Notifications'
 
 function mapStateToProps(state) {
   return {
-    notifications: state.notifications
+    notifications: select(fetchNotifications(), state.models)
   }
 }
 
 function mapDispatchToProps(dispatch)  {
-  const {
-    approveAccessRequest,
-    denyAccessRequest,
-    fetchNotifications
-  } = ReactApp.getCallbackProps()
-
   return {
-    approveAccessRequest,
-    denyAccessRequest,
+    /*  approveAccessRequest,
+    denyAccessRequest, */
     fetchNotifications
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notifications)
-
