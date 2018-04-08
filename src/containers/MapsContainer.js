@@ -1,47 +1,38 @@
 import { connect } from 'react-redux'
+import { select } from 'redux-crud-store'
 
-import ReactApp from '../Metamaps/GlobalUI/ReactApp'
+import { fetchMaps } from '../actions/models/maps'
 import Maps from '../routes/Maps'
 
-function mapStateToProps(state) {
-  const {
-    maps,
-    section,
-    moreToLoad,
-    juntoState,
-    user,
-    currentUser,
-    mapsWidth,
-    pending,
-    mobile
-  } = state
-
+function makeFetchMapParams(ownProps) {
   return {
-    maps,
-    section,
-    moreToLoad,
-    juntoState,
-    user,
-    currentUser,
-    mapsWidth,
-    pending,
-    mobile
+    // user_id: 1234
+    embed: 'user'
   }
 }
 
-function mapDispatchToProps(dispatch)  {
-  const {
-    loadMore,
-    onStar,
-    onRequest,
-    onMapFollow
-  } = ReactApp.getCallbackProps()
-
+function mapStateToProps(state, ownProps) {
+  const { pathname } = ownProps.location
+  // which maps are selected here depends on which
+  // section of the maps are being viewed
+  const fetchMapParams = makeFetchMapParams(ownProps)
   return {
-    loadMore,
-    onStar,
-    onRequest,
-    onMapFollow
+    maps: select(fetchMaps(fetchMapParams), state.models),
+    juntoState: state.juntoState,
+    mobile: false, // TODO,
+    currentUser: {
+      id: 1
+    },
+    section: pathname === '/' ? 'active' : pathname.split('/')[2]
+  }
+}
+
+function mapDispatchToProps(dispatch, ownProps) {
+  const fetchMapParams = makeFetchMapParams(ownProps)
+  return {
+    fetchMaps: () => {
+      dispatch(fetchMaps(fetchMapParams))
+    }
   }
 }
 

@@ -16,27 +16,27 @@ class Header extends Component {
           href={signedIn ? '/' : '/explore/active'}
           linkClass="activeMaps"
           text="All Maps"
-          />
+        />
         <NavBarLink show={signedIn && explore}
           href="/explore/mine"
           linkClass="myMaps"
           text="My Maps"
-          />
+        />
         <NavBarLink show={signedIn && explore}
           href="/explore/shared"
           linkClass="sharedMaps"
           text="Shared With Me"
-          />
+        />
         <NavBarLink show={signedIn && explore}
           href="/explore/starred"
           linkClass="starredMaps"
           text="Starred By Me"
-          />
+        />
         <NavBarLink show={!signedIn && explore}
           href="/explore/featured"
           linkClass="featuredMaps"
           text="Featured Maps"
-          />
+        />
         {mapper ? (
           <div className='navBarButton active mapperButton'>
             {user && <img className='exploreMapperImage' width='24' height='24' src={user.image} />}

@@ -6,7 +6,7 @@ import Maps from '../containers/MapsContainer'
 class Index extends Component {
   render = () => {
     return (
-      this.props.currentUserId ? <Maps /> : <LoggedOutHome />
+      this.props.currentUserId ? <Maps {...this.props} /> : <LoggedOutHome />
     )
   }
 }

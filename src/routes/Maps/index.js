@@ -27,6 +27,21 @@ class Maps extends Component {
     location: PropTypes.object
   }
 
+  componentWillMount = () => {
+    const { maps, fetchMaps } = this.props
+    if (maps.needsFetch) {
+      fetchMaps()
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { maps } = nextProps
+    const { fetchMaps } = this.props
+    if (maps.needsFetch) {
+      fetchMaps()
+    }
+  }
+
   mapsDidMount = (node) => {
     if (node) {
       this.mapsDiv = node
@@ -43,19 +58,17 @@ class Maps extends Component {
   }
 
   render = () => {
-    const { mobile, maps, mapsWidth, currentUser, juntoState, pending, section, user, onStar, onRequest, onMapFollow } = this.props
+    const { mobile, maps, mapsWidth, currentUser, juntoState, section, user, onStar, onRequest, onMapFollow } = this.props
     const style = { width: mapsWidth + 'px' }
 
-    const arr = (maps && maps.models) || []
-
-    if (!maps) {
+    if (maps.isLoading) {
       return (
         <div>
           <LoadingPage />
           <Header signedIn={ !!currentUser }
             section={ section }
             user={ user }
-            />
+          />
         </div>
       )
     }
@@ -65,15 +78,15 @@ class Maps extends Component {
         <div id='exploreMaps' ref={this.mapsDidMount}>
           <div style={ style }>
             { user ? <MapperCard user={ user } /> : null }
-            { currentUser && !user && !(pending && maps.length === 0) ? <div className="map newMap"><a href="/maps/new"><div className="newMapImage"></div><span>Create new map...</span></a></div> : null }
-            { arr.map(map => <MapCard key={ map.id } map={ map } mobile={ mobile } juntoState={ juntoState } currentUser={ currentUser } onStar={ onStar } onRequest={ onRequest } onMapFollow={ onMapFollow } />) }
+            { currentUser && !user ? <div className="map newMap"><a href="/maps/new"><div className="newMapImage"></div><span>Create new map...</span></a></div> : null }
+            { maps.data.map(map => <MapCard key={ map.id } map={ map } mobile={ mobile } juntoState={ juntoState } currentUser={ currentUser } onStar={ onStar } onRequest={ onRequest } onMapFollow={ onMapFollow } />) }
             <div className='clearfloat'></div>
           </div>
         </div>
         <Header signedIn={ !!currentUser }
           section={ section }
           user={ user }
-          />
+        />
       </div>
     )
   }
