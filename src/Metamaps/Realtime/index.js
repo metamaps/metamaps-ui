@@ -5,15 +5,10 @@ import SocketIoConnection from 'simplewebrtc/socketioconnection'
 
 import Active from '../Active'
 import Cable from '../Cable'
-import DataModel from '../DataModel'
 import JIT from '../JIT'
 import Util from '../Util'
 import Views, { ChatView } from '../Views'
 import Visualize from '../Visualize'
-
-import {
-  updateInConversation
-} from '../../actions'
 
 import {
   JUNTO_UPDATED,

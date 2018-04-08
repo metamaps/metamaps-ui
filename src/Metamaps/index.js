@@ -7,7 +7,6 @@ import Cable from './Cable'
 import Control from './Control'
 import Create from './Create'
 import DataFetcher from './DataFetcher'
-import DataModel from './DataModel'
 import Debug from './Debug'
 import Filter from './Filter'
 import GlobalUI from './GlobalUI'
@@ -17,7 +16,6 @@ import JIT from './JIT'
 import Listeners from './Listeners'
 import Loading from './Loading'
 import Map from './Map'
-import Mapper from './Mapper'
 import Mouse from './Mouse'
 import Organize from './Organize'
 import PasteInput from './PasteInput'
@@ -37,7 +35,6 @@ Metamaps.Cable = Cable
 Metamaps.Control = Control
 Metamaps.Create = Create
 Metamaps.DataFetcher = DataFetcher
-Metamaps.DataModel = DataModel
 Metamaps.Debug = Debug
 Metamaps.Filter = Filter
 Metamaps.GlobalUI = GlobalUI
@@ -48,7 +45,6 @@ Metamaps.Listeners = Listeners
 Metamaps.Loading = Loading
 Metamaps.Map = Map
 Metamaps.Maps = {}
-Metamaps.Mapper = Mapper
 Metamaps.Mouse = Mouse
 Metamaps.Organize = Organize
 Metamaps.PasteInput = PasteInput

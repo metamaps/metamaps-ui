@@ -2,7 +2,6 @@ import _ from 'lodash'
 import outdent from 'outdent'
 
 import Active from './Active'
-import DataModel from './DataModel'
 import Filter from './Filter'
 import GlobalUI from './GlobalUI'
 import Mouse from './Mouse'

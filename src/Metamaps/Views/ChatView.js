@@ -4,18 +4,6 @@ import Backbone from 'backbone'
 import { Howl } from 'howler'
 
 import Active from '../Active'
-import DataModel from '../DataModel'
-import ReactApp from '../GlobalUI/ReactApp'
-
-import {
-  decrementUnreadMessages,
-  incrementUnreadMessages,
-  updateUnreadMessages,
-  updateParticipants,
-  updateMessages,
-  updateConversationLive,
-  updateIsParticipating
-} from '../../actions'
 
 const ChatView = {
   isOpen: false,

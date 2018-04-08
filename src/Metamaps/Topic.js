@@ -5,9 +5,8 @@ import $jit from '../patched/JIT'
 import Active from './Active'
 import AutoLayout from './AutoLayout'
 import Create from './Create'
-import DataModel from './DataModel'
 import Filter from './Filter'
-import GlobalUI, { ReactApp } from './GlobalUI'
+import GlobalUI from './GlobalUI'
 import JIT from './JIT'
 import Loading from './Loading'
 import Map from './Map'
@@ -19,30 +18,11 @@ import ContextMenu from './Views/ContextMenu'
 import Util from './Util'
 import Visualize from './Visualize'
 
-import {
-  updateTopic,
-  updateMobileTitle
-} from '../actions'
-
 const noOp = () => {}
 
 const Topic = {
   init: function(serverData, store) {
     Topic.store = store
-  },
-  // this function is to retrieve a topic JSON object from the database
-  // @param id = the id of the topic to retrieve
-  get: function(id, callback = noOp) {
-    // if the desired topic is not yet in the local topic repository, fetch it
-    if (DataModel.Topics.get(id) === undefined) {
-      $.ajax({
-        url: '/topics/' + id + '.json',
-        success: function(data) {
-          DataModel.Topics.add(data)
-          callback(DataModel.Topics.get(id))
-        }
-      })
-    } else callback(DataModel.Topics.get(id))
   },
   launch: function(id) {
     var dataIsReadySetupTopic = function() {

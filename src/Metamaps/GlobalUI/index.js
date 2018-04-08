@@ -4,10 +4,6 @@ import Create from '../Create'
 import CreateMap from '../Views/CreateMap'
 import ReactApp from './ReactApp'
 
-import {
-  updateToast
-} from '../../actions'
-
 const GlobalUI = {
   notifyTimeout: null,
   notifyQueue: [],

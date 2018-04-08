@@ -3,7 +3,6 @@
 import Active from './Active'
 import Create from './Create'
 import Control from './Control'
-import DataModel from './DataModel'
 import JIT from './JIT'
 import Realtime from './Realtime'
 import Selected from './Selected'

@@ -4,15 +4,8 @@ import _ from 'lodash'
 
 import Active from './Active'
 import Control from './Control'
-import DataModel from './DataModel'
 import Settings from './Settings'
 import Visualize from './Visualize'
-
-import {
-  updateAllForFiltering,
-  updateFilterData,
-  updateVisibleForFiltering
-} from '../actions'
 
 const Filter = {
   init: function(serverData, store) {

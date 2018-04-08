@@ -1,18 +1,8 @@
 /* global $ */
 
 import Active from '../Active'
-import DataModel from '../DataModel'
 import GlobalUI, { ReactApp } from '../GlobalUI'
 import Loading from '../Loading'
-
-import {
-  updatePending,
-  updateMoreToLoad,
-  updateSection,
-  updateUser,
-  updateMaps,
-  updateMobileTitle
-} from '../../actions'
 
 const ExploreMaps = {
   init: function(serverData, store) {

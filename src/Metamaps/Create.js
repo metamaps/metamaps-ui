@@ -1,7 +1,6 @@
 /* global $, Hogan, Bloodhound */
 
 import DataFetcher from './DataFetcher'
-import DataModel from './DataModel'
 import Map from './Map'
 import Mouse from './Mouse'
 import Selected from './Selected'

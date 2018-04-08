@@ -5,7 +5,6 @@ import _ from 'lodash'
 
 import Active from './Active'
 import AutoLayout from './AutoLayout'
-import DataModel from './DataModel'
 import Map from './Map'
 import Synapse from './Synapse'
 import Topic from './Topic'

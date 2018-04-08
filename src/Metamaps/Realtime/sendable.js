@@ -5,10 +5,6 @@ import { ChatView } from '../Views'
 import GlobalUI from '../GlobalUI'
 
 import {
-  updateInConversation
-} from '../../actions'
-
-import {
   JOIN_MAP,
   LEAVE_MAP,
   CHECK_FOR_CALL,

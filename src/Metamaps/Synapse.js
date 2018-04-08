@@ -3,7 +3,6 @@
 import Active from './Active'
 import Control from './Control'
 import Create from './Create'
-import DataModel from './DataModel'
 import Map from './Map'
 import Selected from './Selected'
 import Settings from './Settings'
@@ -12,21 +11,6 @@ import Visualize from './Visualize'
 const noOp = () => {}
 
 const Synapse = {
-  // this function is to retrieve a synapse JSON object from the database
-  // @param id = the id of the synapse to retrieve
-  get: function(id, callback = noOp) {
-    // if the desired topic is not yet in the local topic repository, fetch it
-    if (DataModel.Synapses.get(id) === undefined) {
-      $.ajax({
-        url: '/synapses/' + id + '.json',
-        success: function(data) {
-          DataModel.Synapses.add(data)
-          callback(DataModel.Synapses.get(id))
-        }
-      })
-    } else callback(DataModel.Synapses.get(id))
-  },
-
   renderSynapse: function(mapping, synapse, node1, node2, createNewInDB) {
     var edgeOnViz
 

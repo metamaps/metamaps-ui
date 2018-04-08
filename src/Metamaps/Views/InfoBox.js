@@ -1,15 +1,6 @@
 /* global $, Hogan, Bloodhound, Countable */
 
-import outdent from 'outdent'
-
-import Active from '../Active'
-import DataModel from '../DataModel'
 import GlobalUI, { ReactApp } from '../GlobalUI'
-import Util from '../Util'
-
-import {
-  updateIsNewMap
-} from '../../actions'
 
 const InfoBox = {
   isOpen: false,

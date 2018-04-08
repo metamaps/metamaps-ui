@@ -20,13 +20,6 @@ import Map from '../Map'
 import Topic from '../Topic'
 import Visualize from '../Visualize'
 import makeApp from '../../makeApp'
-import {
-  updateMap,
-  updateMapsWidth,
-  updateMobile,
-  updateMobileTitleWidth,
-  updateTopic
-} from '../../actions'
 
 // 220 wide + 16 padding on both sides
 const MAP_WIDTH = 252

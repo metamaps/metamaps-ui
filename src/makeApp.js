@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-  Link,
   Route,
   Router
 } from 'react-router-dom'
@@ -30,7 +29,7 @@ function nullComponent(props) {
   return null
 }
 
-export default function makeApp (currentUser, history, store) {
+export default function makeApp(currentUser, history, store) {
   const homeComponent = currentUser && currentUser.id ? Maps : LoggedOutHome
   return <Provider store={store}>
     <Router history={history}>

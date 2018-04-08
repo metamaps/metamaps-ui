@@ -1,16 +1,7 @@
 /* global $ */
 import Control from '../Control'
-import DataModel from '../DataModel'
 import Selected from '../Selected'
 import Topic from '../Topic'
-
-import {
-  updateContextNode,
-  updateContextEdge,
-  updateContextPos,
-  updateContextFetchingSiblingsData,
-  updateContextSiblingsData
-} from '../../actions'
 
 const ContextMenu = {
   init: function(serverData, store) {

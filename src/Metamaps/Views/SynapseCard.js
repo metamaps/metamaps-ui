@@ -1,9 +1,4 @@
 /* global $ */
-import {
-  updateOpenSynapse,
-  updateSynapseCardSynapses,
-  updateSynapseCardPosition
-} from '../../actions'
 import Control from '../Control'
 import Visualize from '../Visualize'
 

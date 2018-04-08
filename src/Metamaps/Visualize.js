@@ -5,7 +5,6 @@ import _ from 'lodash'
 import $jit from '../patched/JIT'
 
 import Active from './Active'
-import DataModel from './DataModel'
 import JIT from './JIT'
 import Loading from './Loading'
 import TopicCard from './Views/TopicCard'

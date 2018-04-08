@@ -1,21 +1,10 @@
 /* global $ */
 
 import outdent from 'outdent'
-import { find as _find } from 'lodash'
-
-import {
-  updateHasLearnedTopicCreation,
-  updateMap,
-  updateMapIsStarred,
-  updateMobileTitle,
-  updateRequests
-} from '../actions'
 
 import Active from './Active'
 import AutoLayout from './AutoLayout'
 import Create from './Create'
-import DataModel from './DataModel'
-import DataModelMap from './DataModel/Map'
 import Filter from './Filter'
 import GlobalUI, { ReactApp } from './GlobalUI'
 import JIT from './JIT'

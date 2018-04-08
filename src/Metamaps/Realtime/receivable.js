@@ -4,19 +4,11 @@
 everthing in this file happens as a result of websocket events
 */
 
-import { JUNTO_UPDATED } from './events'
-
 import Active from '../Active'
 import { ChatView } from '../Views'
-import DataModel from '../DataModel'
 import GlobalUI from '../GlobalUI'
 import Util from '../Util'
 import Visualize from '../Visualize'
-
-import {
-  updateInConversation,
-  updateJuntoState
-} from '../../actions'
 
 export const juntoUpdated = self => state => {
   self.store.dispatch(updateJuntoState(state))

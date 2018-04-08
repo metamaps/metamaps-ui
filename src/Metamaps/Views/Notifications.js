@@ -2,13 +2,6 @@
 import { findIndex } from 'lodash'
 import GlobalUI from './index'
 
-import {
-  updateNotifications,
-  updateNotificationsLoading,
-  incrementUnreadNotificationCount,
-  decrementUnreadNotificationCount
-} from '../../actions'
-
 const Notifications = {
   init: (serverData, store) => {
     Notifications.store = store

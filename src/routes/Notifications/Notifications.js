@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 
 import LoadingPage from '../helpers/LoadingPage'
 import Notification from '../../components/Notification'

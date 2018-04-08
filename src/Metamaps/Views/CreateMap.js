@@ -3,8 +3,6 @@
 import outdent from 'outdent'
 
 import Active from '../Active'
-import DataModel from '../DataModel'
-import DataModelMap from '../DataModel/Map'
 import GlobalUI from './index'
 
 const CreateMap = {

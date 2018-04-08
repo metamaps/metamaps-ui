@@ -1,7 +1,3 @@
-import {
-  updateOpenTopic
-} from '../../actions'
-
 const TopicCard = {
   init: function(serverData, store) {
     TopicCard.store = store
