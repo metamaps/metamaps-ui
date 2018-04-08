@@ -4,7 +4,6 @@ import { expect } from 'chai'
 
 import {
   SET_CURRENT_USER_ID,
-  SET_MAPS_WIDTH,
   SET_MOBILE_TITLE,
   SET_MOBILE_TITLE_WIDTH,
   SET_TOAST,
@@ -68,32 +67,6 @@ describe('reducers/ui', function() {
     })
   })
 
-  describe('mapsWidth', function() {
-    it('has 0 as default value', function() {
-      const state = reducers(undefined, {
-        type: SET_TOAST,
-        payload: 'Hello'
-      })
-      expect(state.mapsWidth).to.equal(0)
-    })
-
-    it('can set the maps width', function() {
-      const state = reducers(undefined, {
-        type: SET_MAPS_WIDTH,
-        payload: 3
-      })
-      expect(state.mapsWidth).to.equal(3)
-    })
-
-    it('returns the existing state if irrelevant action', function() {
-      const state = reducers({ mapsWidth: 8 }, {
-        type: SET_TOAST,
-        payload: 'Hello'
-      })
-      expect(state.mapsWidth).to.equal(8)
-    })
-  })
-
   describe('currentUserId', function() {
     it('has null as default value', function() {
       const state = reducers(undefined, {
@@ -139,7 +112,7 @@ describe('reducers/ui', function() {
 
     it('returns the existing state if irrelevant action', function() {
       const state = reducers({ toast: 'Hello' }, {
-        type: SET_MAPS_WIDTH,
+        type: SET_MOBILE_TITLE_WIDTH,
         payload: 8
       })
       expect(state.toast).to.equal('Hello')
@@ -179,7 +152,7 @@ describe('reducers/ui', function() {
 
     it('returns the existing state if irrelevant action', function() {
       const state = reducers({ unreadNotificationCount: 24 }, {
-        type: SET_MAPS_WIDTH,
+        type: SET_MOBILE_TITLE_WIDTH,
         payload: 8
       })
       expect(state.unreadNotificationCount).to.equal(24)

@@ -15,7 +15,6 @@ describe('reducers.js', function() {
       },
       ui: {
         currentUserId: null,
-        mapsWidth: 0,
         mobileTitle: '',
         mobileTitleWidth: 0,
         toast: null,

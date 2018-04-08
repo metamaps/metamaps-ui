@@ -6,6 +6,12 @@ import MapperCard from './MapperCard'
 import MapCard from './MapCard'
 import LoadingPage from '../helpers/LoadingPage'
 
+// 220 wide + 16 padding on both sides
+const MAP_WIDTH = 252
+const MOBILE_VIEW_BREAKPOINT = 504
+const MOBILE_VIEW_PADDING = 40
+const MAX_COLUMNS = 4
+
 class Maps extends Component {
   static propTypes = {
     section: PropTypes.string,
@@ -19,7 +25,6 @@ class Maps extends Component {
     onStar: PropTypes.func,
     onRequest: PropTypes.func,
     onMapFollow: PropTypes.func,
-    mapsWidth: PropTypes.number,
     mobile: PropTypes.bool
   }
 
@@ -27,10 +32,25 @@ class Maps extends Component {
     location: PropTypes.object
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      mapsWidth: 0
+    }
+  }
+
   componentWillMount = () => {
     const { maps, fetchMaps } = this.props
     if (maps.needsFetch) {
       fetchMaps()
+    }
+    window && window.addEventListener('resize', this.resize)
+    this.resize()
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.maps.data.length !== this.props.maps.data.length) {
+      this.resize()
     }
   }
 
@@ -40,6 +60,22 @@ class Maps extends Component {
     if (maps.needsFetch) {
       fetchMaps()
     }
+  }
+
+  componentWillUnmount() {
+    window && window.removeEventListener('resize', this.resize)
+  }
+
+  resize = () => {
+    const { maps, user, currentUser } = this.props
+    const numCards = maps.data.length + (user || currentUser ? 1 : 0)
+    const mapSpaces = Math.floor(document.body.clientWidth / MAP_WIDTH)
+    const mapsWidth = document.body.clientWidth <= MOBILE_VIEW_BREAKPOINT
+      ? document.body.clientWidth - MOBILE_VIEW_PADDING
+      : Math.min(MAX_COLUMNS, Math.min(numCards, mapSpaces)) * MAP_WIDTH
+    this.setState({
+      mapsWidth
+    })
   }
 
   mapsDidMount = (node) => {
@@ -58,7 +94,8 @@ class Maps extends Component {
   }
 
   render = () => {
-    const { mobile, maps, mapsWidth, currentUser, juntoState, section, user, onStar, onRequest, onMapFollow } = this.props
+    const { mobile, maps, currentUser, juntoState, section, user, onStar, onRequest, onMapFollow } = this.props
+    const { mapsWidth } = this.state
     const style = { width: mapsWidth + 'px' }
 
     if (maps.isLoading) {

@@ -46,7 +46,6 @@ const test = {
   ui: {
     mobileTitle: '',
     mobileTitleWidth: 0,
-    mapsWidth: 0,
     currentUserId: 123,
     unreadNotificationCount: 10,
     toast: 'Hi!',

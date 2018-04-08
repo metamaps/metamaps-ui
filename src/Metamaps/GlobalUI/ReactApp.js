@@ -20,12 +20,6 @@ import Topic from '../Topic'
 import Visualize from '../Visualize'
 import makeApp from '../../makeApp'
 
-// 220 wide + 16 padding on both sides
-const MAP_WIDTH = 252
-const MOBILE_VIEW_BREAKPOINT = 504
-const MOBILE_VIEW_PADDING = 40
-const MAX_COLUMNS = 4
-
 const ReactApp = {
   init: function(serverData, store, openLightbox) {
     ReactApp.store = store
@@ -181,17 +175,9 @@ const ReactApp = {
     }
   },
   resize: function() {
-    const { maps, user, currentUser } = ReactApp.store.getState()
-    const numCards = (maps ? maps.length : 0) + (user || currentUser ? 1 : 0)
-    const mapSpaces = Math.floor(document.body.clientWidth / MAP_WIDTH)
-    const mapsWidth = document.body.clientWidth <= MOBILE_VIEW_BREAKPOINT
-      ? document.body.clientWidth - MOBILE_VIEW_PADDING
-      : Math.min(MAX_COLUMNS, Math.min(numCards, mapSpaces)) * MAP_WIDTH
-
     const mobileTitleWidth = document ? document.body.clientWidth - 70 : 0
     const mobile = document && document.body.clientWidth <= MOBILE_VIEW_BREAKPOINT
     ReactApp.store.dispatch(updateMobileTitleWidth(mobileTitleWidth))
-    ReactApp.store.dispatch(updateMapsWidth(mapsWidth))
     ReactApp.store.dispatch(updateMobile(mobile))
   }
 }

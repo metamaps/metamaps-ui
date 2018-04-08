@@ -4,7 +4,6 @@ import {
   SET_CURRENT_USER_ID,
   SET_MOBILE_TITLE,
   SET_MOBILE_TITLE_WIDTH,
-  SET_MAPS_WIDTH,
   SET_TOAST,
   SET_UNREAD_NOTIFICATION_COUNT,
   INCREMENT_UNREAD_NOTIFICATION_COUNT,
@@ -23,12 +22,6 @@ function mobileTitle(state = '', action) {
 function mobileTitleWidth(state = 0, action) {
   const { type, payload } = action
   if (type === SET_MOBILE_TITLE_WIDTH) return payload
-  else return state
-}
-
-function mapsWidth(state = 0, action) {
-  const { type, payload } = action
-  if (type === SET_MAPS_WIDTH) return payload
   else return state
 }
 
@@ -55,7 +48,6 @@ function toast(state = null, action) {
 export default combineReducers({
   mobileTitle,
   mobileTitleWidth,
-  mapsWidth,
   currentUserId,
   unreadNotificationCount,
   toast,
