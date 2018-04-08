@@ -12,7 +12,7 @@ class UpperLeftUI extends Component {
     onRequestClick: PropTypes.func
   }
 
-  render () {
+  render() {
     const { map, currentUser, userRequested, requestAnswered, requestApproved, onRequestClick } = this.props
     return <div className="upperLeftUI">
       <div className="homeButton">

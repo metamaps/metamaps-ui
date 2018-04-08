@@ -38,8 +38,7 @@ const Topic = {
     }
     if (Active.Topic && Active.Topic.id === id) {
       dataIsReadySetupTopic()
-    }
-    else {
+    } else {
       Loading.show()
       $.ajax({
         url: '/topics/' + id + '/network.json',

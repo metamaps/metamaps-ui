@@ -33,7 +33,7 @@ class Title extends Component {
               onChange: e => {
                 if (!this.nameCounter) return
                 this.nameCounter.innerHTML = `${e.target.value.length}/140`
-               }
+              }
             }}
           />
           <span className="nameCounter" ref={span => { this.nameCounter = span }}>
@@ -52,7 +52,6 @@ class Title extends Component {
     }
   }
 }
-
 
 Title.propTypes = {
   name: PropTypes.string,

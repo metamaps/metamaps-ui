@@ -28,31 +28,31 @@ class About extends Component {
             <a className="icon_twitter" href="https://twitter.com/metamapps" target="_blank">
               <div className="lightboxAboutIcon"></div>
               @metamapps
-          </a>
+            </a>
           </li>
           <li>
             <a className="icon_community" href="https://www.hylo.com/c/metamaps/join/mice-late-hit-two-shown" target="_blank">
               <div className="lightboxAboutIcon"></div>
               community
-          </a>
+            </a>
           </li>
           <li>
             <a className="icon_source_code" href="https://github.com/metamaps/metamaps" target="_blank">
               <div className="lightboxAboutIcon"></div>
               source code
-          </a>
+            </a>
           </li>
           <li>
             <a className="icon_howtos" href="https://docs.metamaps.cc" target="_blank">
               <div className="lightboxAboutIcon"></div>
               howtos
-          </a>
+            </a>
           </li>
           <li>
             <a className="icon_terms" href="https://metamaps.cc/maps/331" target="_blank">
               <div className="lightboxAboutIcon"></div>
               terms
-          </a>
+            </a>
           </li>
         </ul>
         <div className="clearfloat"></div>

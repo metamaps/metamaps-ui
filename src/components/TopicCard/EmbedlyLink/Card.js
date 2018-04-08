@@ -24,7 +24,7 @@ class EmbedlyCard extends Component {
 
   componentDidUpdate = () => {
     const { embedlyLinkStarted } = this.state
-    //!embedlyLinkStarted && this.props.link && this.loadLink()
+    //! embedlyLinkStarted && this.props.link && this.loadLink()
   }
 
   embedlyCardRendered = (iframe, test) => {

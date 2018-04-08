@@ -42,10 +42,10 @@ class EditMetacode extends Component {
     })
   }
 
-  onSubmit = async (event) => {
+  onSubmit = async(event) => {
     event.preventDefault()
     const { name, color, icon } = this.state
-    const { updateMetacode, history, match:{params: { id }} } = this.props
+    const { updateMetacode, history, match: {params: { id }} } = this.props
     updateMetacode(id, name, color, icon)
       .then(res => {
         console.log(res)

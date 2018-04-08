@@ -168,7 +168,7 @@ class ContextMenu extends Component {
 
   metacode = () => {
     const { metacodeSets, contextOnMetacodeSelect,
-            currentUser, contextNode } = this.props
+      currentUser, contextNode } = this.props
     if (!currentUser) {
       return null
     }
@@ -188,8 +188,8 @@ class ContextMenu extends Component {
 
   siblings = () => {
     const { contextPopulateSiblings, contextFetchSiblings,
-            contextSiblingsData, contextFetchingSiblingsData,
-            topic, contextNode } = this.props
+      contextSiblingsData, contextFetchingSiblingsData,
+      topic, contextNode } = this.props
     const populateSiblings = () => {
       if (!this.state.populateSiblingsSent) {
         contextPopulateSiblings(contextNode.id)
@@ -200,7 +200,7 @@ class ContextMenu extends Component {
       return null
     }
     return <li className='rc-siblings'
-        onMouseOver={populateSiblings}>
+      onMouseOver={populateSiblings}>
       <div className='rc-icon' />
       Reveal siblings
       <ul id='fetchSiblingList'>

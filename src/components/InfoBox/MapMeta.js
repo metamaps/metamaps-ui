@@ -23,4 +23,4 @@ class MapMeta extends Component {
   }
 }
 
-export default MapMeta 
+export default MapMeta

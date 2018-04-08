@@ -18,7 +18,7 @@ const CreateMap = {
 
     self.bindFormEvents()
 
-    //self.emptyMapForm = $('#new_map').html()
+    // self.emptyMapForm = $('#new_map').html()
     self.emptyForkMapForm = $('#fork_map').html()
   },
   bindFormEvents: function() {

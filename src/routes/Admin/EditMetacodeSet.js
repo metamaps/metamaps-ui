@@ -4,13 +4,13 @@ import AdminHeader from './AdminHeader'
 import MetacodeSetEditor from './MetacodeSetEditor'
 
 /*
-TODO: 
+TODO:
   get the data actually updating after the network response
 */
 
 class EditMetacodeSet extends Component {
-  onSubmit = async (metacodes, name, desc) => {
-    const { updateMetacodeSet, history, match:{params: { id }} } = this.props
+  onSubmit = async(metacodes, name, desc) => {
+    const { updateMetacodeSet, history, match: {params: { id }} } = this.props
     updateMetacodeSet(id, metacodes, name, desc)
       .then(res => {
         console.log(res)

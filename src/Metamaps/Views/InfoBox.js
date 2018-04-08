@@ -13,8 +13,8 @@ const InfoBox = {
     }
   },
   toggleBox: function(which) {
-    if (InfoBox.isOpen || which === "close") InfoBox.close()
-    else if (!InfoBox.isOpen || which === "open") InfoBox.open()
+    if (InfoBox.isOpen || which === 'close') InfoBox.close()
+    else if (!InfoBox.isOpen || which === 'open') InfoBox.open()
   },
   open: function() {
     $('.mapInfoIcon div').addClass('hide')

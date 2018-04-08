@@ -30,7 +30,7 @@ class InfoBox extends Component {
   }
 
   handleClickOutside = () => {
-    this.props.toggleInfoBox("close")
+    this.props.toggleInfoBox('close')
   }
 
   render = () => {

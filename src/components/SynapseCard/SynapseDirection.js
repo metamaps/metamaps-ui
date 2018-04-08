@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
 class SynapseDirection extends Component {
-
   onLeftClick = (leftId, rightId, toLeft, toRight) => {
     const { synapse, onDirectionChange } = this.props
     const newLeft = !toLeft
@@ -79,9 +78,9 @@ class SynapseDirection extends Component {
     return (
       <div>
         <div id="edit_synapse_left" className={toLeft ? 'checked' : ''}
-             onClick={() => canEdit && this.onLeftClick(left.id, right.id, toLeft, toRight)} />
+          onClick={() => canEdit && this.onLeftClick(left.id, right.id, toLeft, toRight)} />
         <div id="edit_synapse_right" className={toRight ? 'checked' : ''}
-             onClick={() => canEdit && this.onRightClick(left.id, right.id, toLeft, toRight)} />
+          onClick={() => canEdit && this.onRightClick(left.id, right.id, toLeft, toRight)} />
       </div>
     )
   }

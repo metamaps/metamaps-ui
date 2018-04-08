@@ -19,11 +19,11 @@ class InfoAndHelp extends Component {
     removeCollaborator: PropTypes.func
   }
 
-  render () {
+  render() {
     const { mapIsStarred, map, currentUser,
-            toggleInfoBox, onMapStar, onMapUnstar, onHelpClick,
-            isNewMap, selectMapPermission, deleteActiveMap, updateThumbnail,
-            relevantPeopleForMap, onInfoBoxMount, removeCollaborator } = this.props
+      toggleInfoBox, onMapStar, onMapUnstar, onHelpClick,
+      isNewMap, selectMapPermission, deleteActiveMap, updateThumbnail,
+      relevantPeopleForMap, onInfoBoxMount, removeCollaborator } = this.props
     const starclassName = mapIsStarred ? 'starred' : ''
     const tooltip = mapIsStarred ? 'Unstar' : 'Star'
     const onStarClick = mapIsStarred ? onMapUnstar : onMapStar

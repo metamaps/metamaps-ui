@@ -164,4 +164,3 @@ export const dragTopic = self => positions => {
     self.socket.emit(DRAG_TOPIC, positions)
   }
 }
-

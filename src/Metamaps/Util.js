@@ -217,13 +217,13 @@ const Util = {
     graph.canvas.translate(-pointerCoordX, -pointerCoordY)
     graph.canvas.scale(ans, ans)
 
-      // Get the canvas attributes again now that is has changed
+    // Get the canvas attributes again now that is has changed
     s = graph.canvas.getSize(),
-      p = graph.canvas.getPos(),
-      ox = graph.canvas.translateOffsetX,
-      oy = graph.canvas.translateOffsetY,
-      sx = graph.canvas.scaleOffsetX,
-      sy = graph.canvas.scaleOffsetY
+    p = graph.canvas.getPos(),
+    ox = graph.canvas.translateOffsetX,
+    oy = graph.canvas.translateOffsetY,
+    sx = graph.canvas.scaleOffsetX,
+    sy = graph.canvas.scaleOffsetY
     var newX = (zoomPoint.x - p.x - s.width / 2 - ox) * (1 / sx),
       newY = (zoomPoint.y - p.y - s.height / 2 - oy) * (1 / sy)
 

@@ -30,7 +30,7 @@ class NewMetacode extends Component {
     })
   }
 
-  onSubmit = async (event) => {
+  onSubmit = async(event) => {
     event.preventDefault()
     const { name, color, icon } = this.state
     const { createMetacode, history } = this.props

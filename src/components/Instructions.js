@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 class Instructions extends Component {
-
   static propTypes = {
     mobile: PropTypes.bool,
     hasLearnedTopicCreation: PropTypes.bool

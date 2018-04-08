@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import AdminHeader from './AdminHeader'
 
 /*
-TODO: 
+TODO:
   make the delete metacode set button work
 */
 
@@ -56,7 +56,7 @@ class MetacodeSetRow extends Component {
             return (
               <span key={index}>
                 <img className="metacodeSetImage" src={metacode.icon} />
-                {(index+1) % 4 === 0 && <div className='clearfloat'></div>}
+                {(index + 1) % 4 === 0 && <div className='clearfloat'></div>}
               </span>
             )
           })}

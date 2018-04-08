@@ -60,8 +60,7 @@ const Map = {
     }
     if (Active.Map && Active.Map.id === id) {
       dataIsReadySetupMap()
-    }
-    else {
+    } else {
       Loading.show()
       $.ajax({
         url: '/maps/' + id + '/contains.json',

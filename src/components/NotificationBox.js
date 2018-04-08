@@ -65,7 +65,7 @@ class NotificationBox extends Component {
     return <div className='notificationsBox'>
       <div className='notificationsBoxTriangle' />
       <ul className='notifications'>
-        {notifications.length === 0 && loading ?  this.showLoading() : this.showNotifications()}
+        {notifications.length === 0 && loading ? this.showLoading() : this.showNotifications()}
       </ul>
     </div>
   }

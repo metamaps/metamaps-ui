@@ -15,7 +15,7 @@ class AccountMenu extends Component {
     this.props.closeBox()
   }
 
-  render () {
+  render() {
     const { currentUser, onInviteClick } = this.props
     return <div>
       <img className="sidebarAccountImage" src={currentUser.get('image')} width="48" height="48" />

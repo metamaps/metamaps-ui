@@ -5,7 +5,7 @@ class DataVis extends Component {
   static propTypes = {
   }
 
-  render () {
+  render() {
     return <div id="infovis" />
   }
 }

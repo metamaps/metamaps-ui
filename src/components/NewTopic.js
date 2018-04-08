@@ -8,12 +8,12 @@ class NewTopic extends Component {
   render = () => {
     const metacodes = [
       {
-        "id": 1,
-        "name": "Action",
-        "created_at": "2017-03-04T17:33:07.394Z",
-        "updated_at": "2017-03-04T17:33:07.394Z",
-        "color": "#BD6C85",
-        "icon": "https://s3.amazonaws.com/metamaps-assets/metacodes/blueprint/96px/bp_action.png"
+        'id': 1,
+        'name': 'Action',
+        'created_at': '2017-03-04T17:33:07.394Z',
+        'updated_at': '2017-03-04T17:33:07.394Z',
+        'color': '#BD6C85',
+        'icon': 'https://s3.amazonaws.com/metamaps-assets/metacodes/blueprint/96px/bp_action.png'
       }
     ]
     return (
@@ -50,5 +50,5 @@ TODO:
       Metamaps.Create.newSelectedMetacodes.push("{ metacode.id }");
       Metamaps.Create.selectedMetacodeNames.push("{ metacode.name }");
       Metamaps.Create.newSelectedMetacodeNames.push("{ metacode.name }");
-    { end } 
+    { end }
 */

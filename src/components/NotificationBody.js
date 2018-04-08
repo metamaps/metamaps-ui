@@ -15,7 +15,7 @@ class NotificationBody extends Component {
   notificationTextHtml = () => {
     const { notification } = this.props
     let map, topic, topic1, topic2
-    let result =  `<div class='in-bold'>${notification.actor.name}</div>`
+    let result = `<div class='in-bold'>${notification.actor.name}</div>`
 
     switch (notification.type) {
       case MAP_ACCESS_APPROVED:

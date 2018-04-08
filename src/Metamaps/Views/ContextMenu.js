@@ -74,7 +74,6 @@ const ContextMenu = {
   populateSiblings: (id) => {
     // depending on how many topics are selected, do different things
     ContextMenu.store.dispatch(updateContextFetchingSiblingsData(true))
-    
 
     const topics = DataModel.Topics.map(function(t) { return t.id })
     const topicsString = topics.join()

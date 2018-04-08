@@ -86,7 +86,6 @@ const GlobalUI = {
   notifyUser: function(message, opts = {}) {
     if (GlobalUI.notifying) {
       GlobalUI.notifyQueue.push({ message, opts })
-      return
     } else {
       GlobalUI._notifyUser(message, opts)
     }

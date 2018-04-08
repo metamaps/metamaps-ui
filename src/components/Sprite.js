@@ -10,7 +10,7 @@ export default class Sprite extends Component {
     yIndex: PropTypes.number
   }
 
-  render () {
+  render() {
     const { src, width, height, xIndex, yIndex } = this.props
     const styles = {
       overflow: 'hidden',

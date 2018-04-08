@@ -133,7 +133,7 @@ var VideoView = function(video, $parent, id, isMyself, config) {
     Private.addControls.call(this)
   }
 
-    // suppress contextmenu
+  // suppress contextmenu
   this.video.oncontextmenu = function() { return false }
 
   if (this.$parent) this.setParent(this.$parent)

@@ -52,7 +52,7 @@ class SetsMenu extends Component {
         {this.props.sets.map((set, index) => {
           return (
             <li key={index}>
-              <a href={`#metacodeSwitchTabs${ set.id }`}>
+              <a href={`#metacodeSwitchTabs${set.id}`}>
                 { set.name }
               </a>
             </li>

@@ -23,7 +23,7 @@ class LoginForm extends Component {
     this.props.closeBox()
   }
 
-  render () {
+  render() {
     return <form className="loginAnywhere" id="new_user" action="/login" acceptCharset="UTF-8" method="post">
       <input name="utf8" type="hidden" value="✓" />
       <div className="accountImage"></div>
@@ -44,7 +44,7 @@ class LoginForm extends Component {
       </div>
       <div className="clearfloat"></div>
       <div className="accountForgotPass">
-          <Link to="/users/password/new">Forgot password?</Link>
+        <Link to="/users/password/new">Forgot password?</Link>
       </div>
     </form>
   }

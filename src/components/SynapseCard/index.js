@@ -36,9 +36,9 @@ class SynapseCard extends Component {
   }
 
   render = () => {
-    const { currentUser, synapse, synapses, 
-            position, onPermissionSelect,
-            onDirectionChange } = this.props
+    const { currentUser, synapse, synapses,
+      position, onPermissionSelect,
+      onDirectionChange } = this.props
     const { selectIsOpen } = this.state
     const canEdit = synapse.authorizeToEdit(currentUser)
     const canEditPerm = synapse.authorizePermissionChange(currentUser)

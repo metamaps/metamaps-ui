@@ -6,7 +6,7 @@ class Toast extends Component {
     message: PropTypes.string
   }
 
-  render () {
+  render() {
     const { message } = this.props
     const html = {__html: message}
     return message ? <p id="toast" className="toast" dangerouslySetInnerHTML={html} /> : null

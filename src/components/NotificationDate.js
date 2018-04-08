@@ -7,7 +7,7 @@ class NotificationDate extends Component {
       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     const created = new Date(date)
     return <span>{months[created.getMonth()]} {created.getDate()}</span>
-  } 
+  }
 }
 
 export default NotificationDate

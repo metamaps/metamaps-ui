@@ -47,10 +47,10 @@ class UpperRightUI extends Component {
     })
   }
 
-  render () {
+  render() {
     const { currentUser, signInPage, unreadNotificationCount,
-            notifications, fetchNotifications, openInviteLightbox,
-            markAsRead, markAsUnread, notificationsLoading } = this.props
+      notifications, fetchNotifications, openInviteLightbox,
+      markAsRead, markAsUnread, notificationsLoading } = this.props
     const { accountBoxOpen, notificationsBoxOpen } = this.state
     return <div className="upperRightUI">
       {currentUser && <a href="/maps/new" target="_blank" className="addMap upperRightEl upperRightIcon">

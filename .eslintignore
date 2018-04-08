@@ -1,3 +1,2 @@
 **/*{.,-}min.js
-frontend/src/patched/*
-app/assets/javascripts/lib/*
+src/patched/*

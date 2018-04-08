@@ -11,7 +11,7 @@ import Tutorial from './Tutorial'
 
 class LightBoxes extends Component {
   render = () => {
-    const { 
+    const {
       metacodeSets,
       selectedMetacodes,
       metacodes,

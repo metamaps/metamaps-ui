@@ -81,11 +81,11 @@ class Loading extends React.Component {
     loadingStyle.margin = margin
 
     return <div style={Object.assign({}, loadingStyle, style)}>
-        <style>{animation}</style>
-        <svg style={svgStyle} viewBox="25 25 50 50">
-            <circle style={circleStyle} cx="50" cy="50" r="20" fill="none" strokeWidth="4" strokeMiterlimit="10"/>
-        </svg>
-      </div>
+      <style>{animation}</style>
+      <svg style={svgStyle} viewBox="25 25 50 50">
+        <circle style={circleStyle} cx="50" cy="50" r="20" fill="none" strokeWidth="4" strokeMiterlimit="10"/>
+      </svg>
+    </div>
   }
 }
 

@@ -23,25 +23,25 @@ class FilterBox extends Component {
     this.props.closeBox()
   }
 
-  render () {
+  render() {
     const { topic, map, filterData, allForFiltering, visibleForFiltering, toggleMetacode,
-            toggleMapper, toggleSynapse, filterAllMetacodes,
-            filterAllMappers, filterAllSynapses } = this.props
+      toggleMapper, toggleSynapse, filterAllMetacodes,
+      filterAllMappers, filterAllSynapses } = this.props
     const style = {
       maxHeight: document.body.clientHeight - 108 + 'px'
     }
-    const mapperAllClass = "showAll showAllMappers"
-                              + (allForFiltering.mappers.length === visibleForFiltering.mappers.length ? ' active' : '')
-    const mapperNoneClass = "hideAll hideAllMappers"
-                              + (visibleForFiltering.mappers.length === 0 ? ' active' : '')
-    const metacodeAllClass = "showAll showAllMetacodes"
-                              + (allForFiltering.metacodes.length === visibleForFiltering.metacodes.length ? ' active' : '')
-    const metacodeNoneClass = "hideAll hideAllMetacodes"
-                              + (visibleForFiltering.metacodes.length === 0 ? ' active' : '')
-    const synapseAllClass = "showAll showAllSynapses"
-                              + (allForFiltering.synapses.length === visibleForFiltering.synapses.length ? ' active' : '')
-    const synapseNoneClass = "hideAll hideAllSynapses"
-                              + (visibleForFiltering.synapses.length === 0 ? ' active' : '')
+    const mapperAllClass = 'showAll showAllMappers' +
+                              (allForFiltering.mappers.length === visibleForFiltering.mappers.length ? ' active' : '')
+    const mapperNoneClass = 'hideAll hideAllMappers' +
+                              (visibleForFiltering.mappers.length === 0 ? ' active' : '')
+    const metacodeAllClass = 'showAll showAllMetacodes' +
+                              (allForFiltering.metacodes.length === visibleForFiltering.metacodes.length ? ' active' : '')
+    const metacodeNoneClass = 'hideAll hideAllMetacodes' +
+                              (visibleForFiltering.metacodes.length === 0 ? ' active' : '')
+    const synapseAllClass = 'showAll showAllSynapses' +
+                              (allForFiltering.synapses.length === visibleForFiltering.synapses.length ? ' active' : '')
+    const synapseNoneClass = 'hideAll hideAllSynapses' +
+                              (visibleForFiltering.synapses.length === 0 ? ' active' : '')
     return map || topic ? <div className="sidebarFilterBox upperRightBox" style={style}>
       <div className="filterBox">
         <h2>FILTER BY</h2>

@@ -11,7 +11,7 @@ class CustomMetacodeSetSelector extends Component {
 
   componentWillMount() {
     const { metacodes, selectedMetacodes } = this.props
-    const isCustom = selectedMetacodes.length && !selectedMetacodes[0].includes("metacodeset")
+    const isCustom = selectedMetacodes.length && !selectedMetacodes[0].includes('metacodeset')
     if (isCustom) {
       this.setState({
         selectedMetacodes: selectedMetacodes.map(id => parseInt(id, 10))
@@ -56,10 +56,10 @@ class CustomMetacodeSetSelector extends Component {
     return (
       <div id="metacodeSwitchTabsCustom">
         <div className="setDesc">Choose Your Metacodes</div>
-        <div className={noneSelected ? "selectNone selected" : "selectNone"} onClick={this.deselectAll}>
+        <div className={noneSelected ? 'selectNone selected' : 'selectNone'} onClick={this.deselectAll}>
           NONE
         </div>
-        <div className={allSelected ? "selectAll selected" : "selectAll"} onClick={this.selectAll}>
+        <div className={allSelected ? 'selectAll selected' : 'selectAll'} onClick={this.selectAll}>
           ALL
         </div>
         <div className="customMetacodeList">

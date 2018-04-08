@@ -35,9 +35,9 @@ class NavBarLink extends Component {
     const { location } = this.context
     const otherProps = _.omit(this.props, PROP_LIST)
     const classes = ['navBarButton', linkClass]
-    const active = matchChildRoutes ?
-      location.pathname.startsWith(href) :
-      location.pathname === href
+    const active = matchChildRoutes
+      ? location.pathname.startsWith(href)
+      : location.pathname === href
     if (active) classes.push('active')
     if (!show) {
       return null

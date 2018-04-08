@@ -17,11 +17,11 @@ const Create = {
     var self = Create
     const mapper = serverData.ActiveMapper
     const metacodeSets = serverData.metacodeSets
-    const selectedSet = mapper
-      && mapper.metacodes[0].includes("metacodeset")
-      ? mapper.metacodes[0].replace("metacodeset-","")
-      : "custom"
-    if (selectedSet === "custom") {
+    const selectedSet = mapper &&
+      mapper.metacodes[0].includes('metacodeset')
+      ? mapper.metacodes[0].replace('metacodeset-', '')
+      : 'custom'
+    if (selectedSet === 'custom') {
       // "all" is not a metacode set we can pick from, so subtract it
       self.selectedMetacodeSetIndex = metacodeSets.length - 1
     } else {

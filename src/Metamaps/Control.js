@@ -20,7 +20,7 @@ const Control = {
   },
   selectNeighbors: function() {
     if (Selected.Nodes.length > 0) {
-      //For each selected node, select all connected node and the synapses too
+      // For each selected node, select all connected node and the synapses too
       Selected.Nodes.forEach((item) => {
         if (Visualize.mGraph.graph.getNode(item.id).adjacencies) {
           for (const adjID in Visualize.mGraph.graph.getNode(item.id).adjacencies) {

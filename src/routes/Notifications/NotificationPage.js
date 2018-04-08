@@ -21,15 +21,15 @@ class NotificationPage extends Component {
 
   componentDidMount() {
     // the notification id
-    const id  = parseInt(this.props.match.params.id, 10)
+    const id = parseInt(this.props.match.params.id, 10)
     if (!this.props.notifications.find(n => n.id === id)) {
       this.props.fetchNotification(id)
     }
   }
 
-  deny = async () => {
+  deny = async() => {
     const { notifications, denyAccessRequest } = this.props
-    const id  = parseInt(this.props.match.params.id, 10)
+    const id = parseInt(this.props.match.params.id, 10)
     const notification = notifications.find(n => n.id === id)
     const request = notification.data.object
     const map = notification.data.map
@@ -44,9 +44,9 @@ class NotificationPage extends Component {
       })
   }
 
-  approve = async () => {
+  approve = async() => {
     const { notifications, approveAccessRequest } = this.props
-    const id  = parseInt(this.props.match.params.id, 10)
+    const id = parseInt(this.props.match.params.id, 10)
     const notification = this.props.notifications.find(n => n.id === id)
     const request = notification.data.object
     const map = notification.data.map
@@ -62,7 +62,7 @@ class NotificationPage extends Component {
   }
 
   render = () => {
-    const id  = parseInt(this.props.match.params.id, 10)
+    const id = parseInt(this.props.match.params.id, 10)
     const notification = this.props.notifications.find(n => n.id === id)
     if (!notification) {
       return (
@@ -74,8 +74,8 @@ class NotificationPage extends Component {
     }
     const request = notification.data.object
     const map = notification.data.map
-    const subject = notification.type === MAP_ACCESS_REQUEST ?
-      (<span><span style={{ fontWeight: 'bold' }} className='requesterName'>{notification.actor.name}</span> wants to collaborate on map <span style={{fontWeight: 'bold'}}>{ map.name }</span></span>)
+    const subject = notification.type === MAP_ACCESS_REQUEST
+      ? (<span><span style={{ fontWeight: 'bold' }} className='requesterName'>{notification.actor.name}</span> wants to collaborate on map <span style={{fontWeight: 'bold'}}>{ map.name }</span></span>)
       : notification.subject
     const localAnswered = this.state.allowed || this.state.declined
     return (

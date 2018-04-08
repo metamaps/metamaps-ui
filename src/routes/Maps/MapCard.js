@@ -15,7 +15,6 @@ const MapperList = (props) => {
 }
 
 class Menu extends Component {
-
   constructor(props) {
     super(props)
     this.state = { open: false }

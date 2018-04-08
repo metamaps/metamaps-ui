@@ -1291,7 +1291,6 @@ const JIT = {
     const check = self.nodeWasDoubleClicked()
     if (check) {
       self.nodeDoubleClickHandler(node, e)
-      return
     } else {
       // wait a certain length of time, then check again, then run this code
       setTimeout(function() {
@@ -1364,7 +1363,6 @@ const JIT = {
     const check = self.nodeWasDoubleClicked()
     if (check) {
       self.edgeDoubleClickHandler(adj, e)
-      return
     } else {
       // wait a certain length of time, then check again, then run this code
       setTimeout(function() {

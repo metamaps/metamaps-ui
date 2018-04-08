@@ -69,7 +69,7 @@ class MetacodeSetEditor extends Component {
     const { metacodes, forNew, forEdit } = this.props
     const { length } = metacodes
     return (
-      <form className={forNew ? "new_metacode_set" : "edit_metacode_set"} id={forNew ? "new_metacode_set" : "edit_metacode_set"} onSubmit={this.onSubmit} acceptCharset="UTF-8">
+      <form className={forNew ? 'new_metacode_set' : 'edit_metacode_set'} id={forNew ? 'new_metacode_set' : 'edit_metacode_set'} onSubmit={this.onSubmit} acceptCharset="UTF-8">
         <input name="utf8" type="hidden" value="✓" />
         <div className="field">
           <label htmlFor="metacode_set_name">Name</label>
@@ -90,22 +90,22 @@ class MetacodeSetEditor extends Component {
         <div className="clearfloat"></div>
         <div className="editMetacodes">
           <ul id="filters-one">
-            {metacodes.filter((m, i) => i < length/4).map((m, i) => {
+            {metacodes.filter((m, i) => i < length / 4).map((m, i) => {
               return <MetacodeSetSelectorItem selected={selectMetacodes.indexOf(m.id) > -1} metacode={m} key={i} onClick={() => this.liClickHandler(m.id)} />
             })}
           </ul>
           <ul id="filters-two">
-            {metacodes.filter((m, i) => i >= length/4 && i < length/4*2).map((m, i) => {
+            {metacodes.filter((m, i) => i >= length / 4 && i < length / 4 * 2).map((m, i) => {
               return <MetacodeSetSelectorItem selected={selectMetacodes.indexOf(m.id) > -1} metacode={m} key={i} onClick={() => this.liClickHandler(m.id)} />
             })}
           </ul>
           <ul id="filters-three">
-            {metacodes.filter((m, i) => i >= length/4*2 && i < length/4*3).map((m, i) => {
+            {metacodes.filter((m, i) => i >= length / 4 * 2 && i < length / 4 * 3).map((m, i) => {
               return <MetacodeSetSelectorItem selected={selectMetacodes.indexOf(m.id) > -1} metacode={m} key={i} onClick={() => this.liClickHandler(m.id)} />
             })}
           </ul>
           <ul id="filters-four">
-            {metacodes.filter((m, i) => i >= length/4*3 && i < length).map((m, i) => {
+            {metacodes.filter((m, i) => i >= length / 4 * 3 && i < length).map((m, i) => {
               return <MetacodeSetSelectorItem selected={selectMetacodes.indexOf(m.id) > -1} metacode={m} key={i} onClick={() => this.liClickHandler(m.id)} />
             })}
           </ul>
@@ -113,7 +113,7 @@ class MetacodeSetEditor extends Component {
         <div className="clearfloat"></div>
         <div className="actions">
           <Link className="button" to="/metacode_sets">Cancel</Link>
-          <input onClick={this.validate} type="submit" name="commit" value={forNew ? "Create Metacode Set" : "Update Metacode Set"} className="add" />
+          <input onClick={this.validate} type="submit" name="commit" value={forNew ? 'Create Metacode Set' : 'Update Metacode Set'} className="add" />
         </div>
       </form>
     )

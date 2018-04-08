@@ -65,12 +65,12 @@ class Info extends Component {
     return (
       <div className="info">
         <div className="linkItem contributor">
-                <Link to={`/explore/mapper/${topic.get('user_id')}`}>
-                  <img src={topic.get('user_image')} className="contributorIcon" width="32" height="32" />
-                  <div className="contributorName">{topic.get('user_name')}</div>
-                </Link>
-              </div>
-       <Link to={`/topics/${topic.id}`}
+          <Link to={`/explore/mapper/${topic.get('user_id')}`}>
+            <img src={topic.get('user_image')} className="contributorIcon" width="32" height="32" />
+            <div className="contributorName">{topic.get('user_name')}</div>
+          </Link>
+        </div>
+        <Link to={`/topics/${topic.id}`}
           target="_blank"
           className="linkItem synapseCount"
           onMouseOver={this.updateState('hoveringSynapseCount', true)}
@@ -80,7 +80,7 @@ class Info extends Component {
           {topic.get('synapse_count').toString()}
           {this.state.hoveringSynapseCount && <div className="tip">Click to see this topics synapses</div>}
         </Link>
-         <div className="linkItem mapCount"
+        <div className="linkItem mapCount"
           onMouseOver={this.updateState('hoveringMapCount', true)}
           onMouseOut={this.updateState('hoveringMapCount', false)}
           onClick={this.updateState('showInMaps', !this.state.showInMaps)}

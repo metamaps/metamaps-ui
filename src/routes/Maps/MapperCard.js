@@ -19,10 +19,10 @@ class MapperCard extends Component {
             <div className="mapperGeneration">Generation: { user.generation }</div>
           </div>
           <div className="mapperMetadata">
-             <div className="metadataSection metadataMaps"><div>{ user.numMaps }</div>maps</div>
-             <div className="metadataSection metadataTopics"><div>{ user.numTopics }</div>topics</div>
-             <div className="metadataSection metadataSynapses"><div>{ user.numSynapses }</div>synapses</div>
-             <div className="clearfloat"></div>
+            <div className="metadataSection metadataMaps"><div>{ user.numMaps }</div>maps</div>
+            <div className="metadataSection metadataTopics"><div>{ user.numTopics }</div>topics</div>
+            <div className="metadataSection metadataSynapses"><div>{ user.numSynapses }</div>synapses</div>
+            <div className="clearfloat"></div>
           </div>
         </div>
       </div>

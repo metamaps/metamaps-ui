@@ -3,12 +3,12 @@ import React, { Component } from 'react'
 import AdminHeader from './AdminHeader'
 import MetacodeSetEditor from './MetacodeSetEditor'
 /*
-TODO: 
+TODO:
   get the data actually updating after the network response
 */
 
 class NewMetacodeSet extends Component {
-  onSubmit = async (metacodes, name, desc) => {
+  onSubmit = async(metacodes, name, desc) => {
     const { createMetacodeSet, history } = this.props
     createMetacodeSet(metacodes, name, desc)
       .then(res => {

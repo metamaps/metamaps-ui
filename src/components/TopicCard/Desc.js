@@ -31,31 +31,31 @@ class Desc extends Component {
 
     if (this.props.authorizedToEdit) {
       return (
-      <div className="scroll">
-        <div className="desc">
-          <MdTextArea value={this.props.desc}
-            propName="desc"
-            change={this.props.onChange}
-            className="riek_desc"
-            classEditing="riek-editing"
-            rows="6"
-            editProps={{
-              onKeyPress: e => {
-                const ENTER = 13
-                if (!e.shiftKey && e.which === ENTER) {
-                  e.preventDefault()
-                  this.props.onChange({ desc: e.target.value })
+        <div className="scroll">
+          <div className="desc">
+            <MdTextArea value={this.props.desc}
+              propName="desc"
+              change={this.props.onChange}
+              className="riek_desc"
+              classEditing="riek-editing"
+              rows="6"
+              editProps={{
+                onKeyPress: e => {
+                  const ENTER = 13
+                  if (!e.shiftKey && e.which === ENTER) {
+                    e.preventDefault()
+                    this.props.onChange({ desc: e.target.value })
+                  }
                 }
-              }
-            }}
-            defaultProps={{
-              dangerouslySetInnerHTML: { __html: descHTML }
-            }}
-          />
-          <a className="mdSupport" href="http://commonmark.org/help/" target="_blank">learn markdown</a>
-          <div className="clearfloat"></div>
+              }}
+              defaultProps={{
+                dangerouslySetInnerHTML: { __html: descHTML }
+              }}
+            />
+            <a className="mdSupport" href="http://commonmark.org/help/" target="_blank">learn markdown</a>
+            <div className="clearfloat"></div>
+          </div>
         </div>
-      </div>
       )
     } else {
       return (

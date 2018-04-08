@@ -65,14 +65,14 @@ const ExploreMaps = {
   setCollection: function(collection) {
     const old = ExploreMaps.store.getState().maps
     if (old) {
-      //old.off('add', self.render)
-      //old.off('successOnFetch', ExploreMaps.handleSuccess)
-      //old.off('errorOnFetch', ExploreMaps.handleError)
+      // old.off('add', self.render)
+      // old.off('successOnFetch', ExploreMaps.handleSuccess)
+      // old.off('errorOnFetch', ExploreMaps.handleError)
     }
     ExploreMaps.store.dispatch(updateMaps(collection))
     ExploreMaps.store.dispatch(updateSection(collection.id))
     ExploreMaps.store.dispatch(updateUser(null))
-    //collection.on('add', self.render)
+    // collection.on('add', self.render)
     collection.on('successOnFetch', ExploreMaps.handleSuccess)
     collection.on('errorOnFetch', ExploreMaps.handleError)
   },

@@ -37,7 +37,7 @@ class MapChat extends Component {
   componentDidUpdate(prevProps) {
     const { messages } = this.props
     const prevMessages = prevProps.messages
-    //if (!prevMessages || messages.length !== prevMessages.length) setTimeout(() => this.scroll(), 50)
+    // if (!prevMessages || messages.length !== prevMessages.length) setTimeout(() => this.scroll(), 50)
   }
 
   reset = () => {
@@ -100,7 +100,7 @@ class MapChat extends Component {
 
   render = () => {
     const { unreadMessages, chatOpen, conversationLive,
-            isParticipating, participants, messages, inviteACall, inviteToJoin } = this.props
+      isParticipating, participants, messages, inviteACall, inviteToJoin } = this.props
     const { videosShowing, cursorsShowing, alertSound } = this.state
     return (
       <div className="chat-box">

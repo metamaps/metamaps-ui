@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 class Follow extends Component {
   render = () => {
     const { ActiveMapper, isFollowing, onTopicFollow } = this.props
-    function onClick () {
+    function onClick() {
       if (ActiveMapper) {
         onTopicFollow()
       }

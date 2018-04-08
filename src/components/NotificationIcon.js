@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 class NotificationIcon extends Component {
-
   static propTypes = {
     unreadNotificationCount: PropTypes.number,
     toggleNotificationsBox: PropTypes.func

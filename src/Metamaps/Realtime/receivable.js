@@ -217,4 +217,3 @@ export const callStarted = self => () => {
   $('#toast button.no').click(e => GlobalUI.clearNotify())
   ChatView.conversationInProgress()
 }
-
