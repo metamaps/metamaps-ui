@@ -1,33 +1,16 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import MobileHeader from '../components/MobileHeader'
-import UpperLeftUI from '../components/UpperLeftUI'
-import UpperRightUI from '../components/UpperRightUI'
-import Toast from '../components/Toast'
-import LightBoxes from '../components/LightBoxes'
+import MobileHeader from '../containers/componentContainers/MobileHeader'
+import UpperLeftUI from '../containers/componentContainers/UpperLeftUI'
+import UpperRightUI from '../containers/componentContainers/UpperRightUI'
+import Toast from '../containers/componentContainers/Toast'
+import LightBoxes from '../containers/componentContainers/LightBoxes'
 
 class App extends Component {
   static propTypes = {
-    children: PropTypes.object,
-    toast: PropTypes.string,
-    unreadNotificationCount: PropTypes.number,
-    notifications: PropTypes.array,
-    fetchNotifications: PropTypes.func,
-    markAsRead: PropTypes.func,
-    markAsUnread: PropTypes.func,
-    location: PropTypes.object,
     mobile: PropTypes.bool,
-    mobileTitle: PropTypes.string,
-    mobileTitleWidth: PropTypes.number,
-    mobileTitleClick: PropTypes.func,
-    openInviteLightbox: PropTypes.func,
-    map: PropTypes.object,
-    userRequested: PropTypes.bool,
-    requestAnswered: PropTypes.bool,
-    requestApproved: PropTypes.bool,
-    onRequestAccess: PropTypes.func,
-    serverData: PropTypes.object
+    currentUser: PropTypes.object
   }
 
   static childContextTypes = {
@@ -40,57 +23,16 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.props.notifications)
-    return <div>
-      {this.props.children}
-    </div>
-
-    const { children, toast, unreadNotificationCount, openInviteLightbox,
-      mobile, mobileTitle, mobileTitleWidth, mobileTitleClick, location,
-      map, userRequested, requestAnswered, requestApproved, serverData,
-      onRequestAccess, notifications, fetchNotifications,
-      markAsRead, markAsUnread, notificationsLoading,
-      importHandleFile, downloadScreenshot, onExport, metacodes,
-      onSetSelect, selectedMetacodes, onMetacodeSetSelectMount } = this.props
-    const { pathname } = location || {}
-    const metacodeSetsForSelector = this.props.metacodeSets.filter(set => set.name !== "All")
+    const { currentUser, children, mobile, location } = this.props
     // this fixes a bug that happens otherwise when you logout
-    const currentUser = this.props.currentUser && this.props.currentUser.id ? this.props.currentUser : null
-    const unauthedHome = pathname === '/' && !currentUser
+    const unauthedHome = location.pathname === '/' && !currentUser
     return <div className="wrapper" id="wrapper">
-      {mobile && <MobileHeader currentUser={currentUser}
-        unreadNotificationCount={unreadNotificationCount}
-        mobileTitle={mobileTitle}
-        mobileTitleWidth={mobileTitleWidth}
-        onTitleClick={mobileTitleClick}
-        serverData={serverData} />}
-      {!unauthedHome && <UpperLeftUI currentUser={currentUser}
-        map={map}
-        userRequested={userRequested}
-        requestAnswered={requestAnswered}
-        requestApproved={requestApproved}
-        onRequestClick={onRequestAccess} />}
-      {!mobile && <UpperRightUI currentUser={currentUser}
-        unreadNotificationCount={unreadNotificationCount}
-        notifications={notifications}
-        notificationsLoading={notificationsLoading}
-        fetchNotifications={fetchNotifications}
-        markAsRead={markAsRead}
-        markAsUnread={markAsUnread}
-        openInviteLightbox={openInviteLightbox}
-        signInPage={pathname === '/login'} />}
-      <Toast message={toast} />
+      {mobile && <MobileHeader />}
+      {!unauthedHome && <UpperLeftUI />}
+      {!mobile && <UpperRightUI />}
+      <Toast />
       {children}
-      <LightBoxes inviteCode={currentUser && currentUser.get('invite_code')}
-        importHandleFile={importHandleFile}
-        downloadScreenshot={downloadScreenshot}
-        onExport={onExport}
-        currentUser={currentUser}
-        metacodeSets={metacodeSetsForSelector}
-        metacodes={metacodes}
-        onSetSelect={onSetSelect}
-        selectedMetacodes={selectedMetacodes}
-        onMetacodeSetSelectMount={onMetacodeSetSelectMount} />
+      <LightBoxes />
     </div>
   }
 }
