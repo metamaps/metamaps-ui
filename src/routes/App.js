@@ -24,7 +24,6 @@ class App extends Component {
 
   render() {
     const { currentUser, children, mobile, location } = this.props
-    // this fixes a bug that happens otherwise when you logout
     const unauthedHome = location.pathname === '/' && !currentUser
     return <div className="wrapper" id="wrapper">
       {mobile && <MobileHeader />}
