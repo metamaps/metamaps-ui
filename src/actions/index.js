@@ -49,6 +49,7 @@ export const OPEN_CONTEXT_MENU = 'OPEN_CONTEXT_MENU'
 export const CLOSE_CONTEXT_MENU = 'CLOSE_CONTEXT_MENU'
 export const OPEN_FILTERS = 'OPEN_FILTERS'
 export const CLOSE_FILTERS = 'CLOSE_FILTERS'
+export const TOGGLE_FILTERS = 'TOGGLE_FILTERS'
 export const OPEN_INFO_BOX = 'OPEN_INFO_BOX'
 export const CLOSE_INFO_BOX = 'CLOSE_INFO_BOX'
 export const OPEN_FORK_MAP = 'OPEN_FORK_MAP'
@@ -157,6 +158,21 @@ export function openMap(id) {
   }
 }
 
+export function setMobile(val) {
+  return {
+    type: SET_MOBILE,
+    payload: val
+  }
+}
+
+export function setMobileTitleWidth(val) {
+  return {
+    type: SET_MOBILE_TITLE_WIDTH,
+    payload: val
+  }
+}
+
+/* PER MAP */
 export function centerView(id) {
   return {
     type: CENTER_VIEW,
@@ -178,17 +194,17 @@ export function zoomIn(id) {
   }
 }
 
-export function setMobile(val) {
+export function toggleFilters(mapId) {
   return {
-    type: SET_MOBILE,
-    payload: val
+    type: TOGGLE_FILTERS,
+    mapId
   }
 }
 
-export function setMobileTitleWidth(val) {
+export function closeFilters(mapId) {
   return {
-    type: SET_MOBILE_TITLE_WIDTH,
-    payload: val
+    type: CLOSE_FILTERS,
+    mapId
   }
 }
 

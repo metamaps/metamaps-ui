@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import FilterBox from './FilterBox'
+import { authorizeToEdit } from '../authorizing'
+import FilterBox from '../containers/componentContainers/FilterBox'
 
 export default class UpperOptions extends Component {
   static propTypes = {
@@ -22,46 +23,20 @@ export default class UpperOptions extends Component {
     filterAllSynapses: PropTypes.func
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {filterBoxOpen: false}
-  }
-
-  reset = () => {
-    this.setState({filterBoxOpen: false})
-  }
-
-  toggleFilterBox = event => {
-    this.setState({filterBoxOpen: !this.state.filterBoxOpen})
-  }
-
   render() {
-    const { currentUser, map, topic, canEditMap, filterBoxHtml, onFilterClick, onImportClick, onForkClick,
-      filterData, allForFiltering, visibleForFiltering, toggleMetacode, toggleMapper, toggleSynapse,
-      filterAllMetacodes, filterAllMappers, filterAllSynapses } = this.props
-    const { filterBoxOpen } = this.state
+    const { isMap, map, filtersOpen, currentUser, onImportClick, onForkClick,
+      toggleFilters, location, history, match } = this.props
     return <div className="mapElement upperRightEl upperRightMapButtons upperRightUI">
-      {map && canEditMap && <div className="importDialog upperRightEl upperRightIcon mapElement" onClick={onImportClick}>
+      {isMap && authorizeToEdit(map, currentUser.id) && <div className="importDialog upperRightEl upperRightIcon mapElement" onClick={onImportClick}>
         <div className="tooltipsUnder">
           Import Data
         </div>
       </div>}
       <div className="sidebarFilter upperRightEl">
-        <div className="sidebarFilterIcon upperRightIcon ignore-react-onclickoutside" onClick={this.toggleFilterBox}>
+        <div className="sidebarFilterIcon upperRightIcon ignore-react-onclickoutside" onClick={toggleFilters}>
           <div className="tooltipsUnder">Filter</div>
         </div>
-        {filterBoxOpen && <FilterBox filterData={filterData}
-          map={map}
-          topic={topic}
-          allForFiltering={allForFiltering}
-          visibleForFiltering={visibleForFiltering}
-          toggleMetacode={toggleMetacode}
-          toggleMapper={toggleMapper}
-          toggleSynapse={toggleSynapse}
-          filterAllMetacodes={filterAllMetacodes}
-          filterAllMappers={filterAllMappers}
-          filterAllSynapses={filterAllSynapses}
-          closeBox={() => this.reset()} />}
+        {filtersOpen && <FilterBox location={location} history={history} match={match} />}
       </div>
       {currentUser && <div className="sidebarFork upperRightEl">
         <div className="sidebarForkIcon upperRightIcon" onClick={onForkClick}>

@@ -24,6 +24,7 @@ export default class MapView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // TODO: double check if this is right
     const { map } = nextProps
     const { fetchMap } = this.props
     if (map.needsFetch) {

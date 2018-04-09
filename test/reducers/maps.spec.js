@@ -28,6 +28,7 @@ import {
   CLOSE_CONTEXT_MENU,
   OPEN_FILTERS,
   CLOSE_FILTERS,
+  TOGGLE_FILTERS,
   OPEN_INFO_BOX,
   CLOSE_INFO_BOX,
   OPEN_FORK_MAP,
@@ -163,7 +164,7 @@ describe('reducers/ui/maps', function() {
     })
   })
 
-  function assertBooleanElement(prop, defaultVal, openAction, closeAction) {
+  function assertBooleanElement(prop, defaultVal, openAction, closeAction, toggleAction) {
     describe(prop, function() {
       it('should have ' + defaultVal + ' as a default value', function() {
         const state = reducers(undefined, {
@@ -193,6 +194,20 @@ describe('reducers/ui/maps', function() {
         expect(state[10][prop]).to.equal(false)
       })
 
+      if (toggleAction) {
+        it('can toggle it for a map', function() {
+          const state = reducers({
+            10: {
+              [prop]: true
+            }
+          }, {
+            type: toggleAction,
+            mapId: 10
+          })
+          expect(state[10][prop]).to.equal(false)
+        })
+      }
+
       it('returns the existing state if irrelevant action', function() {
         const state = reducers({
           10: {
@@ -211,7 +226,7 @@ describe('reducers/ui/maps', function() {
   assertBooleanElement('createSynapseOpen', false, OPEN_CREATE_SYNAPSE, CLOSE_CREATE_SYNAPSE)
   assertBooleanElement('metacodeSetSelectOpen', false, OPEN_METACODE_SET_SELECT, CLOSE_METACODE_SET_SELECT)
   assertBooleanElement('infoBoxOpen', false, OPEN_INFO_BOX, CLOSE_INFO_BOX)
-  assertBooleanElement('filtersOpen', false, OPEN_FILTERS, CLOSE_FILTERS)
+  assertBooleanElement('filtersOpen', false, OPEN_FILTERS, CLOSE_FILTERS, TOGGLE_FILTERS)
   assertBooleanElement('chatOpen', false, OPEN_CHAT, CLOSE_CHAT)
   assertBooleanElement('forkMapOpen', false, OPEN_FORK_MAP, CLOSE_FORK_MAP)
   assertBooleanElement('importExportOpen', false, OPEN_IMPORT_EXPORT, CLOSE_IMPORT_EXPORT)

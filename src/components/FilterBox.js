@@ -16,14 +16,16 @@ class FilterBox extends Component {
     filterAllMetacodes: PropTypes.func,
     filterAllMappers: PropTypes.func,
     filterAllSynapses: PropTypes.func,
-    closeBox: PropTypes.func
+    closeFilters: PropTypes.func
   }
 
   handleClickOutside = () => {
-    this.props.closeBox()
+    this.props.closeFilters()
   }
 
   render() {
+    return <div>filters</div>
+
     const { topic, map, filterData, allForFiltering, visibleForFiltering, toggleMetacode,
       toggleMapper, toggleSynapse, filterAllMetacodes,
       filterAllMappers, filterAllSynapses } = this.props
@@ -42,7 +44,7 @@ class FilterBox extends Component {
                               (allForFiltering.synapses.length === visibleForFiltering.synapses.length ? ' active' : '')
     const synapseNoneClass = 'hideAll hideAllSynapses' +
                               (visibleForFiltering.synapses.length === 0 ? ' active' : '')
-    return map || topic ? <div className="sidebarFilterBox upperRightBox" style={style}>
+    return <div className="sidebarFilterBox upperRightBox" style={style}>
       <div className="filterBox">
         <h2>FILTER BY</h2>
         <div id="filter_by_mapper" className="filterBySection">
@@ -91,7 +93,7 @@ class FilterBox extends Component {
           <div className="clearfloat"></div>
         </div>
       </div>
-    </div> : null
+    </div>
   }
 }
 

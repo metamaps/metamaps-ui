@@ -26,6 +26,7 @@ import {
   CLOSE_CONTEXT_MENU,
   OPEN_FILTERS,
   CLOSE_FILTERS,
+  TOGGLE_FILTERS,
   OPEN_INFO_BOX,
   CLOSE_INFO_BOX,
   OPEN_FORK_MAP,
@@ -250,6 +251,8 @@ function mapReducer(state = initialMapState, action) {
       return gen(state, { filtersOpen: true })
     case (CLOSE_FILTERS):
       return gen(state, { filtersOpen: false })
+    case (TOGGLE_FILTERS):
+      return gen(state, { filtersOpen: !state.filtersOpen })
     case (OPEN_INFO_BOX):
       return gen(state, { infoBoxOpen: true })
     case (CLOSE_INFO_BOX):
@@ -353,6 +356,7 @@ export default function(state = {}, action) {
     case (CLOSE_CONTEXT_MENU):
     case (OPEN_FILTERS):
     case (CLOSE_FILTERS):
+    case (TOGGLE_FILTERS):
     case (OPEN_INFO_BOX):
     case (CLOSE_INFO_BOX):
     case (OPEN_FORK_MAP):
