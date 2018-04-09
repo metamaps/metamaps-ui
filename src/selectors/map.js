@@ -10,6 +10,6 @@ function makeFetchMapParams(props) {
 }
 
 export function fetchMapAction(props) {
-  const { id } = props.match.params
+  const id = props.location.pathname.split('/')[2]
   return fetchMap(id, makeFetchMapParams(props))
 }
