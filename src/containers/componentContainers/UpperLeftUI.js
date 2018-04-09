@@ -1,17 +1,27 @@
 import { connect } from 'react-redux'
+import { select } from 'redux-crud-store'
 
+import { fetchMapAction } from '../../selectors/map'
 import UpperLeftUI from '../../components/UpperLeftUI'
 
-function nullComponent(props) {
-  return null
-}
-
 function mapStateToProps(state, ownProps) {
-  return {}
+  // TODO
+  return {
+    currentUser: {
+      id: 1
+    },
+    map: ownProps.location.pathname.startsWith('/maps') && select(fetchMapAction(ownProps), state.models),
+    userRequested: false,
+    requestAnswered: false,
+    requestApproved: false
+  }
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
-  return {}
+  // TODO
+  return {
+    onRequestClick: () => {}
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(nullComponent)
+export default connect(mapStateToProps, mapDispatchToProps)(UpperLeftUI)

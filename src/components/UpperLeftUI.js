@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
+import { authorizeToEdit } from '../authorizing'
+
 class UpperLeftUI extends Component {
   static propTypes = {
     currentUser: PropTypes.object,
@@ -10,6 +12,10 @@ class UpperLeftUI extends Component {
     requestAnswered: PropTypes.bool,
     requestApproved: PropTypes.bool,
     onRequestClick: PropTypes.func
+  }
+
+  componentDidMount() {
+    // TODO: mount the search callbacks
   }
 
   render() {
@@ -24,7 +30,7 @@ class UpperLeftUI extends Component {
         <div className="sidebarSearchIcon"></div>
         <div className="clearfloat"></div>
       </div>
-      {map && !map.authorizeToEdit(currentUser) && <div className="viewOnly">
+      {map && !authorizeToEdit(map, currentUser.id) && <div className="viewOnly">
         <div className="eyeball">View Only</div>
         {currentUser && !userRequested && <div className="requestAccess requestNotice" onClick={onRequestClick}>Request Access</div>}
         {userRequested && !requestAnswered && <div className="requestPending requestNotice">Request Pending</div>}

@@ -1,6 +1,12 @@
 import { combineReducers } from 'redux'
 
 import {
+  OPEN_NOTIFICATIONS,
+  CLOSE_NOTIFICATIONS,
+  TOGGLE_NOTIFICATIONS,
+  OPEN_USER_MENU,
+  CLOSE_USER_MENU,
+  TOGGLE_USER_MENU,
   SET_CURRENT_USER_ID,
   SET_MOBILE,
   SET_MOBILE_TITLE,
@@ -13,6 +19,22 @@ import {
 
 import maps from './maps'
 import topics from './topics'
+
+function notificationsOpen(state = false, action) {
+  const { type } = action
+  if (type === OPEN_NOTIFICATIONS) return true
+  else if (type === CLOSE_NOTIFICATIONS) return false
+  else if (type === TOGGLE_NOTIFICATIONS) return !state
+  else return state
+}
+
+function userMenuOpen(state = false, action) {
+  const { type } = action
+  if (type === OPEN_USER_MENU) return true
+  else if (type === CLOSE_USER_MENU) return false
+  else if (type === TOGGLE_USER_MENU) return !state
+  else return state
+}
 
 function mobile(state = false, action) {
   const { type, payload } = action
@@ -53,6 +75,8 @@ function toast(state = null, action) {
 }
 
 export default combineReducers({
+  userMenuOpen,
+  notificationsOpen,
   mobile,
   mobileTitle,
   mobileTitleWidth,

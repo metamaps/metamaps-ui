@@ -8,25 +8,34 @@ import Loading from './Loading'
 
 class NotificationBox extends Component {
   static propTypes = {
-    notifications: PropTypes.array,
-    loading: PropTypes.bool.isRequired,
-    fetchNotifications: PropTypes.func.isRequired,
-    toggleNotificationsBox: PropTypes.func.isRequired,
-    markAsRead: PropTypes.func.isRequired,
-    markAsUnread: PropTypes.func.isRequired
+    notifications: PropTypes.object,
+    fetchNotifications: PropTypes.func,
+    toggleNotifications: PropTypes.func,
+    updateNotification: PropTypes.func
   }
 
-  componentDidMount = () => {
-    this.props.fetchNotifications()
+  componentWillMount = () => {
+    const { notifications, fetchNotifications } = this.props
+    if (notifications.needsFetch) {
+      fetchNotifications()
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { notifications } = nextProps
+    const { fetchNotifications } = this.props
+    if (notifications.needsFetch) {
+      fetchNotifications()
+    }
   }
 
   handleClickOutside = () => {
-    this.props.toggleNotificationsBox()
+    this.props.toggleNotifications()
   }
 
   hasSomeNotifications = () => {
     const { notifications } = this.props
-    return notifications.length > 0
+    return notifications.data.length > 0
   }
 
   showLoading = () => {
@@ -41,19 +50,18 @@ class NotificationBox extends Component {
   }
 
   showNotifications = () => {
-    const { notifications, markAsRead, markAsUnread } = this.props
+    const { notifications, updateNotification, toggleNotifications } = this.props
     if (!this.hasSomeNotifications()) {
       return this.showEmpty()
     }
-    return notifications.slice(0, 10).map(
+    return notifications.data.slice(0, 10).map(
       n => <Notification notification={n}
-        markAsRead={markAsRead}
-        markAsUnread={markAsUnread}
+        updateNotification={updateNotification}
         key={`notification-${n.id}`}
-        onClick={() => this.props.toggleNotificationsBox()} />
+        onClick={toggleNotifications} />
     ).concat([
       <li key='notification-see-all'>
-        <Link to='/notifications' className='notificationsBoxSeeAll' onClick={() => this.props.toggleNotificationsBox()}>
+        <Link to='/notifications' className='notificationsBoxSeeAll' onClick={toggleNotifications}>
           See all
         </Link>
       </li>
@@ -61,11 +69,11 @@ class NotificationBox extends Component {
   }
 
   render = () => {
-    const { notifications, loading } = this.props
+    const { notifications } = this.props
     return <div className='notificationsBox'>
       <div className='notificationsBoxTriangle' />
       <ul className='notifications'>
-        {notifications.length === 0 && loading ? this.showLoading() : this.showNotifications()}
+        {notifications.data.length === 0 && notifications.isLoading ? this.showLoading() : this.showNotifications()}
       </ul>
     </div>
   }

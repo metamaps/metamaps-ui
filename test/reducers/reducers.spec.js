@@ -14,6 +14,8 @@ describe('reducers.js', function() {
         liveMaps: {}
       },
       ui: {
+        userMenuOpen: false,
+        notificationsOpen: false,
         currentUserId: null,
         mobile: false,
         mobileTitle: '',

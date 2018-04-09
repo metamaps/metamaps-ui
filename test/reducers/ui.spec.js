@@ -3,6 +3,12 @@
 import { expect } from 'chai'
 
 import {
+  OPEN_NOTIFICATIONS,
+  CLOSE_NOTIFICATIONS,
+  TOGGLE_NOTIFICATIONS,
+  OPEN_USER_MENU,
+  CLOSE_USER_MENU,
+  TOGGLE_USER_MENU,
   SET_CURRENT_USER_ID,
   SET_MOBILE,
   SET_MOBILE_TITLE,
@@ -183,6 +189,84 @@ describe('reducers/ui', function() {
         payload: 8
       })
       expect(state.unreadNotificationCount).to.equal(24)
+    })
+  })
+
+  describe('userMenuOpen', function() {
+    it('has false as default value', function() {
+      const state = reducers(undefined, {
+        type: SET_MOBILE_TITLE,
+        payload: ''
+      })
+      expect(state.userMenuOpen).to.equal(false)
+    })
+
+    it('can open the user menu', function() {
+      const state = reducers({ userMenuOpen: false }, {
+        type: OPEN_USER_MENU
+      })
+      expect(state.userMenuOpen).to.equal(true)
+    })
+
+    it('can close the user menu', function() {
+      const state = reducers({ userMenuOpen: true }, {
+        type: CLOSE_USER_MENU
+      })
+      expect(state.userMenuOpen).to.equal(false)
+    })
+
+    it('can toggle the user menu', function() {
+      const state = reducers({ userMenuOpen: true }, {
+        type: TOGGLE_USER_MENU
+      })
+      expect(state.userMenuOpen).to.equal(false)
+    })
+
+    it('returns the existing state if irrelevant action', function() {
+      const state = reducers({ userMenuOpen: true }, {
+        type: SET_MOBILE_TITLE_WIDTH,
+        payload: 8
+      })
+      expect(state.userMenuOpen).to.equal(true)
+    })
+  })
+
+  describe('notificationsOpen', function() {
+    it('has false as default value', function() {
+      const state = reducers(undefined, {
+        type: SET_MOBILE_TITLE,
+        payload: ''
+      })
+      expect(state.notificationsOpen).to.equal(false)
+    })
+
+    it('can open the notifications', function() {
+      const state = reducers({ notificationsOpen: false }, {
+        type: OPEN_NOTIFICATIONS
+      })
+      expect(state.notificationsOpen).to.equal(true)
+    })
+
+    it('can close the notifications', function() {
+      const state = reducers({ notificationsOpen: true }, {
+        type: CLOSE_NOTIFICATIONS
+      })
+      expect(state.notificationsOpen).to.equal(false)
+    })
+
+    it('can toggle the notifications', function() {
+      const state = reducers({ notificationsOpen: true }, {
+        type: TOGGLE_NOTIFICATIONS
+      })
+      expect(state.notificationsOpen).to.equal(false)
+    })
+
+    it('returns the existing state if irrelevant action', function() {
+      const state = reducers({ notificationsOpen: true }, {
+        type: SET_MOBILE_TITLE_WIDTH,
+        payload: 8
+      })
+      expect(state.notificationsOpen).to.equal(true)
     })
   })
 })

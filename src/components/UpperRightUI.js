@@ -1,57 +1,24 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import AccountMenu from './AccountMenu'
 import LoginForm from './LoginForm'
-import NotificationIcon from './NotificationIcon'
-import NotificationBox from './NotificationBox'
+
+import UserMenu from '../containers/componentContainers/UserMenu'
+import NotificationIcon from '../containers/componentContainers/NotificationIcon'
+import NotificationBox from '../containers/componentContainers/NotificationBox'
 
 class UpperRightUI extends Component {
   static propTypes = {
     currentUser: PropTypes.object,
     signInPage: PropTypes.bool,
-    unreadNotificationCount: PropTypes.number,
-    fetchNotifications: PropTypes.func,
-    notifications: PropTypes.array,
-    markAsRead: PropTypes.func.isRequired,
-    markAsUnread: PropTypes.func.isRequired,
-    openInviteLightbox: PropTypes.func
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      accountBoxOpen: false,
-      notificationsBoxOpen: false
-    }
-  }
-
-  reset = () => {
-    this.setState({
-      accountBoxOpen: false,
-      notificationsBoxOpen: false
-    })
-  }
-
-  toggleAccountBox = () => {
-    this.setState({
-      accountBoxOpen: !this.state.accountBoxOpen,
-      notificationsBoxOpen: false
-    })
-  }
-
-  toggleNotificationsBox = () => {
-    this.setState({
-      notificationsBoxOpen: !this.state.notificationsBoxOpen,
-      accountBoxOpen: false
-    })
+    userMenuOpen: PropTypes.bool,
+    notificationsOpen: PropTypes.bool,
+    toggleUserMenu: PropTypes.func
   }
 
   render() {
-    const { currentUser, signInPage, unreadNotificationCount,
-      notifications, fetchNotifications, openInviteLightbox,
-      markAsRead, markAsUnread, notificationsLoading } = this.props
-    const { accountBoxOpen, notificationsBoxOpen } = this.state
+    const { currentUser, signInPage, toggleUserMenu,
+      notificationsOpen, userMenuOpen } = this.props
     return <div className="upperRightUI">
       {currentUser && <a href="/maps/new" target="_blank" className="addMap upperRightEl upperRightIcon">
         <div className="tooltipsUnder">
@@ -59,28 +26,20 @@ class UpperRightUI extends Component {
         </div>
       </a>}
       {currentUser && <span id="notification_icon">
-        <NotificationIcon
-          unreadNotificationCount={unreadNotificationCount}
-          toggleNotificationsBox={this.toggleNotificationsBox}/>
-        {notificationsBoxOpen && <NotificationBox
-          loading={notificationsLoading}
-          notifications={notifications}
-          fetchNotifications={fetchNotifications}
-          markAsRead={markAsRead}
-          markAsUnread={markAsUnread}
-          toggleNotificationsBox={this.toggleNotificationsBox}/>}
+        <NotificationIcon />
+        {notificationsOpen && <NotificationBox />}
       </span>}
       {!signInPage && <div className="sidebarAccount upperRightEl">
-        <div className="sidebarAccountIcon ignore-react-onclickoutside" onClick={this.toggleAccountBox}>
+        <div className="sidebarAccountIcon ignore-react-onclickoutside" onClick={toggleUserMenu}>
           <div className="tooltipsUnder">Account</div>
-          {currentUser && <img src={currentUser.get('image')} />}
+          {currentUser && <img src={currentUser.avatar} />}
           {!currentUser && 'SIGN IN'}
           {!currentUser && <div className="accountInnerArrow"></div>}
         </div>
-        {accountBoxOpen && <div className="sidebarAccountBox upperRightBox">
+        {userMenuOpen && <div className="sidebarAccountBox upperRightBox">
           {currentUser
-            ? <AccountMenu onInviteClick={openInviteLightbox} currentUser={currentUser} closeBox={this.reset} />
-            : <LoginForm closeBox={this.reset} />}
+            ? <UserMenu />
+            : <LoginForm />}
         </div>}
       </div>}
       <div className="clearfloat"></div>

@@ -10,8 +10,10 @@ export const GET_METACODES_COMPLETED = GET_METACODES + '_COMPLETED'
 
 export const OPEN_NOTIFICATIONS = 'OPEN_NOTIFICATIONS'
 export const CLOSE_NOTIFICATIONS = 'CLOSE_NOTIFICATIONS'
+export const TOGGLE_NOTIFICATIONS = 'TOGGLE_NOTIFICATIONS'
 export const OPEN_USER_MENU = 'OPEN_USER_MENU'
 export const CLOSE_USER_MENU = 'CLOSE_USER_MENU'
+export const TOGGLE_USER_MENU = 'TOGGLE_USER_MENU'
 export const SET_CURRENT_USER_ID = 'SET_CURRENT_USER_ID'
 export const SET_JUNTO_STATE = 'SET_JUNTO_STATE'
 export const SET_MOBILE = 'SET_MOBILE'
@@ -109,6 +111,42 @@ export function asyncActionCreator(baseActionType, asyncAction, meta = null) {
           meta
         })
       })
+  }
+}
+
+export function openNotififications() {
+  return {
+    type: OPEN_NOTIFICATIONS
+  }
+}
+
+export function closeNotififications() {
+  return {
+    type: CLOSE_NOTIFICATIONS
+  }
+}
+
+export function toggleNotifications() {
+  return {
+    type: TOGGLE_NOTIFICATIONS
+  }
+}
+
+export function openUserMenu() {
+  return {
+    type: OPEN_USER_MENU
+  }
+}
+
+export function closeUserMenu() {
+  return {
+    type: CLOSE_USER_MENU
+  }
+}
+
+export function toggleUserMenu() {
+  return {
+    type: TOGGLE_USER_MENU
   }
 }
 

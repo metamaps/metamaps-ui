@@ -4,22 +4,23 @@ import { Link } from 'react-router-dom'
 
 import onClickOutsideAddon from 'react-onclickoutside'
 
-class AccountMenu extends Component {
+class UserMenu extends Component {
   static propTypes = {
     currentUser: PropTypes.object,
     onInviteClick: PropTypes.func,
-    closeBox: PropTypes.func
+    closeUserMenu: PropTypes.func
   }
 
   handleClickOutside = () => {
-    this.props.closeBox()
+    this.props.closeUserMenu()
   }
 
   render() {
+    // TODO: onInviteClick
     const { currentUser, onInviteClick } = this.props
     return <div>
-      <img className="sidebarAccountImage" src={currentUser.get('image')} width="48" height="48" />
-      <h3 className="accountHeader">{currentUser.get('name')}</h3>
+      <img className="sidebarAccountImage" src={currentUser.avatar} width="48" height="48" />
+      <h3 className="accountHeader">{currentUser.name}</h3>
       <ul>
         <li className="accountListItem accountSettings">
           <div className="accountIcon"></div>
@@ -46,4 +47,4 @@ class AccountMenu extends Component {
   }
 }
 
-export default onClickOutsideAddon(AccountMenu)
+export default onClickOutsideAddon(UserMenu)
