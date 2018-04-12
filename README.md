@@ -60,12 +60,13 @@ Checklist
 - [x] Load the metacode sets
 - [x] Synapse Card turn to React
 - [x] MapInfoBox turn to React
+- [x] Make 'new map' action work
+- [x] Make sure loading state for explore maps pages work
 
 - [ ] make newtopic form load metacodes from users selected ones
 - [ ] Fork Map turn to React
 - [ ] fix other places where metacode sets are used
 - [ ] Handle CSS metacode colors
-- [ ] Make 'new map' action work
 - [ ] Modify the remaining rails templates into JSX templates
   - [ ] user passwords
 - [ ] Notifications: make sure notifications either look nice, or redirect
@@ -74,7 +75,6 @@ Checklist
 - [ ] create synapse form
 
 - [ ] replace old loader with react loader
-- [ ] Make sure loading state for explore maps pages work
 - [ ] replace old loader with react loader
 - [ ] page titles
 - [ ] mobile titles
