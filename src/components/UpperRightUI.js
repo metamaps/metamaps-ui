@@ -16,15 +16,24 @@ class UpperRightUI extends Component {
     toggleUserMenu: PropTypes.func
   }
 
+  createMap = () => {
+    const { createMap } = this.props
+    createMap({
+      name: 'Untitled Map',
+      permission: 'public',
+      arranged: false
+    })
+  }
+
   render() {
     const { currentUser, signInPage, toggleUserMenu,
       notificationsOpen, userMenuOpen } = this.props
     return <div className="upperRightUI">
-      {currentUser && <a href="/maps/new" target="_blank" className="addMap upperRightEl upperRightIcon">
+      {currentUser && <div onClick={this.createMap} className="addMap upperRightEl upperRightIcon">
         <div className="tooltipsUnder">
           Create New Map
         </div>
-      </a>}
+      </div>}
       {currentUser && <span id="notification_icon">
         <NotificationIcon />
         {notificationsOpen && <NotificationBox />}

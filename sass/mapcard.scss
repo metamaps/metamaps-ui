@@ -15,6 +15,7 @@
   &.newMap {
     float: left;
     position: relative;
+    cursor: pointer;
 
     &:hover {
       background: #dcdcdc;
@@ -22,12 +23,6 @@
       .newMapImage {
 	background-position: 0 -72px;
       }
-    }
-
-    a {
-      height: 340px;
-      display: block;
-      position: relative;
     }
 
     .newMapImage {

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
-import { select } from 'redux-crud-store'
+import { select, selectActionStatus, clearActionStatus } from 'redux-crud-store'
 
-import { fetchMaps } from '../actions/models/maps'
+import { createMap, fetchMaps } from '../actions/models/maps'
 import Maps from '../routes/Maps'
 
 function makeFetchMapsParams(ownProps) {
@@ -28,10 +28,15 @@ function mapStateToProps(state, ownProps) {
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
-  const fetchMapParams = makeFetchMapsParams(ownProps)
+  const fetchMapsParams = makeFetchMapsParams(ownProps)
   return {
     fetchMaps: () => {
-      dispatch(fetchMaps(fetchMapParams))
+      dispatch(fetchMaps(fetchMapsParams))
+    },
+    createMap: (map) => {
+      dispatch(createMap(map, {
+        access_token: '6h88aWgkHYefZYLbN8J2IaY54qAI3Brz'
+      }))
     }
   }
 }

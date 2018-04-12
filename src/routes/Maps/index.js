@@ -93,6 +93,15 @@ class Maps extends Component {
     }
   }
 
+  createMap = () => {
+    const { createMap } = this.props
+    createMap({
+      name: 'Untitled Map',
+      permission: 'public',
+      arranged: false
+    })
+  }
+
   render = () => {
     const { mobile, maps, currentUser, juntoState, section, user, onStar, onRequest, onMapFollow } = this.props
     const { mapsWidth } = this.state
@@ -115,7 +124,7 @@ class Maps extends Component {
         <div id='exploreMaps' ref={this.mapsDidMount}>
           <div style={ style }>
             { user ? <MapperCard user={ user } /> : null }
-            { currentUser && !user ? <div className="map newMap"><a href="/maps/new"><div className="newMapImage"></div><span>Create new map...</span></a></div> : null }
+            { currentUser && !user ? <div className="map newMap" onClick={this.createMap}><div className="newMapImage"></div><span>Create new map...</span></div> : null }
             { maps.data.map(map => <MapCard key={ map.id } map={ map } mobile={ mobile } juntoState={ juntoState } currentUser={ currentUser } onStar={ onStar } onRequest={ onRequest } onMapFollow={ onMapFollow } />) }
             <div className='clearfloat'></div>
           </div>

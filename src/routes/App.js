@@ -13,11 +13,24 @@ import {
 class App extends Component {
   static propTypes = {
     mobile: PropTypes.bool,
-    currentUser: PropTypes.object
+    currentUser: PropTypes.object,
+    createStatus: PropTypes.object,
+    setMobileTitleWidth: PropTypes.func,
+    clearCreateStatus: PropTypes.func
   }
 
   static childContextTypes = {
     location: PropTypes.object
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { history, createStatus, clearCreateStatus } = nextProps
+    if (createStatus.error) {
+      // TODO
+    } else if (createStatus.response) {
+      clearCreateStatus()
+      history.push(`/maps/${createStatus.response.data.id}?new`)
+    }
   }
 
   componentWillMount() {

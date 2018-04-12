@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { selectActionStatus, clearActionStatus } from 'redux-crud-store'
 
 import {
   setMobile,
@@ -11,14 +12,16 @@ function mapStateToProps(state) {
     mobile: state.ui.mobile,
     currentUser: {
       id: 1
-    }
+    },
+    createStatus: selectActionStatus('maps', state.models, 'create')
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     setMobile: val => dispatch(setMobile(val)),
-    setMobileTitleWidth: val => dispatch(setMobileTitleWidth(val))
+    setMobileTitleWidth: val => dispatch(setMobileTitleWidth(val)),
+    clearCreateStatus: () => dispatch(clearActionStatus('maps', 'create'))
   }
 }
 
