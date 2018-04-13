@@ -63,6 +63,14 @@ Checklist
 - [x] Make 'new map' action work
 - [x] Make sure loading state for explore maps pages work
 
+
+- [ ] login
+- [ ] authed requests
+- [ ] star/unstar map
+- [ ] follow/unfollow map/topic
+- [ ] notification page
+- [ ] lightboxes
+
 - [ ] make newtopic form load metacodes from users selected ones
 - [ ] Fork Map turn to React
 - [ ] fix other places where metacode sets are used
