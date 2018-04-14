@@ -14,6 +14,10 @@ describe('reducers.js', function() {
         liveMaps: {}
       },
       ui: {
+        aboutOpen: false,
+        inviteOpen: false,
+        tutorialOpen: false,
+        noIeOpen: false,
         userMenuOpen: false,
         notificationsOpen: false,
         currentUserId: null,

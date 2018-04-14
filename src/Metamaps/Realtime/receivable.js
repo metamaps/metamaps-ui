@@ -6,7 +6,6 @@ everthing in this file happens as a result of websocket events
 
 import Active from '../Active'
 import { ChatView } from '../Views'
-import GlobalUI from '../GlobalUI'
 import Util from '../Util'
 import Visualize from '../Visualize'
 

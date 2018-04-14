@@ -1,6 +1,5 @@
 /* global $ */
 import { findIndex } from 'lodash'
-import GlobalUI from './index'
 
 const Notifications = {
   init: (serverData, store) => {

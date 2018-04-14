@@ -1,6 +1,6 @@
 /* global $, Hogan, Bloodhound, Countable */
 
-import GlobalUI, { ReactApp } from '../GlobalUI'
+import ReactApp from '../ReactApp'
 
 const InfoBox = {
   isOpen: false,

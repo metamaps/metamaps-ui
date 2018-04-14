@@ -8,6 +8,18 @@ export const GET_METACODES = 'GET_METACODES'
 export const GET_METACODES_COMPLETED = GET_METACODES + '_COMPLETED'
 */
 
+export const OPEN_ABOUT = 'OPEN_ABOUT'
+export const CLOSE_ABOUT = 'CLOSE_ABOUT'
+export const TOGGLE_ABOUT = 'TOGGLE_ABOUT'
+export const OPEN_INVITE = 'OPEN_INVITE'
+export const CLOSE_INVITE = 'CLOSE_INVITE'
+export const TOGGLE_INVITE = 'TOGGLE_INVITE'
+export const OPEN_NO_IE = 'OPEN_NO_IE'
+export const CLOSE_NO_IE = 'CLOSE_NO_IE'
+export const TOGGLE_NO_IE = 'TOGGLE_NO_IE'
+export const OPEN_TUTORIAL = 'OPEN_TUTORIAL'
+export const CLOSE_TUTORIAL = 'CLOSE_TUTORIAL'
+export const TOGGLE_TUTORIAL = 'TOGGLE_TUTORIAL'
 export const OPEN_NOTIFICATIONS = 'OPEN_NOTIFICATIONS'
 export const CLOSE_NOTIFICATIONS = 'CLOSE_NOTIFICATIONS'
 export const TOGGLE_NOTIFICATIONS = 'TOGGLE_NOTIFICATIONS'
@@ -115,6 +127,78 @@ export function asyncActionCreator(baseActionType, asyncAction, meta = null) {
   }
 }
 
+export function openAbout() {
+  return {
+    type: OPEN_ABOUT
+  }
+}
+
+export function closeAbout() {
+  return {
+    type: CLOSE_ABOUT
+  }
+}
+
+export function toggleAbout() {
+  return {
+    type: TOGGLE_ABOUT
+  }
+}
+
+export function openTutorial() {
+  return {
+    type: OPEN_TUTORIAL
+  }
+}
+
+export function closeTutorial() {
+  return {
+    type: CLOSE_TUTORIAL
+  }
+}
+
+export function toggleTutorial() {
+  return {
+    type: TOGGLE_TUTORIAL
+  }
+}
+
+export function openNoIe() {
+  return {
+    type: OPEN_NO_IE
+  }
+}
+
+export function closeNoIe() {
+  return {
+    type: CLOSE_NO_IE
+  }
+}
+
+export function toggleNoIe() {
+  return {
+    type: TOGGLE_NO_IE
+  }
+}
+
+export function openInvite() {
+  return {
+    type: OPEN_INVITE
+  }
+}
+
+export function closeInvite() {
+  return {
+    type: CLOSE_INVITE
+  }
+}
+
+export function toggleInvite() {
+  return {
+    type: TOGGLE_INVITE
+  }
+}
+
 export function openNotififications() {
   return {
     type: OPEN_NOTIFICATIONS
@@ -204,6 +288,62 @@ export function toggleFilters(mapId) {
 export function closeFilters(mapId) {
   return {
     type: CLOSE_FILTERS,
+    mapId
+  }
+}
+
+export function openMetacodeSetSelect(mapId) {
+  return {
+    type: OPEN_METACODE_SET_SELECT,
+    mapId
+  }
+}
+
+export function closeMetacodeSetSelect(mapId) {
+  return {
+    type: CLOSE_METACODE_SET_SELECT,
+    mapId
+  }
+}
+
+export function openForkMap(mapId) {
+  return {
+    type: OPEN_FORK_MAP,
+    mapId
+  }
+}
+
+export function closeForkMap(mapId) {
+  return {
+    type: CLOSE_FORK_MAP,
+    mapId
+  }
+}
+
+export function openHelp(mapId) {
+  return {
+    type: OPEN_HELP,
+    mapId
+  }
+}
+
+export function closeHelp(mapId) {
+  return {
+    type: CLOSE_HELP,
+    mapId
+  }
+}
+
+export function openImportExport(mapId) {
+  return {
+    type: OPEN_IMPORT_EXPORT,
+    mapId
+  }
+}
+
+export function closeImportExport(mapId) {
+  return {
+    type: CLOSE_IMPORT_EXPORT,
     mapId
   }
 }

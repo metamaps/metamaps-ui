@@ -1,16 +1,16 @@
 import { connect } from 'react-redux'
 
-import LightBoxes from '../../components/LightBoxes'
+import ForkMap from '../../components/ForkMap'
 
 function nullComponent(props) {
-  return null
+  return <div>hi</div>
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {}
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
+function mapDispatchToProps(dispatch) {
   return {}
 }
 

@@ -1,6 +1,3 @@
-/* global $ */
-
-import GlobalUI from '../GlobalUI'
 import Notifications from './Notifications'
 import Search from './Search'
 import CreateMap from './CreateMap'

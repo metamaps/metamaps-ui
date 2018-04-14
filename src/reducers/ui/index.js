@@ -1,6 +1,18 @@
 import { combineReducers } from 'redux'
 
 import {
+  OPEN_ABOUT,
+  CLOSE_ABOUT,
+  TOGGLE_ABOUT,
+  OPEN_NO_IE,
+  CLOSE_NO_IE,
+  TOGGLE_NO_IE,
+  OPEN_INVITE,
+  CLOSE_INVITE,
+  TOGGLE_INVITE,
+  OPEN_TUTORIAL,
+  CLOSE_TUTORIAL,
+  TOGGLE_TUTORIAL,
   OPEN_NOTIFICATIONS,
   CLOSE_NOTIFICATIONS,
   TOGGLE_NOTIFICATIONS,
@@ -20,20 +32,35 @@ import {
 import maps from './maps'
 import topics from './topics'
 
-function notificationsOpen(state = false, action) {
-  const { type } = action
-  if (type === OPEN_NOTIFICATIONS) return true
-  else if (type === CLOSE_NOTIFICATIONS) return false
-  else if (type === TOGGLE_NOTIFICATIONS) return !state
+function toggleable(state, type, openAction, closeAction, toggleAction) {
+  if (type === openAction) return true
+  else if (type === closeAction) return false
+  else if (type === toggleAction) return !state
   else return state
 }
 
-function userMenuOpen(state = false, action) {
-  const { type } = action
-  if (type === OPEN_USER_MENU) return true
-  else if (type === CLOSE_USER_MENU) return false
-  else if (type === TOGGLE_USER_MENU) return !state
-  else return state
+function tutorialOpen(state = false, { type }) {
+  return toggleable(state, type, OPEN_TUTORIAL, CLOSE_TUTORIAL, TOGGLE_TUTORIAL)
+}
+
+function aboutOpen(state = false, { type }) {
+  return toggleable(state, type, OPEN_ABOUT, CLOSE_ABOUT, TOGGLE_ABOUT)
+}
+
+function noIeOpen(state = false, { type }) {
+  return toggleable(state, type, OPEN_NO_IE, CLOSE_NO_IE, TOGGLE_NO_IE)
+}
+
+function inviteOpen(state = false, { type }) {
+  return toggleable(state, type, OPEN_INVITE, CLOSE_INVITE, TOGGLE_INVITE)
+}
+
+function notificationsOpen(state = false, { type }) {
+  return toggleable(state, type, OPEN_NOTIFICATIONS, CLOSE_NOTIFICATIONS, TOGGLE_NOTIFICATIONS)
+}
+
+function userMenuOpen(state = false, { type }) {
+  return toggleable(state, type, OPEN_USER_MENU, CLOSE_USER_MENU, TOGGLE_USER_MENU)
 }
 
 function mobile(state = false, action) {
@@ -75,6 +102,10 @@ function toast(state = null, action) {
 }
 
 export default combineReducers({
+  tutorialOpen,
+  aboutOpen,
+  noIeOpen,
+  inviteOpen,
   userMenuOpen,
   notificationsOpen,
   mobile,

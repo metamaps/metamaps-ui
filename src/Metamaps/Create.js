@@ -7,7 +7,6 @@ import Selected from './Selected'
 import Synapse from './Synapse'
 import Topic from './Topic'
 import Visualize from './Visualize'
-import GlobalUI from './GlobalUI'
 
 const Create = {
   isSwitchingSet: false, // indicates whether the metacode set switch lightbox is open

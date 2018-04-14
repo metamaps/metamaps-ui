@@ -1,7 +1,7 @@
 /* global $, Hogan, Bloodhound, CanvasLoader */
 
 import Active from '../Active'
-import ReactApp from '../GlobalUI/ReactApp'
+import ReactApp from '../ReactApp'
 
 const Search = {
   locked: false,

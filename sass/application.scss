@@ -2100,7 +2100,6 @@ and it won't be important on password protected instances */
     height: 100%;
     position: absolute;
     z-index: 1000000;
-    display: none;
 }
 #lightbox_main {
     width: 800px;
@@ -2119,9 +2118,7 @@ and it won't be important on password protected instances */
     width: 100%;
     position: absolute;
     background-color: #000;
-    opacity: 0.0;
-    filter: alpha(opacity=0);
-    -moz-opacity: 0.0;
+    opacity: 0.42;
 }
 #lightbox_overlay #lightbox_main #lightbox_header {
     padding: 6px 5px 1px 0;
@@ -2130,7 +2127,7 @@ and it won't be important on password protected instances */
     height: 18px;
     border: solid 2px #000;
 }
-#lightbox_overlay #lightbox_main a#lightbox_close {
+#lightbox_overlay #lightbox_main #lightbox_close {
     background-image: url('/images/xlightbox.png');
     cursor: pointer;
     height: 32px;

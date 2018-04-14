@@ -3,7 +3,6 @@
 import outdent from 'outdent'
 
 import Active from '../Active'
-import GlobalUI from './index'
 
 const CreateMap = {
   newMap: null,

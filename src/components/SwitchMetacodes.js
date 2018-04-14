@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import MetacodeSetSelectorItem from '../MetacodeSetSelectorItem'
-import CustomMetacodeSetSelector from '../CustomMetacodeSetSelector'
-import MetacodeSetDisplay from '../MetacodeSetDisplay'
+import MetacodeSetSelectorItem from './MetacodeSetSelectorItem'
+import CustomMetacodeSetSelector from './CustomMetacodeSetSelector'
+import MetacodeSetDisplay from './MetacodeSetDisplay'
 
 class SwitchMetacodes extends Component {
   componentDidMount = () => {

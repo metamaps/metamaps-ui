@@ -44,6 +44,10 @@ const test = {
     liveMaps: {}
   },
   ui: {
+    aboutOpen: false,
+    inviteOpen: false,
+    tutorialOpen: false,
+    noIeOpen: false,
     mobileTitle: '',
     mobileTitleWidth: 0,
     currentUserId: 123,

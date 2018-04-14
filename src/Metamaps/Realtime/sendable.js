@@ -2,7 +2,6 @@
 
 import Active from '../Active'
 import { ChatView } from '../Views'
-import GlobalUI from '../GlobalUI'
 
 import {
   JOIN_MAP,

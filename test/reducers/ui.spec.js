@@ -3,6 +3,18 @@
 import { expect } from 'chai'
 
 import {
+  OPEN_ABOUT,
+  CLOSE_ABOUT,
+  TOGGLE_ABOUT,
+  OPEN_TUTORIAL,
+  CLOSE_TUTORIAL,
+  TOGGLE_TUTORIAL,
+  OPEN_INVITE,
+  CLOSE_INVITE,
+  TOGGLE_INVITE,
+  OPEN_NO_IE,
+  CLOSE_NO_IE,
+  TOGGLE_NO_IE,
   OPEN_NOTIFICATIONS,
   CLOSE_NOTIFICATIONS,
   TOGGLE_NOTIFICATIONS,
@@ -192,81 +204,50 @@ describe('reducers/ui', function() {
     })
   })
 
-  describe('userMenuOpen', function() {
-    it('has false as default value', function() {
-      const state = reducers(undefined, {
-        type: SET_MOBILE_TITLE,
-        payload: ''
+  function assertOpenCloseToggle(prop, openAction, closeAction, toggleAction) {
+    describe(prop, function() {
+      it('has false as default value', function() {
+        const state = reducers(undefined, {
+          type: SET_MOBILE_TITLE,
+          payload: ''
+        })
+        expect(state[prop]).to.equal(false)
       })
-      expect(state.userMenuOpen).to.equal(false)
-    })
 
-    it('can open the user menu', function() {
-      const state = reducers({ userMenuOpen: false }, {
-        type: OPEN_USER_MENU
+      it('can open it', function() {
+        const state = reducers({ [prop]: false }, {
+          type: openAction
+        })
+        expect(state[prop]).to.equal(true)
       })
-      expect(state.userMenuOpen).to.equal(true)
-    })
 
-    it('can close the user menu', function() {
-      const state = reducers({ userMenuOpen: true }, {
-        type: CLOSE_USER_MENU
+      it('can close it', function() {
+        const state = reducers({ [prop]: true }, {
+          type: closeAction
+        })
+        expect(state[prop]).to.equal(false)
       })
-      expect(state.userMenuOpen).to.equal(false)
-    })
 
-    it('can toggle the user menu', function() {
-      const state = reducers({ userMenuOpen: true }, {
-        type: TOGGLE_USER_MENU
+      it('can toggle it', function() {
+        const state = reducers({ [prop]: true }, {
+          type: toggleAction
+        })
+        expect(state[prop]).to.equal(false)
       })
-      expect(state.userMenuOpen).to.equal(false)
-    })
 
-    it('returns the existing state if irrelevant action', function() {
-      const state = reducers({ userMenuOpen: true }, {
-        type: SET_MOBILE_TITLE_WIDTH,
-        payload: 8
+      it('returns the existing state if irrelevant action', function() {
+        const state = reducers({ [prop]: true }, {
+          type: SET_MOBILE_TITLE_WIDTH,
+          payload: 8
+        })
+        expect(state[prop]).to.equal(true)
       })
-      expect(state.userMenuOpen).to.equal(true)
     })
-  })
-
-  describe('notificationsOpen', function() {
-    it('has false as default value', function() {
-      const state = reducers(undefined, {
-        type: SET_MOBILE_TITLE,
-        payload: ''
-      })
-      expect(state.notificationsOpen).to.equal(false)
-    })
-
-    it('can open the notifications', function() {
-      const state = reducers({ notificationsOpen: false }, {
-        type: OPEN_NOTIFICATIONS
-      })
-      expect(state.notificationsOpen).to.equal(true)
-    })
-
-    it('can close the notifications', function() {
-      const state = reducers({ notificationsOpen: true }, {
-        type: CLOSE_NOTIFICATIONS
-      })
-      expect(state.notificationsOpen).to.equal(false)
-    })
-
-    it('can toggle the notifications', function() {
-      const state = reducers({ notificationsOpen: true }, {
-        type: TOGGLE_NOTIFICATIONS
-      })
-      expect(state.notificationsOpen).to.equal(false)
-    })
-
-    it('returns the existing state if irrelevant action', function() {
-      const state = reducers({ notificationsOpen: true }, {
-        type: SET_MOBILE_TITLE_WIDTH,
-        payload: 8
-      })
-      expect(state.notificationsOpen).to.equal(true)
-    })
-  })
+  }
+  assertOpenCloseToggle('userMenuOpen', OPEN_USER_MENU, CLOSE_USER_MENU, TOGGLE_USER_MENU)
+  assertOpenCloseToggle('notificationsOpen', OPEN_NOTIFICATIONS, CLOSE_NOTIFICATIONS, TOGGLE_NOTIFICATIONS)
+  assertOpenCloseToggle('inviteOpen', OPEN_INVITE, CLOSE_INVITE, TOGGLE_INVITE)
+  assertOpenCloseToggle('aboutOpen', OPEN_ABOUT, CLOSE_ABOUT, TOGGLE_ABOUT)
+  assertOpenCloseToggle('tutorialOpen', OPEN_TUTORIAL, CLOSE_TUTORIAL, TOGGLE_TUTORIAL)
+  assertOpenCloseToggle('noIeOpen', OPEN_NO_IE, CLOSE_NO_IE, TOGGLE_NO_IE)
 })

@@ -1,7 +1,7 @@
 /* global $ */
 
 import Active from '../Active'
-import GlobalUI, { ReactApp } from '../GlobalUI'
+import ReactApp from '../ReactApp'
 import Loading from '../Loading'
 
 const ExploreMaps = {

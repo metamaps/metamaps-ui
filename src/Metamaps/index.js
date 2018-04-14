@@ -1,8 +1,3 @@
-import ReactDOM from 'react-dom'
-import createHistory from 'history/createBrowserHistory'
-
-import createStore from '../store'
-
 import Active from './Active'
 import AutoLayout from './AutoLayout'
 import Cable from './Cable'
@@ -11,7 +6,6 @@ import Create from './Create'
 import DataFetcher from './DataFetcher'
 import Debug from './Debug'
 import Filter from './Filter'
-import GlobalUI from './GlobalUI'
 import ReactApp from './GlobalUI/ReactApp'
 import Import from './Import'
 import JIT from './JIT'
@@ -39,8 +33,7 @@ Metamaps.Create = Create
 Metamaps.DataFetcher = DataFetcher
 Metamaps.Debug = Debug
 Metamaps.Filter = Filter
-Metamaps.GlobalUI = GlobalUI
-Metamaps.GlobalUI.ReactApp = ReactApp
+Metamaps.ReactApp = ReactApp
 Metamaps.Import = Import
 Metamaps.JIT = JIT
 Metamaps.Listeners = Listeners
@@ -75,8 +68,6 @@ function runInitFunctions(serverData, store) {
 
 // fetch data from API then pass into init functions
 document.addEventListener('DOMContentLoaded', async function() {
-  const store = createStore('http://localhost:3001/api/v2')
-
   // runInitFunctions(Metamaps.ServerData, store)
 })
 
