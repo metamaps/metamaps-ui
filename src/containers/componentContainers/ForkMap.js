@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import ForkMap from '../../components/ForkMap'
 
 function nullComponent(props) {
-  return <div>hi</div>
+  return null
 }
 
 function mapStateToProps(state) {

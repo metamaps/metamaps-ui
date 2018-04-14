@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import SwitchMetacodes from '../../components/SwitchMetacodes'
 
 function nullComponent(props) {
-  return <div>hi</div>
+  return null
 }
 
 function mapStateToProps(state) {

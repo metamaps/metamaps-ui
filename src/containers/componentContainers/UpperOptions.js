@@ -2,6 +2,8 @@ import { connect } from 'react-redux'
 import { select } from 'redux-crud-store'
 
 import {
+  openForkMap,
+  openImportExport,
   toggleFilters
 } from '../../actions'
 import { fetchMapAction } from '../../selectors/map'
@@ -32,9 +34,9 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch, ownProps) {
   const { id } = ownProps.match.params
   return {
-    onForkClick: () => {},
+    onForkClick: () => dispatch(openForkMap(id)),
     toggleFilters: () => dispatch(toggleFilters(id)),
-    onImportClick: () => {}
+    onImportClick: () => dispatch(openImportExport(id))
   }
 }
 
