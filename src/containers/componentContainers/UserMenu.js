@@ -1,7 +1,8 @@
 import { connect } from 'react-redux'
 
 import {
-  closeUserMenu
+  closeUserMenu,
+  openInvite
 } from '../../actions'
 import UserMenu from '../../components/UserMenu'
 
@@ -16,7 +17,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    closeUserMenu: () => dispatch(closeUserMenu())
+    closeUserMenu: () => dispatch(closeUserMenu()),
+    openInvite: () => dispatch(openInvite())
   }
 }
 

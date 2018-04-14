@@ -7,7 +7,7 @@ import onClickOutsideAddon from 'react-onclickoutside'
 class UserMenu extends Component {
   static propTypes = {
     currentUser: PropTypes.object,
-    onInviteClick: PropTypes.func,
+    openInvite: PropTypes.func,
     closeUserMenu: PropTypes.func
   }
 
@@ -16,8 +16,8 @@ class UserMenu extends Component {
   }
 
   render() {
-    // TODO: onInviteClick
-    const { currentUser, onInviteClick } = this.props
+    // TODO: logout
+    const { currentUser, openInvite } = this.props
     return <div>
       <img className="sidebarAccountImage" src={currentUser.avatar} width="48" height="48" />
       <h3 className="accountHeader">{currentUser.name}</h3>
@@ -34,7 +34,7 @@ class UserMenu extends Component {
           <div className="accountIcon"></div>
           <Link to="/oauth/authorized_applications">Apps</Link>
         </li>
-        <li className="accountListItem accountInvite" onClick={onInviteClick}>
+        <li className="accountListItem accountInvite" onClick={openInvite}>
           <div className="accountIcon"></div>
           <span>Share Invite</span>
         </li>
